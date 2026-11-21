@@ -1,0 +1,54 @@
+name: Feature request
+description: Propose a new detection, output, command, or integration.
+title: "feat: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        enki keeps a deliberately narrow scope: configuration and exposure,
+        not runtime detection or model inspection. Read the non-goals in the
+        README before proposing a new module.
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Detection rule
+        - Reporting or output format
+        - CLI or TUI
+        - Remediation or fix/undo
+        - MCP server or skills
+        - Documentation
+        - CI or release
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What cannot be done today, and who is affected?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should enki do, with an example input and expected output?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Scope check
+      options:
+        - label: This is a local, deterministic feature and does not require a hosted service or account.
+          required: true
+        - label: This does not require enki to load model weights or instrument runtime behavior.
+          required: true
+        - label: I searched existing issues and this is not a duplicate.
+          required: true

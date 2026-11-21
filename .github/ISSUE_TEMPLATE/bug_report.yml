@@ -1,0 +1,79 @@
+name: Bug report
+description: Something in the scanner, CLI, reports, or remediation is wrong.
+title: "bug: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Redact secrets, tokens, hostnames, and absolute
+        paths before posting. For vulnerabilities, use private reporting
+        instead of this form.
+  - type: input
+    id: version
+    attributes:
+      label: enki version
+      description: Output of `enki version`.
+      placeholder: "enki 0.4.0 (commit …, built …)"
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options:
+        - Linux
+        - macOS
+        - Windows
+        - WSL
+        - Container
+    validations:
+      required: true
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scan scope
+      options:
+        - "--scope host (default)"
+        - "--scope project"
+        - "--scope full"
+        - Not applicable
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command
+      render: shell
+      placeholder: "enki scan --json > report.json"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: Include the relevant output, error, or report excerpt.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Diagnostics (optional)
+      description: Output of `enki doctor` if the issue involves environment detection.
+      render: text
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I removed secrets, tokens, hostnames, and personal paths from this report.
+          required: true
+        - label: I searched existing issues and this is not a duplicate.
+          required: true

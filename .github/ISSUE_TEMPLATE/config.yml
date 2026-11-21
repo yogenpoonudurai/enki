@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://github.com/yogenpoonudurai/enki/security/advisories/new
+    about: Do not open a public issue for security problems. Use private reporting.
+  - name: Documentation
+    url: https://github.com/yogenpoonudurai/enki/tree/main/docs
+    about: Quickstart, rule catalog, CI setup, and triage documentation.
