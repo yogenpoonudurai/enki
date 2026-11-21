@@ -20,8 +20,11 @@ jobs:
           go-version: "1.27"
           cache: true
 
-      - name: Run real-world benchmark
+      - name: Run development benchmark
         run: make bench-real-world-update
+
+      - name: Run held-out live-OSV benchmark
+        run: make bench-heldout-update
 
       - name: Upload benchmark results
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
@@ -29,4 +32,6 @@ jobs:
           name: realworld-benchmark
           path: |
             docs/benchmark-real-world.md
+            docs/benchmark-heldout.md
             internal/bench/testdata/realworld-baseline.json
+            internal/bench/testdata/heldout-baseline.json

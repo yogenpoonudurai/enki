@@ -264,6 +264,8 @@ func writeRealWorldDocs(t *testing.T, path string, controlled, public manifest, 
 			r.ID, s.PosCases, s.NegCases, s.TP, s.FP, s.FN, pct(s.TP, s.TP+s.FP), pct(s.TP, s.TP+s.FN), f1(s)))
 	}
 
+	sb.WriteString("\nA separate blind, held-out review with live OSV data is published in [benchmark-heldout.md](benchmark-heldout.md).\n")
+
 	sb.WriteString("\n## Findings from this corpus\n\n")
 	sb.WriteString("- The IBM public MCP config exposed an MCP-003 false positive on placeholder values such as `YOUR_API_KEY` and `<APIKEY>`. The detector now ignores placeholder-shaped values, and `mcp-003-negative-long-placeholder` is a regression fixture. The results above reflect the fixed detector.\n")
 	sb.WriteString("- The public cases add real repository evidence for MCP-001/002, AGT-001/002, MDL-002/003, SEC-001/003 negatives, and SBOM-001; other rules remain controlled.\n")

@@ -33,7 +33,10 @@ import (
 	"github.com/yogenpoonudurai/enki/internal/scanner/secrets"
 )
 
-var update = flag.Bool("update", false, "rewrite the baseline and generated benchmark docs")
+var (
+	update  = flag.Bool("update", false, "rewrite the baseline and generated benchmark docs")
+	liveOSV = flag.Bool("live-osv", false, "use live OSV advisory data for SBOM cases")
+)
 
 type fileSpec struct {
 	Content string `json:"content"`
@@ -50,20 +53,22 @@ type listenerSpec struct {
 }
 
 type sourceSpec struct {
-	Repo      string `json:"repo,omitempty"`
-	Commit    string `json:"commit,omitempty"`
-	Path      string `json:"path,omitempty"`
-	URL       string `json:"url,omitempty"`
-	SHA256    string `json:"sha256,omitempty"`
-	WorkPath  string `json:"work_path"`
-	Mode      string `json:"mode,omitempty"`
-	LocalPath string `json:"local_path,omitempty"`
-	Notes     string `json:"notes,omitempty"`
+	Repo         string `json:"repo,omitempty"`
+	Commit       string `json:"commit,omitempty"`
+	Path         string `json:"path,omitempty"`
+	URL          string `json:"url,omitempty"`
+	SHA256       string `json:"sha256,omitempty"`
+	SHA256Prefix string `json:"sha256_prefix,omitempty"`
+	WorkPath     string `json:"work_path"`
+	Mode         string `json:"mode,omitempty"`
+	LocalPath    string `json:"local_path,omitempty"`
+	Notes        string `json:"notes,omitempty"`
 }
 
 type labelSpec struct {
-	RuleID string `json:"rule_id"`
-	Count  int    `json:"count,omitempty"`
+	RuleID   string `json:"rule_id"`
+	Count    int    `json:"count,omitempty"`
+	Presence bool   `json:"presence,omitempty"`
 }
 
 type benchCase struct {
@@ -247,7 +252,11 @@ func runCase(t *testing.T, c benchCase) (map[string]int, error) {
 		fs, _, err = model.New().Run(sc)
 	case "sbom":
 		opts := sbom.Options{Deps: "all", Roots: []string{work}, Depth: 3, IncludeDev: true, OSPackages: false}
-		fs, _, err = sbom.NewWithClient(opts, fakeOSV{}).Run(sc)
+		var client sbom.Client = fakeOSV{}
+		if *liveOSV {
+			client = sbom.NewClient()
+		}
+		fs, _, err = sbom.NewWithClient(opts, client).Run(sc)
 	default:
 		return nil, fmt.Errorf("unknown module %q", c.Module)
 	}
@@ -287,11 +296,17 @@ func writeSource(t *testing.T, root string, src *sourceSpec) error {
 	if err != nil {
 		return err
 	}
+	sum := sha256.Sum256(data)
 	if src.SHA256 != "" {
-		sum := sha256.Sum256(data)
 		got := hex.EncodeToString(sum[:])
 		if got != src.SHA256 {
 			return fmt.Errorf("source hash mismatch for %s: got %s, want %s", src.URL, got, src.SHA256)
+		}
+	}
+	if src.SHA256Prefix != "" {
+		got := hex.EncodeToString(sum[:])
+		if !strings.HasPrefix(got, strings.ToLower(src.SHA256Prefix)) {
+			return fmt.Errorf("source hash prefix mismatch for %s: got %s, want prefix %s", src.URL, got, src.SHA256Prefix)
 		}
 	}
 	return writeOneFile(root, src.WorkPath, data, src.Mode)
