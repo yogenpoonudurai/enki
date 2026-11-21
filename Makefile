@@ -31,9 +31,11 @@ container-image:
 test-container: container-image
 	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) make test
 
-# End-to-end BYOK test against a local fake provider, inside the container.
+# End-to-end BYOK test against a local fake provider. The binary is compiled
+# inside the container so the run never reuses host-built artifacts.
 smoke-container: container-image
-	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) ./demo/byok-smoke.sh
+	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) \
+		sh -c 'go build -o /tmp/enki ./cmd/enki && ENKI_BIN=/tmp/enki ./demo/byok-smoke.sh'
 
 shell-container: container-image
 	$(CONTAINER_RUN) -it -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) bash
