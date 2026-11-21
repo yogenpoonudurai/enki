@@ -16,6 +16,7 @@ import (
 	"golang.org/x/term"
 
 	"github.com/yogenpoonudurai/enki/internal/ai"
+	"github.com/yogenpoonudurai/enki/internal/hosted"
 	"github.com/yogenpoonudurai/enki/internal/platform"
 	"github.com/yogenpoonudurai/enki/internal/remediate"
 	"github.com/yogenpoonudurai/enki/internal/report"
@@ -32,6 +33,9 @@ type triageOptions struct {
 	only        string
 	yes         bool
 	showPayload bool
+	hosted      bool
+	hostedURL   string
+	consent     bool
 }
 
 func newTriageCmd() *cobra.Command {
@@ -42,6 +46,8 @@ func newTriageCmd() *cobra.Command {
 		Long: "Sends a redacted findings payload to the configured model provider and\n" +
 			"returns a validated ranking. Configure with DEEPSEEK_API_KEY or\n" +
 			"ENKI_AI_PROVIDER/ENKI_AI_BASE_URL (any OpenAI-compatible endpoint).\n" +
+			"With --hosted, the payload is sent to the paid hosted service instead;\n" +
+			"set ENKI_CLOUD_URL and ENKI_CLOUD_TOKEN and confirm with --consent.\n" +
 			"The model may only rank and explain; it never executes actions. With\n" +
 			"--apply, enki applies its own deterministic remediation for actions the\n" +
 			"model selected and enki verified, after confirmation.",
@@ -61,6 +67,9 @@ func newTriageCmd() *cobra.Command {
 	f.StringVar(&o.only, "only", "", "apply only these verified rules, comma-separated (for example SEC-001,MCP-006)")
 	f.BoolVar(&o.yes, "yes", false, "apply all verified fixes without prompting (requires --apply)")
 	f.BoolVar(&o.showPayload, "show-payload", false, "include the redacted payload in the output")
+	f.BoolVar(&o.hosted, "hosted", false, "use the paid hosted triage service (requires --consent)")
+	f.StringVar(&o.hostedURL, "hosted-url", "", "hosted service base URL (default: ENKI_CLOUD_URL)")
+	f.BoolVar(&o.consent, "consent", false, "confirm a redacted findings payload may be sent to the hosted service")
 	return cmd
 }
 
@@ -70,6 +79,16 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 	}
 	if o.only != "" && !o.apply {
 		return fmt.Errorf("--only requires --apply")
+	}
+	if o.hosted {
+		if o.provider != "" || o.baseURL != "" || o.model != "" {
+			return fmt.Errorf("--provider, --base-url, and --model apply to BYOK mode; with --hosted use --key for provider passthrough")
+		}
+		if !o.consent {
+			return fmt.Errorf("--hosted requires --consent: confirm that a redacted findings payload may be sent to the hosted service")
+		}
+	} else if o.consent {
+		return fmt.Errorf("--consent is only used with --hosted")
 	}
 	var data []byte
 	var err error
@@ -86,29 +105,53 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 		return fmt.Errorf("invalid enki JSON report: %w", err)
 	}
 
-	cfg := ai.DefaultConfig()
-	if o.provider != "" {
-		cfg.Provider = o.provider
-	}
-	if o.model != "" {
-		cfg.Model = o.model
-	}
-	if o.baseURL != "" {
-		cfg.BaseURL = o.baseURL
-	}
-	if o.key != "" {
-		cfg.APIKey = o.key
-	}
-	provider, err := ai.NewProvider(cfg)
-	if err != nil {
-		return fmt.Errorf("%w\nhint: export DEEPSEEK_API_KEY, or ENKI_AI_BASE_URL/ENKI_AI_KEY for a self-hosted endpoint", err)
-	}
-
 	ctx, cancel := context.WithTimeout(cmd.Context(), 90*time.Second)
 	defer cancel()
-	result, payload, err := ai.Triage(ctx, provider, cfg.Model, &rep, o.limit)
-	if err != nil {
-		return err
+
+	var result *ai.TriageResult
+	var payload *ai.Payload
+	if o.hosted {
+		payload = ai.BuildPayload(&rep, o.limit)
+		cfg := hosted.ConfigFromEnv()
+		if o.hostedURL != "" {
+			cfg.BaseURL = o.hostedURL
+		}
+		client, err := hosted.New(cfg)
+		if err != nil {
+			return fmt.Errorf("%w\nhint: set ENKI_CLOUD_URL and ENKI_CLOUD_TOKEN (see docs/premium.md)", err)
+		}
+		var usage hosted.Usage
+		var cached bool
+		result, usage, cached, err = client.Triage(ctx, payload, o.consent, o.key)
+		if err != nil {
+			return err
+		}
+		if cached {
+			fmt.Fprintln(cmd.ErrOrStderr(), "hosted: cached result")
+		}
+		fmt.Fprintf(cmd.ErrOrStderr(), "hosted: plan %s · %s\n", usage.Plan, remainingLabel(usage))
+	} else {
+		cfg := ai.DefaultConfig()
+		if o.provider != "" {
+			cfg.Provider = o.provider
+		}
+		if o.model != "" {
+			cfg.Model = o.model
+		}
+		if o.baseURL != "" {
+			cfg.BaseURL = o.baseURL
+		}
+		if o.key != "" {
+			cfg.APIKey = o.key
+		}
+		provider, err := ai.NewProvider(cfg)
+		if err != nil {
+			return fmt.Errorf("%w\nhint: export DEEPSEEK_API_KEY, or ENKI_AI_BASE_URL/ENKI_AI_KEY for a self-hosted endpoint", err)
+		}
+		result, payload, err = ai.Triage(ctx, provider, cfg.Model, &rep, o.limit)
+		if err != nil {
+			return err
+		}
 	}
 
 	switch o.format {
@@ -163,7 +206,9 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 	if err := enc.Encode(out); err != nil {
 		return err
 	}
-	if result.Cost.Metered {
+	if o.hosted {
+		fmt.Fprintf(cmd.ErrOrStderr(), "triage: %d findings sent\n", result.FindingsSent)
+	} else if result.Cost.Metered {
 		fmt.Fprintf(cmd.ErrOrStderr(), "triage: %d findings sent · ~$%.4f (%d in / %d out, %s)\n",
 			result.FindingsSent, result.Cost.USD, result.Cost.InputTokens, result.Cost.OutputTokens, result.Cost.Model)
 	} else {

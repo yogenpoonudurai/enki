@@ -75,6 +75,7 @@ type Cost struct {
 	OutputTokens int     `json:"output_tokens"`
 	USD          float64 `json:"usd"`
 	Metered      bool    `json:"metered"`
+	Hosted       bool    `json:"hosted,omitempty"`
 }
 
 // TriageResult is the validated model output.
@@ -217,12 +218,27 @@ type wireResult struct {
 	} `json:"top"`
 }
 
-// Triage sends a redacted payload to the provider and validates the response.
+// Triage builds a redacted payload and sends it to the provider.
 func Triage(ctx context.Context, p Provider, model string, rep *report.Report, limit int) (*TriageResult, *Payload, error) {
 	payload := BuildPayload(rep, limit)
+	result, err := TriagePayload(ctx, p, model, payload)
+	if err != nil {
+		return nil, payload, err
+	}
+	return result, payload, nil
+}
+
+// TriagePayload sends an already-redacted payload to the provider and
+// validates the response. Callers that built the payload elsewhere (for
+// example, a hosted client that redacts on the user's machine) use this
+// directly so the model never sees a server-side system profile.
+func TriagePayload(ctx context.Context, p Provider, model string, payload *Payload) (*TriageResult, error) {
+	if payload == nil {
+		return nil, fmt.Errorf("triage payload is nil")
+	}
 	data, err := json.Marshal(payload)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 	resp, err := p.Complete(ctx, Request{
 		Model:       model,
@@ -233,14 +249,14 @@ func Triage(ctx context.Context, p Provider, model string, rep *report.Report, l
 		JSONMode:    true,
 	})
 	if err != nil {
-		return nil, payload, err
+		return nil, err
 	}
 
 	dec := json.NewDecoder(strings.NewReader(resp.Text))
 	dec.DisallowUnknownFields()
 	var wire wireResult
 	if err := dec.Decode(&wire); err != nil {
-		return nil, payload, fmt.Errorf("model returned invalid triage JSON: %w", err)
+		return nil, fmt.Errorf("model returned invalid triage JSON: %w", err)
 	}
 
 	byID := make(map[string]PayloadFinding, len(payload.Findings))
@@ -310,7 +326,7 @@ func Triage(ctx context.Context, p Provider, model string, rep *report.Report, l
 	sort.SliceStable(result.Top, func(i, j int) bool {
 		return result.Top[i].Priority < result.Top[j].Priority
 	})
-	return result, payload, nil
+	return result, nil
 }
 
 // verifyAction accepts the finding's canonical automation action or the

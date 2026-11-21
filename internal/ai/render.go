@@ -97,10 +97,17 @@ func WriteHuman(w io.Writer, result *TriageResult, rep *report.Report) {
 		}
 	}
 
-	if result.Cost.Metered {
+	switch {
+	case result.Cost.Hosted && result.Cost.USD > 0:
+		fmt.Fprintf(w, "Cost: ~$%.4f (BYOK, %d in / %d out, %s)\n",
+			result.Cost.USD, result.Cost.InputTokens, result.Cost.OutputTokens, model)
+	case result.Cost.Hosted:
+		fmt.Fprintf(w, "Cost: included in your hosted plan (%d in / %d out)\n",
+			result.Cost.InputTokens, result.Cost.OutputTokens)
+	case result.Cost.Metered:
 		fmt.Fprintf(w, "Cost: ~$%.4f (%d in / %d out, %s)\n",
 			result.Cost.USD, result.Cost.InputTokens, result.Cost.OutputTokens, model)
-	} else {
+	default:
 		fmt.Fprintf(w, "Cost: none · self-hosted/unmetered (%d in / %d out)\n",
 			result.Cost.InputTokens, result.Cost.OutputTokens)
 	}
