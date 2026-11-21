@@ -1,0 +1,8 @@
+# Generated benchmark manifests contain pinned repository and commit references.
+# They never contain credentials. Exclude them from generic high-entropy secret
+# detection while keeping all source and workflow files scanned.
+version: 2
+secret:
+  ignored_paths:
+    - internal/bench/testdata/heldout.json
+    - internal/bench/testdata/realworld.json
