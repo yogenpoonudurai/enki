@@ -25,7 +25,7 @@ LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
 .PHONY: build build-cli build-mcp build-cloud test vet fmt cross clean install \
-	container-image test-container smoke-container smoke-local-container shell-container
+	container-image test-container smoke-container smoke-local-container verify-docs-container shell-container
 
 container-image:
 	$(CONTAINER) build -f .devcontainer/Dockerfile -t $(IMAGE) .
@@ -50,6 +50,11 @@ smoke-local-container: container-image
 		-e ENKI_AI_BASE_URL=$(LOCAL_AI_BASE_URL) -e ENKI_AI_MODEL=$(LOCAL_AI_MODEL) \
 		-v "$(CURDIR)":/workspace -w /workspace $(IMAGE) \
 		sh -c 'go build -o /tmp/enki ./cmd/enki && ENKI_BIN=/tmp/enki ./demo/local-smoke.sh'
+
+# Execute every CLI command documented in README.md / docs/quickstart.md.
+verify-docs-container: container-image
+	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) \
+		sh -c 'go build -o /tmp/enki ./cmd/enki && ENKI_BIN=/tmp/enki ./demo/verify-docs.sh'
 
 build: build-cli build-mcp build-cloud
 

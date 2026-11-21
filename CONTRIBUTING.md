@@ -21,6 +21,7 @@ or the container targets — both Docker and Podman are supported:
 ```bash
 make test-container     # unit tests inside the container
 make smoke-container    # BYOK end-to-end against a local fake provider
+make verify-docs-container  # run every command documented in README/quickstart
 make shell-container    # interactive shell in the image
 ```
 
