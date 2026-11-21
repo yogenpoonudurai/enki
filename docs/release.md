@@ -12,15 +12,19 @@ git push origin v0.4.0
 
 The workflow:
 
-1. builds `enki` and `enki-mcp` (see `.goreleaser.yaml`);
-2. produces archives and `checksums.txt`;
-3. signs `checksums.txt` with cosign keyless (GitHub OIDC), emitting
+1. generates the CycloneDX SBOM (`enki.sbom.cdx.json`) before building;
+2. builds `enki` and `enki-mcp` (see `.goreleaser.yaml`);
+3. produces archives and `checksums.txt`;
+4. signs `checksums.txt` with cosign keyless (GitHub OIDC), emitting
    `checksums.txt.sig` and `checksums.txt.pem`;
-4. generates a CycloneDX SBOM (`enki.sbom.cdx.json`);
-5. verifies the release asset allowlist;
-6. attests build provenance for the archives, checksums, signatures, and SBOM;
-7. uploads the SBOM and verifies the final asset allowlist;
-8. publishes a GitHub Release.
+5. publishes an immutable GitHub Release containing the archives, signatures,
+   and SBOM (`release.extra_files` in `.goreleaser.yaml`);
+6. verifies the release asset allowlist;
+7. attests build provenance for the archives, checksums, signatures, and SBOM.
+
+Immutable releases reject assets added after publication, which is why the
+SBOM is generated before goreleaser and included at creation. Prerelease tags
+are marked as prereleases automatically.
 
 `make build` remains the local development path: it uses the exact tag when
 present, otherwise `0.4.0-dev`.
