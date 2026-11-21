@@ -37,10 +37,10 @@ func New() *mcp.Server {
 
 type scanArgs struct {
 	Paths       []string `json:"paths,omitempty" jsonschema:"project roots to scan; defaults to the current working directory"`
-	Deps        string   `json:"deps,omitempty" jsonschema:"dependency scope: all or ai (default all)"`
+	Deps        string   `json:"deps,omitempty" jsonschema:"dependency scope: ai or all (default ai)"`
 	Modules     []string `json:"modules,omitempty" jsonschema:"limit checks to these modules"`
 	IncludeDev  *bool    `json:"include_dev,omitempty" jsonschema:"include dev dependencies (default true)"`
-	OSPackages  *bool    `json:"os_packages,omitempty" jsonschema:"include the Linux OS package inventory (default true)"`
+	OSPackages  *bool    `json:"os_packages,omitempty" jsonschema:"include the Linux OS package inventory (default false)"`
 	ProbeRemote bool     `json:"probe_remote,omitempty" jsonschema:"allow probing private-network listeners"`
 }
 
@@ -51,7 +51,7 @@ func (a scanArgs) options() scanrun.Options {
 		Modules:     a.Modules,
 		ProbeRemote: a.ProbeRemote,
 		IncludeDev:  true,
-		OSPackages:  true,
+		OSPackages:  false,
 		Timeout:     3 * time.Minute,
 	}
 	if a.IncludeDev != nil {
@@ -66,7 +66,7 @@ func (a scanArgs) options() scanrun.Options {
 func registerScan(s *mcp.Server) {
 	mcp.AddTool(s, &mcp.Tool{
 		Name:        "enki_scan",
-		Description: "Scan the local host and project for AI security posture issues. Returns the full enki JSON report (findings, severities, remediation actions, coverage gaps). Deterministic and offline except OSV advisory lookups.",
+		Description: "Scan the local host and project for AI configuration and exposure issues. Returns the full enki JSON report (findings, severities, remediation actions, coverage gaps). Dependency checks default to the AI catalog; deterministic and offline except OSV advisory lookups.",
 	}, func(ctx context.Context, _ *mcp.CallToolRequest, args scanArgs) (*mcp.CallToolResult, any, error) {
 		rep, err := scanrun.Run(ctx, args.options(), nil)
 		if err != nil {
