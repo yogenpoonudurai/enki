@@ -110,6 +110,19 @@ will not run them). JSON remains the default when piped, so scripts and the
 smoke tests are unaffected. Force either form with `--format text` or
 `--format json`; `--show-payload` always uses JSON.
 
+Apply verified fixes without copying commands:
+
+```bash
+enki triage --apply report.json          # asks once, then applies and prints undo hint
+enki triage --apply --yes report.json    # non-interactive (explicit opt-in)
+enki undo                                # restore permissions/edits
+```
+
+`--apply` runs only enki's deterministic remediation for findings where the
+model selected that exact action and validation marked it verified. The model
+never supplies or executes a command. Safe permission changes and config edits
+are backed up; every applied action can be reverted with `enki undo`.
+
 ### What is sent
 
 Only `rule_id`, module, severity, confidence, sanitized title/evidence,

@@ -83,4 +83,28 @@ print("system:", payload["system"]["os"], payload["system"].get("service_manager
 print("redaction: raw key absent from payload; system context present")
 PY
 
+echo "== apply verified fix =="
+HOME="$HOME_DIR" ENKI_AI_PROVIDER=openai \
+ENKI_AI_BASE_URL="http://127.0.0.1:$PORT/v1" \
+ENKI_AI_KEY="dummy-key" \
+ENKI_AI_MODEL="fake-byok-model" \
+  "$BIN" triage --apply --yes --format json "$WORK/report.json" > "$WORK/applied.json"
+python3 - "$WORK/applied.json" "$PROJ/.env" <<'PY'
+import json, os, stat, sys
+out = json.load(open(sys.argv[1]))
+applied = out.get("applied") or []
+assert applied, "no apply results"
+assert any(r["applied"] for r in applied), "no verified fix applied"
+mode = stat.S_IMODE(os.stat(sys.argv[2]).st_mode)
+assert mode == 0o600, "mode after apply = %o" % mode
+print("applied:", [(r["action"]["rule_id"], r["applied"]) for r in applied], "mode", oct(mode))
+PY
+HOME="$HOME_DIR" "$BIN" undo >/dev/null
+python3 - "$PROJ/.env" <<'PY'
+import os, stat, sys
+mode = stat.S_IMODE(os.stat(sys.argv[1]).st_mode)
+assert mode == 0o644, "mode after undo = %o" % mode
+print("undo: mode restored to", oct(mode))
+PY
+
 echo "BYOK smoke: PASS"

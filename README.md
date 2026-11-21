@@ -144,6 +144,9 @@ point it at a local model:
 ```bash
 export DEEPSEEK_API_KEY=...        # or ENKI_AI_BASE_URL for vLLM/Ollama/self-host
 enki triage report.json            # validated JSON + metered cost label
+
+# Apply enki's verified remediation after one confirmation (undo: enki undo)
+enki triage --apply report.json
 ```
 
 **Paid (optional) — hosted triage.** `cmd/enki-cloud` is the reference hosted
