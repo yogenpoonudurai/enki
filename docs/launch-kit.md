@@ -65,19 +65,11 @@ Long
 Channels: official MCP registry (preview), mcp.so, Smithery, Glama, Claude
 Code / Cursor skill directories, awesome-ai-security lists.
 
-## Pricing page copy
+## Packaging status
 
-- **OSS — free forever.** Full scanner, TUI, skills, local MCP, SARIF/OCSF,
-  CycloneDX, fix/undo.
-- **Free hosted — 3 AI triages.** Consent-gated, redacted payload, 24 h
-  retention.
-- **Pro — $19/mo.** 300 triages, CI history, hosted MCP endpoint.
-- **Team — $39/seat/mo.** 1,000 pooled credits, SSO, policy, 90-day history.
-- **Enterprise — custom.** Self-hosted model gateway, DPA, premium signed
-  feeds, support.
-
-Boundary line: detection is free forever; intelligence, collaboration, and
-compliance are paid.
+The scanner, TUI, skills, local MCP, SARIF/OCSF, CycloneDX, and fix/undo are
+free and open source. Hosted/paid surfaces are deferred until there is
+repeated real-world usage; see `docs/marketing.md` for the internal strategy.
 
 ## Pre-launch checklist
 
@@ -86,7 +78,6 @@ compliance are paid.
 - [x] Deterministic scanner, TUI, SARIF/OCSF/CycloneDX
 - [x] Guarded fix/undo with tests
 - [x] Agent Skill + local MCP server
-- [x] Hosted triage service with MCP Streamable HTTP
 - [x] GitHub Action + repo CI
 - [x] Reproducible demo script
 - [x] Demo GIF, MP4, 1080p/60fps MP4, poster, and title cards (`demo/render_gif.py`)
@@ -94,11 +85,9 @@ compliance are paid.
 - [x] Getting-started guide (`docs/getting-started.md`)
 - [x] OS-specific quickstart (`docs/quickstart.md`)
 - [x] Signed releases configured (cosign keyless in `.github/workflows/release.yml`)
-- [x] MCP registry metadata prepared (`server.json`, `docs/registry-submission.md`)
-- [x] Waitlist landing page and API (`site/`, `POST /v1/waitlist`)
-- [ ] Push the `v0.4.0` tag and verify the signed release
-- [ ] Submit the server to MCP registries (needs accounts)
-- [ ] Deploy the waitlist site (`site/README.md`)
+- [x] Static landing page (`site/`)
+- [x] Push the `v0.4.0` tag and verify the signed release
+- [ ] Hosted/paid surfaces (deferred; not part of this launch)
 
 ## Launch-day posts
 

@@ -1,8 +1,7 @@
 # Add enki to a GitHub CI pipeline
 
-The scanner runs on the GitHub runner. No server, account, or mini PC is
-required for the gate itself — the CI gate is free. Hosted triage is an
-optional paid surface (3 lifetime free runs); BYOK triage remains free.
+The scanner runs on the GitHub runner. No server, account, or hosted service
+is required — the CI gate is free and sends nothing off the runner.
 
 ## 0. Publish enki (once)
 
@@ -25,7 +24,8 @@ If you cannot publish yet, reference a branch or commit instead of a tag:
 Copy [`docs/examples/enki-workflow.yml`](examples/enki-workflow.yml) to
 `.github/workflows/enki.yml` and replace `<owner>`.
 
-The fast PR gate uses only offline modules — no OSV network dependency:
+The fast PR gate uses only the repository and offline modules — no host
+inspection and no OSV network dependency:
 
 ```yaml
 - uses: <owner>/enki@v0.4.0
@@ -99,7 +99,7 @@ Suggested progression:
 
 1. `--fail-on critical --modules mcp,secrets,agent-permissions` (noisy legacy repos)
 2. `--fail-on high` for the AI/MCP/secret gate
-3. `--scope project --deps all --fail-on high` in the nightly job
+3. `--deps all --fail-on high` in the nightly job
 4. Suppress reviewed findings with `--ignore-rule RULE-ID` and a reason in the
    PR description; never suppress whole modules
 
@@ -115,20 +115,13 @@ Exit codes: `0` clean/below threshold, `1` threshold met, `2` error.
   - run: enki scan --sarif --report enki-report.txt --fail-on high > enki.sarif
   ```
 
-## 6. Optional: AI triage in CI (free with BYOK; hosted is paid)
+## 6. Optional: AI triage in CI (BYOK)
 
-Triage is not needed for the gate. If you want it:
-
-- **Hosted service on your mini PC** (see
-  [`deploy-mini-pc.md`](deploy-mini-pc.md)): call `POST /v1/triage` with a
-  bearer token and the scan JSON, or use the remote MCP endpoint.
-  GitHub-hosted runners need public HTTPS or a tunnel.
-- **BYOK**: run `enki triage report.json` with `ENKI_AI_PROVIDER`,
-  `ENKI_AI_BASE_URL`, and `ENKI_AI_KEY` from GitHub secrets. Prefer a
-  self-hosted model gateway on the mini PC so findings never leave your
-  network (requires a tunnel/VPN reachable from the runner).
-
-Keep triage out of the blocking gate: it is advisory and adds latency/cost.
+Triage is not needed for the gate. If you want it, run `enki triage
+report.json` with `ENKI_AI_PROVIDER`, `ENKI_AI_BASE_URL`, and `ENKI_AI_KEY`
+from GitHub secrets. Prefer a provider endpoint your runner can reach
+directly; keep triage out of the blocking gate because it is advisory and adds
+latency/cost.
 
 ## Troubleshooting
 

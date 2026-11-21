@@ -4,6 +4,11 @@ Audience: the maintainers. This is the working strategy for taking enki from an
 open-source scanner to a sustainable open-core product. It is intentionally
 opinionated; adjust pricing after the beta.
 
+**Status: deferred.** Hosted and paid surfaces are not shipped in the default
+release and are not promoted in public install/CI docs. Keep them out of the
+core UX until there is repeated real-world usage, published detection results,
+and developer trust.
+
 ## Bottom line
 
 1. **Open source first.** Security tooling is adopted on inspectability and
@@ -94,9 +99,9 @@ $0.01–0.02; one call per report; byte-stable rubric for cache pricing.
 - [x] Agent Skill + local MCP server + plugin manifests
 - [x] GitHub Action + CI
 - [x] SECURITY.md and CONTRIBUTING.md
-- [ ] 60-second demo (GIF/video): exposed Ollama → CRITICAL → fix → undo
-- [ ] Three case studies (local dev laptop, GPU server, CI PR gate)
-- [ ] Signed reproducible releases (goreleaser + signing key)
+- [x] 60-second demo (GIF/video): exposed Ollama → CRITICAL → fix → undo
+- [x] Three case studies (local dev laptop, GPU server, CI PR gate)
+- [x] Signed releases (goreleaser + cosign keyless)
 - [ ] Publish MCP server metadata to the official registry (preview),
       mcp.so, Smithery, Glama
 

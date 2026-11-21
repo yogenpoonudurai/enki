@@ -57,7 +57,7 @@ verify-docs-container: container-image
 	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) \
 		sh -c 'go build -o /tmp/enki ./cmd/enki && ENKI_BIN=/tmp/enki ./demo/verify-docs.sh'
 
-build: build-cli build-mcp build-cloud
+build: build-cli build-mcp
 
 build-cli:
 	CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/enki ./cmd/enki
@@ -69,7 +69,7 @@ build-cloud:
 	CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/enki-cloud ./cmd/enki-cloud
 
 install:
-	go install -trimpath -ldflags "$(LDFLAGS)" ./cmd/enki ./cmd/enki-mcp ./cmd/enki-cloud
+	go install -trimpath -ldflags "$(LDFLAGS)" ./cmd/enki ./cmd/enki-mcp
 
 test:
 	go test ./...
@@ -97,11 +97,7 @@ cross:
 				-ldflags "$(LDFLAGS)" -o bin/enki-mcp-$$os-$$arch$$ext ./cmd/enki-mcp; \
 		done; \
 	done
-	@set -e; for arch in amd64 arm64; do \
-		echo "building linux/$$arch (enki-cloud)"; \
-		CGO_ENABLED=0 GOOS=linux GOARCH=$$arch go build -trimpath \
-			-ldflags "$(LDFLAGS)" -o bin/enki-cloud-linux-$$arch ./cmd/enki-cloud; \
-	done
+
 
 clean:
 	rm -rf bin dist

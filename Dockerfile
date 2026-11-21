@@ -1,4 +1,5 @@
 # syntax=docker/dockerfile:1
+# Deferred hosted surface (enki-cloud); the CLI release does not ship this image.
 FROM golang:1.27-alpine AS build
 WORKDIR /src
 COPY go.mod go.sum ./

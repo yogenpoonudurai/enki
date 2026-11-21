@@ -60,21 +60,7 @@ pre { margin: 0; padding: 22px 24px; overflow-x: auto; font: 14px/1.65 ui-monosp
 .boundary { border-left: 3px solid var(--amber); padding: 6px 0 6px 22px; margin: 0 0 72px; max-width: 780px; }
 .boundary h2 { margin: 0 0 8px; font-size: 24px; }
 .boundary p { color: var(--dim); margin: 0; }
-.beta { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 32px; max-width: 720px; }
-.beta h2 { margin: 0 0 8px; font-size: 26px; }
-.muted { color: var(--dim); margin-top: 0; }
-form { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 22px; }
-label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; color: var(--dim); }
-label.full { grid-column: 1 / -1; }
-input, select, textarea {
-  background: #0d1117; border: 1px solid var(--line); border-radius: 8px;
-  color: var(--fg); padding: 10px 12px; font: inherit;
-}
-input:focus, select:focus, textarea:focus { outline: 1px solid var(--amber); border-color: var(--amber); }
-button[type=submit] { grid-column: 1 / -1; justify-self: start; margin-top: 4px; }
-#waitlist-status { grid-column: 1 / -1; min-height: 20px; margin: 0; font-size: 14px; color: var(--green); }
 footer { border-top: 1px solid var(--line); padding: 26px 24px 44px; text-align: center; color: var(--dim); font-size: 13px; }
 @media (max-width: 640px) {
-  form { grid-template-columns: 1fr; }
   .nav nav { gap: 14px; }
 }

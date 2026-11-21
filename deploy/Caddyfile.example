@@ -1,6 +1,21 @@
-# Caddy reverse proxy for enki-cloud (automatic TLS).
-# Replace cloud.example.com and point DNS at the host.
+# Deferred hosted surface: Caddy reverse proxy for enki-cloud.
+# Caddy reverse proxy for enki-cloud on one origin
+# (automatic TLS). Replace cloud.example.com with your domain, point DNS at the
+# host, and copy site/ to /srv/enki-site.
 cloud.example.com {
-    encode zstd gzip
-    reverse_proxy 127.0.0.1:8080
+	encode zstd gzip
+
+	handle /v1/* {
+		reverse_proxy 127.0.0.1:8080
+	}
+	handle /healthz {
+		reverse_proxy 127.0.0.1:8080
+	}
+	handle /mcp* {
+		reverse_proxy 127.0.0.1:8080
+	}
+	handle {
+		root * /srv/enki-site
+		file_server
+	}
 }

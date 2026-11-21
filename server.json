@@ -1,17 +1,11 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.yogenpoonudurai/enki",
-  "title": "enki AI Security Posture",
-  "description": "Scan your AI stack for exposure, secrets, and CVEs; fix safely.",
+  "title": "enki AI Configuration & Exposure",
+  "description": "Scan AI configuration and exposure locally; fix safely.",
   "repository": {
     "url": "https://github.com/yogenpoonudurai/enki",
     "source": "github"
   },
-  "version": "0.4.0",
-  "remotes": [
-    {
-      "type": "streamable-http",
-      "url": "https://cloud.example.com/mcp"
-    }
-  ]
+  "version": "0.4.0"
 }

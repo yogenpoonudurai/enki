@@ -1,3 +1,5 @@
+# Deferred hosted surface. Not part of the default release; build manually via
+# the cloud-build workflow or `make build-cloud` if you are working on it.
 services:
   enki-cloud:
     build: .
