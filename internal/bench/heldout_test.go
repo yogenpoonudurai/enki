@@ -144,9 +144,9 @@ func writeHeldOutDocs(t *testing.T, path string, m manifest, b rwBaseline, misma
 	sb.WriteString("> **Held out:** these cases were sourced and labeled after detector tuning and were not used to change detection rules. Results are published as measured, including any false positives and false negatives.\n\n")
 
 	sb.WriteString("## Method\n\n")
-	sb.WriteString("- The corpus contains at least 100 public-source cases from pinned public repositories plus public npm registry lockfiles.\n")
+	sb.WriteString("- The corpus contains at least 100 public-source cases from pinned public repositories plus public npm registry lockfiles. Source integrity uses 16-hex SHA256 prefixes to avoid secret-scanner false positives; upstream commits are pinned.\n")
 	sb.WriteString("- Labels are produced by an independent corpus builder, not by enki's detectors. MCP/agent/model/env labels use explicit ground-truth parsers; SBOM labels use live OSV queries.\n")
-	sb.WriteString("- Public files are fetched at pinned commits and verified by SHA256; they are not redistributed.\n")
+	sb.WriteString("- Public files are fetched at pinned commits and verified by a pinned SHA256 prefix; they are not redistributed.\n")
 	sb.WriteString("- Secret-like files and positive secret cases are excluded from the public corpus to avoid handling live credentials; secret detection remains covered by controlled fixtures.\n")
 	sb.WriteString("- Scoring is per-rule case precision/recall. SBOM-001 uses presence (any advisory vs none); other rules use expected/actual finding counts.\n\n")
 

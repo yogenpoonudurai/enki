@@ -53,15 +53,16 @@ type listenerSpec struct {
 }
 
 type sourceSpec struct {
-	Repo      string `json:"repo,omitempty"`
-	Commit    string `json:"commit,omitempty"`
-	Path      string `json:"path,omitempty"`
-	URL       string `json:"url,omitempty"`
-	SHA256    string `json:"sha256,omitempty"`
-	WorkPath  string `json:"work_path"`
-	Mode      string `json:"mode,omitempty"`
-	LocalPath string `json:"local_path,omitempty"`
-	Notes     string `json:"notes,omitempty"`
+	Repo         string `json:"repo,omitempty"`
+	Commit       string `json:"commit,omitempty"`
+	Path         string `json:"path,omitempty"`
+	URL          string `json:"url,omitempty"`
+	SHA256       string `json:"sha256,omitempty"`
+	SHA256Prefix string `json:"sha256_prefix,omitempty"`
+	WorkPath     string `json:"work_path"`
+	Mode         string `json:"mode,omitempty"`
+	LocalPath    string `json:"local_path,omitempty"`
+	Notes        string `json:"notes,omitempty"`
 }
 
 type labelSpec struct {
@@ -295,11 +296,17 @@ func writeSource(t *testing.T, root string, src *sourceSpec) error {
 	if err != nil {
 		return err
 	}
+	sum := sha256.Sum256(data)
 	if src.SHA256 != "" {
-		sum := sha256.Sum256(data)
 		got := hex.EncodeToString(sum[:])
 		if got != src.SHA256 {
 			return fmt.Errorf("source hash mismatch for %s: got %s, want %s", src.URL, got, src.SHA256)
+		}
+	}
+	if src.SHA256Prefix != "" {
+		got := hex.EncodeToString(sum[:])
+		if !strings.HasPrefix(got, strings.ToLower(src.SHA256Prefix)) {
+			return fmt.Errorf("source hash prefix mismatch for %s: got %s, want prefix %s", src.URL, got, src.SHA256Prefix)
 		}
 	}
 	return writeOneFile(root, src.WorkPath, data, src.Mode)

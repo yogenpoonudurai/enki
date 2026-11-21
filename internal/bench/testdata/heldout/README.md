@@ -4,7 +4,8 @@
 disjoint from the development public cases in `../realworld.json`.
 
 - Public MCP/agent/model/env files are fetched at pinned commits and verified
-  by SHA256; they are not redistributed.
+  by a 16-hex SHA256 prefix; they are not redistributed. Prefixes avoid
+  secret-scanner false positives on full hashes.
 - SBOM cases are real npm registry lockfiles generated with `npm install
   --package-lock-only`; labels come from live OSV queries at build time.
 - Labels are produced by `scripts/build-heldout-corpus.py`, which uses

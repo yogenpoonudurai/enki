@@ -6,9 +6,9 @@ Generated on **2026-11-21** from `internal/bench/testdata/heldout.json` with liv
 
 ## Method
 
-- The corpus contains at least 100 public-source cases from pinned public repositories plus public npm registry lockfiles.
+- The corpus contains at least 100 public-source cases from pinned public repositories plus public npm registry lockfiles. Source integrity uses 16-hex SHA256 prefixes to avoid secret-scanner false positives; upstream commits are pinned.
 - Labels are produced by an independent corpus builder, not by enki's detectors. MCP/agent/model/env labels use explicit ground-truth parsers; SBOM labels use live OSV queries.
-- Public files are fetched at pinned commits and verified by SHA256; they are not redistributed.
+- Public files are fetched at pinned commits and verified by a pinned SHA256 prefix; they are not redistributed.
 - Secret-like files and positive secret cases are excluded from the public corpus to avoid handling live credentials; secret detection remains covered by controlled fixtures.
 - Scoring is per-rule case precision/recall. SBOM-001 uses presence (any advisory vs none); other rules use expected/actual finding counts.
 

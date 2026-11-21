@@ -290,7 +290,7 @@ def main():
         labels=labels_mcp(data)
         if labels is None: continue
         seen.add(raw)
-        src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256':hashlib.sha256(fetch(raw)).hexdigest(),'work_path':'.mcp.json','mode':'0600','notes':'Public MCP config'}
+        src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256_prefix':hashlib.sha256(fetch(raw)).hexdigest()[:16],'work_path':'.mcp.json','mode':'0600','notes':'Public MCP config'}
         add_case(cases, 'heldout-mcp-%03d'%len(cases), 'mcp', src, ['MCP-001','MCP-002','MCP-003','MCP-004','MCP-005'], [{'rule_id':k,'count':v} for k,v in sorted(labels.items())], 'Public MCP config: %s'%repo)
         mcp_ok+=1
 
@@ -305,7 +305,7 @@ def main():
         except Exception: continue
         if has_secret(json.dumps(data)): continue
         labels=labels_agt(data); seen.add(raw)
-        src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256':hashlib.sha256(fetch(raw)).hexdigest(),'work_path':'.claude/settings.json','mode':'0600','notes':'Public Claude settings'}
+        src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256_prefix':hashlib.sha256(fetch(raw)).hexdigest()[:16],'work_path':'.claude/settings.json','mode':'0600','notes':'Public Claude settings'}
         c={'name':'heldout-agt','category':'heldout','module':'agent-permissions','evaluate':['AGT-001','AGT-002','AGT-003','AGT-004'],'source':src,'labels':[{'rule_id':k,'count':v} for k,v in sorted(labels.items())],'notes':'Public Claude settings: %s'%repo}
         (labeled if labels else clean).append(c)
     selected = labeled[:10] + clean[:10]
@@ -326,7 +326,7 @@ def main():
             text=data.decode('utf-8','replace')
             if has_secret(text): continue
             labels=labels_mdl(text); seen.add(raw)
-            src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256':hashlib.sha256(data).hexdigest(),'work_path':'app.py','mode':'0644','notes':'Public Python model code'}
+            src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256_prefix':hashlib.sha256(data).hexdigest()[:16],'work_path':'app.py','mode':'0644','notes':'Public Python model code'}
             out.append({'name':'heldout-mdl','category':'heldout','module':'model-artifacts','evaluate':['MDL-002','MDL-003','MDL-004'],'source':src,'labels':[{'rule_id':k,'count':v} for k,v in sorted(labels.items())],'notes':'Public model code: %s'%repo})
             if len(out)>=limit: break
         return out
@@ -349,7 +349,7 @@ def main():
         text=data.decode('utf-8','replace')
         if has_secret(text): continue
         seen.add(raw)
-        src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256':hashlib.sha256(data).hexdigest(),'work_path':'.env','mode':'0600','notes':'Public env example with placeholders'}
+        src={'repo':repo,'commit':sha,'path':path,'url':raw,'sha256_prefix':hashlib.sha256(data).hexdigest()[:16],'work_path':'.env','mode':'0600','notes':'Public env example with placeholders'}
         add_case(cases, 'heldout-sec-%03d'%len(cases), 'secrets', src, ['SEC-001','SEC-003'], [], 'Public env example (no live secrets): %s'%repo)
         sec_ok+=1
         if sec_ok>=15: break
