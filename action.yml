@@ -7,7 +7,7 @@ branding:
 
 inputs:
   version:
-    description: Release tag to install, for example v0.5.0 (defaults to the action ref when it is a tag).
+    description: Release tag to install, for example v0.5.1 (defaults to the action ref when it is a tag).
     required: false
     default: ""
   args:
