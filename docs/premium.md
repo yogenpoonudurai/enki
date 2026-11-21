@@ -19,4 +19,5 @@ service. Legal terms: [legal/terms.md](legal/terms.md); privacy:
 [legal/privacy.md](legal/privacy.md).
 
 The service implementation, billing, store, and premium feeds are not part of
-this repository.
+this repository. See the [open-core boundary](open-core.md) for the public
+client contract and the release-asset allowlist.

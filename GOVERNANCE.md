@@ -16,7 +16,8 @@ and security of the open-source project.
 Additional maintainers may be added by the current maintainer when a
 contributor has demonstrated sustained, high-quality work and good judgment.
 The private hosted-service repository is not part of this governance; access to
-it is granted separately and is not implied by maintainer status here.
+it is granted separately and is not implied by maintainer status here. The
+public/private split is documented in [docs/open-core.md](docs/open-core.md).
 
 ## Decisions
 

@@ -6,8 +6,9 @@ What changes, and why?
 
 - [ ] This change belongs in the open-source core (detection, reporting,
       remediation, CLI/MCP, docs, CI).
-- [ ] It does not add hosted-service or premium code; that lives in a separate
-      private repository.
+- [ ] It does not add hosted-service or premium code; see
+      [docs/open-core.md](../docs/open-core.md) for the boundary. That code
+      lives in a separate private repository.
 - [ ] New findings keep the determinism and evidence bar in `CONTRIBUTING.md`.
 
 ## Verification
