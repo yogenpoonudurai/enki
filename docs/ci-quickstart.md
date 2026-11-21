@@ -30,7 +30,7 @@ The fast PR gate uses only offline modules — no OSV network dependency:
 ```yaml
 - uses: <owner>/enki@v0.4.0
   with:
-    args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
+    args: "--scope project --fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 ```
 
 What it provides:
@@ -39,6 +39,20 @@ What it provides:
   (exit 2) always fail
 - uploads `enki.sarif` and `enki-report.txt` as artifacts
 - needs no secrets and sends nothing off the runner
+
+### What CI can and cannot see
+
+A GitHub-hosted runner is not a developer laptop. Use `--scope project` for the
+PR gate and treat host checks as a separate, local responsibility.
+
+| Scope | Inspects | Does not inspect |
+|---|---|---|
+| `project` | repo MCP/agent configs, repo `.env` files, repo model artifacts, project dependency manifests | network listeners, user-level configs, shell history, credential stores, OS packages |
+| `host` | network listeners, user configs, history/credentials, home model caches, OS packages | repository-level configs and manifest files |
+| `full` (default) | both | nothing in enki's rule set, but still subject to permissions and platform limits |
+
+Skipped surfaces are reported as `not-applicable` coverage gaps, so a project
+scan cannot claim a laptop is clean.
 
 ## 2. Optional: SARIF in code scanning
 
@@ -73,7 +87,7 @@ on:
 
 - uses: <owner>/enki@v0.4.0
   with:
-    args: "--fail-on critical --deps all"
+    args: "--scope project --fail-on critical --deps all"
 ```
 
 The cache keeps OSV advisory details fresh within the 24 h TTL while cutting
@@ -85,7 +99,7 @@ Suggested progression:
 
 1. `--fail-on critical --modules mcp,secrets,agent-permissions` (noisy legacy repos)
 2. `--fail-on high` for the AI/MCP/secret gate
-3. `--deps all --fail-on high` in the nightly job
+3. `--scope project --deps all --fail-on high` in the nightly job
 4. Suppress reviewed findings with `--ignore-rule RULE-ID` and a reason in the
    PR description; never suppress whole modules
 

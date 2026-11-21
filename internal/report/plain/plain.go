@@ -12,7 +12,7 @@ import (
 // Write renders the report as plain lines, optionally with ANSI colors.
 func Write(w io.Writer, rep *report.Report, color bool) {
 	fmt.Fprintf(w, "%s %s · %s\n", report.Bold(color, "enki"), rep.Tool.Version, report.Dim(color, "AI Security Posture"))
-	fmt.Fprintf(w, "%s · %s/%s · %s\n\n", rep.Scan.Host, rep.Scan.OS, rep.Scan.Arch, rep.Scan.User)
+	fmt.Fprintf(w, "%s · %s/%s · %s · scope %s\n\n", rep.Scan.Host, rep.Scan.OS, rep.Scan.Arch, rep.Scan.User, scopeOrFull(rep.Scan.Scope))
 
 	counts := rep.Summary.Counts
 	fmt.Fprintf(w, "POSTURE %d/100 · %s · %s\n\n",
@@ -43,11 +43,18 @@ func Write(w io.Writer, rep *report.Report, color bool) {
 	if len(rep.Coverage) > 0 {
 		fmt.Fprintln(w, "\nCoverage gaps (results may be incomplete):")
 		for _, g := range rep.Coverage {
-			fmt.Fprintf(w, "  note [%s] %s\n", g.Module, g.Reason)
+			kind := g.Kind
+			if kind == "" {
+				kind = "unknown"
+			}
+			fmt.Fprintf(w, "  note [%s/%s] %s\n", g.Module, kind, g.Reason)
 		}
 	}
 
 	for _, m := range rep.Modules {
+		if m.Skipped {
+			fmt.Fprintf(w, "\n  skipped [%s] not applicable in this scope\n", m.Name)
+		}
 		if m.Error != "" {
 			fmt.Fprintf(w, "\n  error [%s] %s\n", m.Name, m.Error)
 		}
@@ -55,6 +62,13 @@ func Write(w io.Writer, rep *report.Report, color bool) {
 
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, report.Dim(color, "Review remediations with: enki fix"))
+}
+
+func scopeOrFull(scope string) string {
+	if scope == "" {
+		return "full"
+	}
+	return scope
 }
 
 // SeverityAtOrAbove reports whether any finding meets the threshold.

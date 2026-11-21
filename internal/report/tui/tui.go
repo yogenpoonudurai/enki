@@ -210,7 +210,7 @@ func (m *Model) View() string {
 	meta := "hosting scan…"
 	status := "scanning " + m.started.Format("15:04:05")
 	if m.rep != nil {
-		meta = fmt.Sprintf("%s · %s/%s · %s", m.rep.Scan.Host, m.rep.Scan.OS, m.rep.Scan.Arch, m.rep.Scan.User)
+		meta = fmt.Sprintf("%s · %s/%s · %s · scope %s", m.rep.Scan.Host, m.rep.Scan.OS, m.rep.Scan.Arch, m.rep.Scan.User, scopeOrFull(m.rep.Scan.Scope))
 		status = fmt.Sprintf("scan %s · %dms", m.rep.Scan.ID, m.rep.Scan.DurationMS)
 	}
 	fmt.Fprintf(&b, "%s\n%s\n\n", bold(meta), dim(status))
@@ -632,4 +632,11 @@ func wrapPlain(s string, width int) string {
 		lines = append(lines, cur)
 	}
 	return strings.Join(lines, "\n")
+}
+
+func scopeOrFull(scope string) string {
+	if scope == "" {
+		return "full"
+	}
+	return scope
 }

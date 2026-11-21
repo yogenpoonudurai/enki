@@ -19,8 +19,9 @@ type document struct {
 }
 
 type run struct {
-	Tool    tool     `json:"tool"`
-	Results []result `json:"results"`
+	Tool       tool           `json:"tool"`
+	Results    []result       `json:"results"`
+	Properties map[string]any `json:"properties,omitempty"`
 }
 
 type tool struct {
@@ -71,6 +72,13 @@ type artifact struct {
 
 type region struct {
 	StartLine int `json:"startLine"`
+}
+
+func scopeOrFull(scope string) string {
+	if scope == "" {
+		return "full"
+	}
+	return scope
 }
 
 // Build converts a report into a SARIF document with deduplicated rules.
@@ -137,7 +145,8 @@ func Build(rep *report.Report) document {
 				InformationURI: "https://github.com/yogenpoonudurai/enki",
 				Rules:          rules,
 			}},
-			Results: results,
+			Results:    results,
+			Properties: map[string]any{"scope": scopeOrFull(rep.Scan.Scope), "schema_version": rep.Tool.SchemaVersion},
 		}},
 	}
 }

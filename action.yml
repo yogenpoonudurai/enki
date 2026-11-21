@@ -7,9 +7,9 @@ branding:
 
 inputs:
   args:
-    description: Extra arguments for `enki scan` (for example "--deps ai --probe-remote").
+    description: Extra arguments for `enki scan` (for example "--scope host --probe-remote").
     required: false
-    default: "--fail-on high"
+    default: "--scope project --deps ai --fail-on high"
   artifact-name:
     description: Name of the uploaded artifact.
     required: false

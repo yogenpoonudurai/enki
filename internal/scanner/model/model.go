@@ -64,52 +64,66 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 	var codeFiles []string
 	files := 0
 	truncated := false
+	seenRoots := map[string]bool{}
 
-	root := sc.WorkingDir
-	walkErr := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
-		if err != nil {
-			return nil // unreadable entries are skipped, not fatal
+	for _, root := range modelRoots(sc) {
+		root = filepath.Clean(root)
+		if seenRoots[root] {
+			continue
 		}
-		rel, relErr := filepath.Rel(root, path)
-		if relErr != nil {
-			return nil
+		seenRoots[root] = true
+		info, err := os.Stat(root)
+		if err != nil || !info.IsDir() {
+			continue
 		}
-		depth := strings.Count(rel, string(os.PathSeparator))
-		if d.IsDir() {
-			if path != root && (skipDirs[d.Name()] || depth >= maxDepth) {
-				return filepath.SkipDir
+		walkErr := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+			if err != nil {
+				return nil // unreadable entries are skipped, not fatal
 			}
-			return nil
-		}
-		files++
-		if files > maxFiles {
-			truncated = true
-			return filepath.SkipAll
-		}
-		info, statErr := d.Info()
-		if statErr != nil {
-			return nil
-		}
-		ext := strings.ToLower(filepath.Ext(path))
-		switch {
-		case weightExts[ext]:
-			if ext == ".bin" && info.Size() < binMinSize {
+			rel, relErr := filepath.Rel(root, path)
+			if relErr != nil {
 				return nil
 			}
-			dir := filepath.Dir(path)
-			weightDirs[dir] = append(weightDirs[dir], filepath.Base(path))
-		case codeExts[ext]:
-			if info.Size() <= maxScanBytes {
-				codeFiles = append(codeFiles, path)
+			depth := strings.Count(rel, string(os.PathSeparator))
+			if d.IsDir() {
+				if path != root && (skipDirs[d.Name()] || depth >= maxDepth) {
+					return filepath.SkipDir
+				}
+				return nil
 			}
+			files++
+			if files > maxFiles {
+				truncated = true
+				return filepath.SkipAll
+			}
+			info, statErr := d.Info()
+			if statErr != nil {
+				return nil
+			}
+			ext := strings.ToLower(filepath.Ext(path))
+			switch {
+			case weightExts[ext]:
+				if ext == ".bin" && info.Size() < binMinSize {
+					return nil
+				}
+				dir := filepath.Dir(path)
+				weightDirs[dir] = append(weightDirs[dir], filepath.Base(path))
+			case codeExts[ext]:
+				if info.Size() <= maxScanBytes {
+					codeFiles = append(codeFiles, path)
+				}
+			}
+			return nil
+		})
+		if walkErr != nil {
+			gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "file walk failed for " + root + ": " + walkErr.Error()})
 		}
-		return nil
-	})
-	if walkErr != nil {
-		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "file walk failed: " + walkErr.Error()})
+		if truncated {
+			break
+		}
 	}
 	if truncated {
-		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("file walk stopped after %d entries; some artifacts were not inspected", maxFiles)})
+		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("file walk stopped after %d entries; some artifacts were not inspected", maxFiles)})
 	}
 
 	dirs := make([]string, 0, len(weightDirs))
@@ -118,7 +132,7 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 	}
 	sort.Strings(dirs)
 	if len(dirs) > 50 {
-		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d additional directories with pickle weights omitted from findings", len(dirs)-50)})
+		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d additional directories with pickle weights omitted from findings", len(dirs)-50)})
 		dirs = dirs[:50]
 	}
 	for _, dir := range dirs {
@@ -127,7 +141,7 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 
 	sort.Strings(codeFiles)
 	if len(codeFiles) > maxCodeFiles {
-		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("source scan limited to %d files; %d skipped", maxCodeFiles, len(codeFiles)-maxCodeFiles)})
+		gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("source scan limited to %d files; %d skipped", maxCodeFiles, len(codeFiles)-maxCodeFiles)})
 		codeFiles = codeFiles[:maxCodeFiles]
 	}
 	for _, path := range codeFiles {
@@ -136,6 +150,23 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 
 	finding.Sort(out)
 	return out, gaps, nil
+}
+
+// modelRoots selects project and host artifact locations for the scan scope.
+func modelRoots(sc *scanner.Context) []string {
+	var roots []string
+	if sc.Scope.IncludesProject() {
+		roots = append(roots, sc.WorkingDir)
+	}
+	if sc.Scope.IncludesHost() && sc.HomeDir != "" {
+		roots = append(roots,
+			filepath.Join(sc.HomeDir, ".cache", "huggingface"),
+			filepath.Join(sc.HomeDir, ".cache", "torch"),
+			filepath.Join(sc.HomeDir, ".ollama", "models"),
+			filepath.Join(sc.HomeDir, "models"),
+		)
+	}
+	return roots
 }
 
 func pickleFinding(dir string, names []string) finding.Finding {

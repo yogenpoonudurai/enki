@@ -64,7 +64,11 @@ func Render(rep *report.Report, color bool) string {
 		gap = 1
 	}
 	box(left + strings.Repeat(" ", gap) + when)
-	box(fmt.Sprintf("%s · %s/%s · %s · %s", rep.Scan.Host, rep.Scan.OS, rep.Scan.Arch, rep.Scan.User, rep.Scan.ID))
+	scope := rep.Scan.Scope
+	if scope == "" {
+		scope = "full"
+	}
+	box(fmt.Sprintf("%s · %s/%s · %s · scope %s · %s", rep.Scan.Host, rep.Scan.OS, rep.Scan.Arch, rep.Scan.User, scope, rep.Scan.ID))
 	b.WriteString(bottom + "\n\n")
 
 	score := rep.Summary.Score
@@ -138,7 +142,11 @@ func Render(rep *report.Report, color bool) string {
 	if len(rep.Coverage) > 0 {
 		b.WriteString("  COVERAGE GAPS (results may be incomplete)\n")
 		for _, g := range rep.Coverage {
-			fmt.Fprintf(&b, "  · [%s] %s\n", g.Module, g.Reason)
+			kind := g.Kind
+			if kind == "" {
+				kind = "unknown"
+			}
+			fmt.Fprintf(&b, "  · [%s/%s] %s\n", g.Module, kind, g.Reason)
 		}
 		b.WriteString("\n")
 	}
@@ -146,6 +154,9 @@ func Render(rep *report.Report, color bool) string {
 	b.WriteString("  MODULES\n")
 	for i, m := range rep.Modules {
 		status := fmt.Sprintf("%d finding(s) · %dms", m.Findings, m.DurationMS)
+		if m.Skipped {
+			status = "skipped (not applicable in this scope)"
+		}
 		if m.Error != "" {
 			status = "error: " + m.Error
 		}

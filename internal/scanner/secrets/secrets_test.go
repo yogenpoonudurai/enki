@@ -116,3 +116,20 @@ func TestHFTokenFile(t *testing.T) {
 		t.Fatalf("no SEC-004 finding: %+v", fs)
 	}
 }
+
+func TestBuildTargetsScope(t *testing.T) {
+	sc := &scanner.Context{HomeDir: "/home/u", WorkingDir: "/work"}
+	sc.Scope = scanner.ScopeProject
+	for _, target := range buildTargets(sc) {
+		if target.path == "/home/u/.env" || target.path == "/home/u/.netrc" {
+			t.Fatalf("project scope included host target %s", target.path)
+		}
+	}
+
+	sc.Scope = scanner.ScopeHost
+	for _, target := range buildTargets(sc) {
+		if target.path == "/work/.env" {
+			t.Fatal("host scope included project target /work/.env")
+		}
+	}
+}

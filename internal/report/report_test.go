@@ -64,9 +64,27 @@ func TestVerdict(t *testing.T) {
 		{map[string]int{}, "GOOD"},
 	}
 	for _, tc := range cases {
-		if got := Verdict(tc.counts); got != tc.want {
+		if got := Verdict(tc.counts, nil); got != tc.want {
 			t.Errorf("Verdict(%v) = %s, want %s", tc.counts, got, tc.want)
 		}
+	}
+}
+
+func TestVerdictWithCoverage(t *testing.T) {
+	permission := []scanner.CoverageGap{{Module: "listeners", Kind: scanner.GapPermission}}
+	if got := Verdict(map[string]int{}, permission); got != "GOOD (partial)" {
+		t.Fatalf("gapped clean verdict = %q, want GOOD (partial)", got)
+	}
+	network := []scanner.CoverageGap{{Module: "sbom", Kind: scanner.GapNetwork}}
+	if got := Verdict(map[string]int{}, network); got != "GOOD (partial)" {
+		t.Fatalf("network-gap verdict = %q, want GOOD (partial)", got)
+	}
+	notApplicable := []scanner.CoverageGap{{Module: "listeners", Kind: scanner.GapNotApplicable}}
+	if got := Verdict(map[string]int{}, notApplicable); got != "GOOD" {
+		t.Fatalf("not-applicable verdict = %q, want GOOD", got)
+	}
+	if got := Verdict(map[string]int{"HIGH": 1}, permission); got != "ATTENTION" {
+		t.Fatalf("finding verdict = %q, want ATTENTION", got)
 	}
 }
 

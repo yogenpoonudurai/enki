@@ -14,10 +14,10 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      # Offline-fast gate: MCP configs, agent permissions, secrets.
+      # Offline-fast gate: repository MCP configs, agent permissions, secrets.
       - uses: <owner>/enki@v0.4.0
         with:
-          args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
+          args: "--scope project --fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 
       # Optional: upload SARIF to code scanning (public repos / GHAS).
       # - uses: github/codeql-action/upload-sarif@v4

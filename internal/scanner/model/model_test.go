@@ -66,3 +66,25 @@ func TestPickleWeightsGroupedByDir(t *testing.T) {
 		t.Fatal("expected file names in evidence")
 	}
 }
+
+func TestModelRootsScope(t *testing.T) {
+	sc := &scanner.Context{WorkingDir: "/work", HomeDir: "/home/u"}
+	sc.Scope = scanner.ScopeProject
+	if roots := modelRoots(sc); len(roots) != 1 || roots[0] != "/work" {
+		t.Fatalf("project roots = %v", roots)
+	}
+	sc.Scope = scanner.ScopeHost
+	roots := modelRoots(sc)
+	if len(roots) != 4 {
+		t.Fatalf("host roots = %v", roots)
+	}
+	for _, r := range roots {
+		if r == "/work" {
+			t.Fatalf("host roots include project: %v", roots)
+		}
+	}
+	sc.Scope = scanner.ScopeFull
+	if roots := modelRoots(sc); len(roots) != 5 {
+		t.Fatalf("full roots = %v", roots)
+	}
+}

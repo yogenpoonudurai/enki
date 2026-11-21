@@ -78,6 +78,7 @@ func Listeners() ([]Listener, []Gap) {
 		if unattributed > 0 {
 			gaps = append(gaps, Gap{
 				Module: "listeners",
+				Kind:   GapPermission,
 				Reason: fmt.Sprintf("%d listener(s) could not be attributed to a process (macOS permissions); rerun with elevated privileges for full coverage", unattributed),
 			})
 		}

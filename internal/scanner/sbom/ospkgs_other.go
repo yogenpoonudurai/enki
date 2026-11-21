@@ -8,7 +8,11 @@ import (
 	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
 
-// inventoryOSPackages is Linux-only; other platforms report nothing.
+// inventoryOSPackages is Linux-only; other platforms report the gap.
 func inventoryOSPackages(ctx context.Context) ([]Pkg, []scanner.CoverageGap) {
-	return nil, nil
+	return nil, []scanner.CoverageGap{{
+		Module: moduleName,
+		Kind:   scanner.GapUnsupported,
+		Reason: "OS package inventory is Linux-only",
+	}}
 }

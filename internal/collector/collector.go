@@ -30,9 +30,21 @@ type ConfigFile struct {
 	Loaded time.Time   `json:"-"`
 }
 
+// Gap kinds classify why coverage was incomplete.
+const (
+	GapNotApplicable = "not-applicable"
+	GapPermission    = "permission"
+	GapUnsupported   = "unsupported"
+	GapTruncated     = "truncated"
+	GapNetwork       = "network"
+	GapError         = "error"
+)
+
 // Gap records a collection capability that was unavailable (e.g. permission
 // denied, tool missing) so reports can distinguish "clean" from "blind".
 type Gap struct {
 	Module string `json:"module"`
+	Kind   string `json:"kind,omitempty"`
+	Scope  string `json:"scope,omitempty"`
 	Reason string `json:"reason"`
 }

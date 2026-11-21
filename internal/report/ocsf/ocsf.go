@@ -57,12 +57,17 @@ type Event struct {
 	FindingInfo  FindingInfo  `json:"finding_info"`
 	Resources    []Resource   `json:"resources,omitempty"`
 	Remediation  *Remediation `json:"remediation,omitempty"`
+	Scope        string       `json:"scope,omitempty"`
 }
 
 // Build converts a report into OCSF detection finding events.
 func Build(rep *report.Report) []Event {
 	events := make([]Event, 0, len(rep.Findings))
 	created := rep.Scan.StartedAt.UnixMilli()
+	scope := rep.Scan.Scope
+	if scope == "" {
+		scope = "full"
+	}
 	for _, f := range rep.Findings {
 		ev := Event{
 			ClassUID:     2004,
@@ -76,6 +81,7 @@ func Build(rep *report.Report) []Event {
 			Severity:     string(f.Severity),
 			ConfidenceID: confidenceID(f.Confidence),
 			Time:         created,
+			Scope:        scope,
 			Metadata: Metadata{
 				Version: ocsfVersion,
 				Product: Product{Name: "enki", VendorName: "Enki", Version: rep.Tool.Version},

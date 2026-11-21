@@ -12,9 +12,11 @@ import (
 	"github.com/yogenpoonudurai/enki/internal/finding"
 	"github.com/yogenpoonudurai/enki/internal/platform"
 	"github.com/yogenpoonudurai/enki/internal/remediate"
+	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
 
 type fixOptions struct {
+	scope           string
 	apply           bool
 	includeModerate bool
 	yes             bool
@@ -22,7 +24,7 @@ type fixOptions struct {
 }
 
 func newFixCmd() *cobra.Command {
-	opts := &fixOptions{}
+	opts := &fixOptions{scope: "full"}
 	cmd := &cobra.Command{
 		Use:   "fix",
 		Short: "Plan and apply guarded remediations for scan findings",
@@ -35,6 +37,7 @@ func newFixCmd() *cobra.Command {
 		},
 	}
 	f := cmd.Flags()
+	f.StringVar(&opts.scope, "scope", "full", "what to inspect: project (repository only), host (machine only), or full")
 	f.BoolVar(&opts.apply, "apply", false, "apply safe actions (dry run by default)")
 	f.BoolVar(&opts.includeModerate, "include-moderate", false, "also apply moderate actions (config edits)")
 	f.BoolVar(&opts.yes, "yes", false, "answer yes to confirmation prompts (moderate actions)")
@@ -43,7 +46,11 @@ func newFixCmd() *cobra.Command {
 }
 
 func runFix(cmd *cobra.Command, opts *fixOptions) error {
+	if _, ok := scanner.ParseScope(opts.scope); !ok {
+		return fmt.Errorf("invalid --scope value %q (use project, host, or full)", opts.scope)
+	}
 	scanOpts := defaultScanOptions()
+	scanOpts.scope = opts.scope
 	scanOpts.failOn = "none"
 	rep, err := scanHost(cmd.Context(), scanOpts)
 	if err != nil {

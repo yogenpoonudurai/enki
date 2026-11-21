@@ -21,6 +21,7 @@ import (
 )
 
 type scanOptions struct {
+	scope       string
 	asJSON      bool
 	asSARIF     bool
 	asOCSF      bool
@@ -42,6 +43,7 @@ type scanOptions struct {
 // defaultScanOptions is the shared baseline for scan, fix and the dashboard.
 func defaultScanOptions() *scanOptions {
 	return &scanOptions{
+		scope:      "full",
 		failOn:     "high",
 		deps:       "all",
 		depth:      3,
@@ -60,6 +62,7 @@ func newScanCmd() *cobra.Command {
 		},
 	}
 	f := cmd.Flags()
+	f.StringVar(&opts.scope, "scope", "full", "what to inspect: project (repository only), host (machine only), or full")
 	f.BoolVar(&opts.asJSON, "json", false, "emit machine-readable JSON")
 	f.BoolVar(&opts.asSARIF, "sarif", false, "emit SARIF 2.1.0 for code scanning UIs")
 	f.BoolVar(&opts.asOCSF, "ocsf", false, "emit OCSF detection finding events for SIEM ingestion")
@@ -85,6 +88,9 @@ func runScan(parent context.Context, opts *scanOptions) error {
 	}
 	if opts.deps != "all" && opts.deps != "ai" {
 		return fmt.Errorf("invalid --deps value %q (use all or ai)", opts.deps)
+	}
+	if _, ok := scanner.ParseScope(opts.scope); !ok {
+		return fmt.Errorf("invalid --scope value %q (use project, host, or full)", opts.scope)
 	}
 	formats := 0
 	for _, on := range []bool{opts.asJSON, opts.asSARIF, opts.asOCSF} {
@@ -142,7 +148,9 @@ func scanHost(parent context.Context, opts *scanOptions) (*report.Report, error)
 }
 
 func scanHostWithProgress(parent context.Context, opts *scanOptions, onProgress func(scanner.Progress)) (*report.Report, error) {
+	scope, _ := scanner.ParseScope(opts.scope)
 	return scanrun.Run(parent, scanrun.Options{
+		Scope:           scope,
 		Deps:            opts.deps,
 		Paths:           opts.paths,
 		Depth:           opts.depth,
