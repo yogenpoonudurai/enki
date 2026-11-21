@@ -21,6 +21,14 @@ The workflow:
 `make build` remains the local development path: it uses the exact tag when
 present, otherwise `0.4.0-dev`.
 
+## Scope policy
+
+The default archives contain `enki` and `enki-mcp`. Hosted/paid surfaces are
+deferred and require a separate manual build (`make build-cloud` or the
+`cloud-build` workflow); they are never published by the release workflow.
+New detectors or surfaces must follow the evidence bar in
+[CONTRIBUTING.md](../CONTRIBUTING.md#scope-discipline-and-feature-freeze).
+
 ## Verify a download
 
 ```bash
