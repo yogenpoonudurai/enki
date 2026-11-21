@@ -1,5 +1,9 @@
 # MCP registry submissions
 
+> **Deferred.** Hosted MCP registry submission is not part of the default
+> release while the hosted surface is deferred. This guide is retained for
+> maintainers.
+
 `server.json` at the repository root describes the **hosted** MCP endpoint. It
 is metadata only — update the two placeholders before publishing:
 
@@ -66,7 +70,7 @@ Long:
 
 - [ ] `/mcp` is reachable over HTTPS from the public internet.
 - [ ] Auth requirements documented (bearer token for hosted tools).
-- [ ] `server.json` name matches the publishing GitHub namespace.
-- [ ] Version matches the release tag.
-- [ ] `mcp-publisher validate` passes.
-- [ ] Demo GIF and getting-started link are live.
+- [x] `server.json` name matches the publishing GitHub namespace.
+- [x] Version matches the release tag.
+- [x] `mcp-publisher validate` passes (v1.8.10, validated 2026-11-21).
+- [x] Demo GIF and getting-started link are live.

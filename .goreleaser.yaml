@@ -37,22 +37,6 @@ builds:
       - -X github.com/yogenpoonudurai/enki/internal/version.Version={{.Version}}
       - -X github.com/yogenpoonudurai/enki/internal/version.Commit={{.ShortCommit}}
       - -X github.com/yogenpoonudurai/enki/internal/version.Date={{.Date}}
-  - id: enki-cloud
-    main: ./cmd/enki-cloud
-    binary: enki-cloud
-    env:
-      - CGO_ENABLED=0
-    goos:
-      - linux
-    goarch:
-      - amd64
-      - arm64
-    ldflags:
-      - -s -w
-      - -X github.com/yogenpoonudurai/enki/internal/version.Version={{.Version}}
-      - -X github.com/yogenpoonudurai/enki/internal/version.Commit={{.ShortCommit}}
-      - -X github.com/yogenpoonudurai/enki/internal/version.Date={{.Date}}
-
 archives:
   - id: cli
     ids:
@@ -64,12 +48,6 @@ archives:
         formats: [zip]
     name_template: >-
       enki_{{ .Version }}_{{ .Os }}_{{ .Arch }}
-  - id: cloud
-    ids:
-      - enki-cloud
-    formats: [tar.gz]
-    name_template: >-
-      enki-cloud_{{ .Version }}_{{ .Os }}_{{ .Arch }}
 
 checksum:
   name_template: checksums.txt

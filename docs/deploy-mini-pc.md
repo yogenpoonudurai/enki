@@ -1,3 +1,6 @@
+> **Deferred surface.** The hosted service is not part of the default release
+> or public install path. This guide is retained for maintainers working on it.
+
 # Deploy enki-cloud / hosted triage on a mini PC
 
 This is optional. The CI gate runs entirely on GitHub runners; the mini PC is
@@ -75,20 +78,11 @@ Remote MCP endpoint for agents: `https://cloud.example.com/mcp` with
 credits consumed). Update `server.json` with this URL before registry
 submission.
 
-## 5. Waitlist site
+## 5. Waitlist (deferred)
 
-Deploy `site/` (GitHub Pages, Netlify, or Caddy static root) and set:
-
-```html
-<script>window.ENKI_WAITLIST_ENDPOINT = "https://cloud.example.com/v1/waitlist";</script>
-```
-
-List signups:
-
-```bash
-curl -s https://cloud.example.com/v1/admin/waitlist \
-  -H "Authorization: Bearer $ENKI_CLOUD_ADMIN_KEY" | jq
-```
+The public waitlist form was removed from `site/` while hosted surfaces are
+deferred. The cloud store still implements `/v1/waitlist` for maintainer
+testing; do not re-add a public form or endpoint promotion without approval.
 
 ## 6. CI triage (optional)
 

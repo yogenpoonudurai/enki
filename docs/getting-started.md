@@ -10,10 +10,9 @@ instrument runtime behavior, inspect model weights, or replace a full
 software-composition scanner. See the non-goals in the
 [README](../README.md#scope-and-non-goals).
 
-Deterministic scanning is free forever and works offline (except OSV advisory
-lookups). Everything in this guide is free; the only paid surfaces are hosted
-AI triage beyond its free quota, team/org features, premium compliance packs,
-and enterprise support. BYOK AI triage is free.
+Deterministic scanning is free and open source and works offline (except OSV
+advisory lookups). No account, telemetry, or hosted service is required. BYOK
+AI triage is optional and free.
 
 OS-specific install steps: [quickstart.md](quickstart.md).
 
@@ -127,8 +126,8 @@ enki sbom --vulns -o bom.json     # adds OSV advisories (network)
 
 The deterministic scanner is the source of truth. Triage only ranks and
 explains existing findings; it cannot create findings or execute actions.
-Using your own provider key (BYOK) is free forever — there is no hosted compute
-and no quota. The hosted service is optional/paid after 3 lifetime runs.
+Using your own provider key (BYOK) is free and requires no hosted compute or
+quota.
 
 ```bash
 enki scan --json > report.json
@@ -164,7 +163,7 @@ Triage output includes `rubric_version`, `findings_sent`, and
 `omitted`/`omitted_rules` when the report exceeds the payload limit, so you can
 tell whether the model saw the whole picture. Cost is labelled metered
 (DeepSeek) or unmetered/self-hosted. See [docs/ai-triage.md](ai-triage.md) for
-the hosted service, quotas, and billing.
+redaction and provider setup.
 
 ## Agent skills and MCP
 
@@ -178,9 +177,6 @@ mkdir -p .cursor/skills && cp -r skills/enki .cursor/skills/enki
 
 Local MCP server (`enki-mcp`, stdio): `enki_scan`, `enki_plan_fix`,
 `enki_rules`, `enki_sbom`, `enki_explain_rule`, `enki_triage`.
-
-Remote MCP (hosted triage): point a Streamable HTTP MCP client at
-`https://<host>/mcp` with an `Authorization: Bearer enki_...` header.
 
 ## CI in one step
 
@@ -227,6 +223,5 @@ non-interactive shells.
 - [Rule catalogue](rules.md)
 - [Data sources: rules, OSV, KEV, EPSS, caching](data-sources.md)
 - [Dependency coverage](dependencies.md)
-- [AI triage & hosted service](ai-triage.md)
+- [AI triage (BYOK)](ai-triage.md)
 - [Case studies](case-studies/README.md)
-- [Marketing / product strategy](marketing.md)

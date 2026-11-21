@@ -175,7 +175,7 @@ enki rules list           # built-in rule catalog
 ```
 
 Local agent integration (MCP server and skill) is optional and documented in
-[ai-triage.md](ai-triage.md); hosted/remote MCP is a paid surface.
+[ai-triage.md](ai-triage.md).
 
 ## Verify the download
 
@@ -209,12 +209,10 @@ cosign verify-blob checksums.txt \
 | `osv.dev unreachable … unknown` | Allow `api.osv.dev`, `www.cisa.gov`, `api.first.org`, or accept the gap |
 | No OS package CVEs on Arch/Fedora | Unsupported by OSV; inventory-only gap |
 
-## Free vs paid
+## Free and open source
 
-Free forever: all 23 checks, TUI, plain/JSON/SARIF/OCSF reports, fix/undo,
-SBOM, local MCP, and BYOK triage. Paid/hosted: triage beyond the free quota,
-remote MCP, scan history/dashboard, SSO/policy/audit export, premium
-rule/compliance packs, fleet/MDM, and enterprise self-host support. Details:
-[ai-triage.md](ai-triage.md) and [marketing.md](marketing.md).
+All 23 checks, the TUI, plain/JSON/SARIF/OCSF reports, fix/undo, SBOM, local
+MCP, and BYOK triage are free and open source. No account or hosted service is
+required.
 
 Full data sources: [data-sources.md](data-sources.md).

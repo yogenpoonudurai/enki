@@ -12,7 +12,7 @@ git push origin v0.4.0
 
 The workflow:
 
-1. builds `enki`, `enki-mcp`, and `enki-cloud` (see `.goreleaser.yaml`);
+1. builds `enki` and `enki-mcp` (see `.goreleaser.yaml`);
 2. produces archives and `checksums.txt`;
 3. signs `checksums.txt` with cosign keyless (GitHub OIDC), emitting
    `checksums.txt.sig` and `checksums.txt.pem`;

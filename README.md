@@ -57,7 +57,7 @@ Exit codes: `0` clean or below threshold, `1` findings at/above `--fail-on`
 | Also useful | Purpose |
 |---|---|
 | `enki` | interactive dashboard on a terminal; plain scan when piped |
-| `enki scan --scope project --deps ai --sarif --fail-on high > enki.sarif` | SARIF for code scanning |
+| `enki scan --sarif --fail-on high > enki.sarif` | SARIF for code scanning |
 | `enki scan --deps all --os-packages` | broad dependency and OS package inventory |
 | `enki sbom -o bom.json` | CycloneDX 1.5 SBOM |
 | `enki doctor` | local system context used for tailored advice |
@@ -79,6 +79,21 @@ Exit codes: `0` clean or below threshold, `1` findings at/above `--fail-on`
 [docs/rules.md](docs/rules.md), [docs/detection-benchmark.md](docs/detection-benchmark.md)
 (positive/negative/adversarial fixtures per rule), and
 [docs/data-sources.md](docs/data-sources.md).
+
+## Scope and non-goals
+
+- **Configuration and exposure, not runtime detection.** enki does not hook
+  model calls, inspect prompts, or watch agent behavior at runtime.
+- **No model inspection.** It never loads weights or evaluates a model; it
+  reports file formats and code patterns, not payload behavior.
+- **Not a full SCA or container scanner.** Dependency checks are limited to
+  pinned versions found in discovered manifests and, by default, the AI
+  package catalog. Use Trivy, Grype, or OSV-Scanner for broad CVE coverage.
+- **No exploitation or network scanning.** Endpoint probes are read-only,
+  loopback-first, and never send exploit payloads or scan public addresses.
+- **Coverage is reported, not assumed.** Permissions, unsupported platforms,
+  unresolved versions, and skipped scopes surface as coverage gaps; a clean
+  result never means "everything was visible".
 Endpoint probes are read-only and loopback-only by default; `--probe-remote`
 extends them to RFC1918 listeners you own.
 
@@ -127,12 +142,9 @@ PR-gate walkthrough: [docs/ci-quickstart.md](docs/ci-quickstart.md).
   See [docs/ai-triage.md](docs/ai-triage.md).
 - **Agent Skill and local MCP:** [skills/enki/SKILL.md](skills/enki/SKILL.md)
   and `enki-mcp` (stdio tools for Claude Code, Cursor, and other agents).
-- **Hosted triage, remote MCP, team policy, SSO, premium packs:** optional paid
-  surfaces documented in [docs/ai-triage.md](docs/ai-triage.md) and
-  [docs/marketing.md](docs/marketing.md).
 
-Detection, fixes/undo, SBOM, local MCP, and BYOK triage are free. The hosted
-service and collaboration/compliance features are paid; detection stays free.
+All detection, local remediations, SBOM export, and BYOK triage are free and
+open source. No account, telemetry, or hosted service is required.
 
 ## Documentation
 
