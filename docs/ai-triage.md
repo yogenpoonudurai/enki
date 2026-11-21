@@ -102,10 +102,18 @@ when it matches one of enki's deterministic remediation actions (ignoring case)
 or is the literal `manual`; the model never invents executable steps.
 `--show-payload` prints the redacted payload sent to the provider.
 
+On a terminal, triage renders a readable fix plan instead: ranked findings,
+enki's authoritative remediation (an exact `chmod` command when enki can apply
+it), AI-suggested steps, and an explicit `Action:` line — `verified enki
+action`, `manual review`, or `NOT VERIFIED` (follow those steps manually; enki
+will not run them). JSON remains the default when piped, so scripts and the
+smoke tests are unaffected. Force either form with `--format text` or
+`--format json`; `--show-payload` always uses JSON.
+
 ### What is sent
 
 Only `rule_id`, module, severity, confidence, sanitized title/evidence,
-remediation class/summary/action, and the posture summary. The payload also
+remediation class/summary/guidance/action, and the posture summary. The payload also
 carries a **system context** (OS, arch, distro, service manager, firewall and
 package tools, elevation, container status, capabilities, limitations) and the
 report's **coverage gaps**, so the model can tailor advice to the machine and

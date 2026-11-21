@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"golang.org/x/term"
 
 	"github.com/yogenpoonudurai/enki/internal/ai"
 	"github.com/yogenpoonudurai/enki/internal/report"
@@ -22,6 +23,7 @@ type triageOptions struct {
 	baseURL     string
 	key         string
 	limit       int
+	format      string
 	showPayload bool
 }
 
@@ -45,6 +47,7 @@ func newTriageCmd() *cobra.Command {
 	f.StringVar(&o.baseURL, "base-url", "", "OpenAI-compatible base URL")
 	f.StringVar(&o.key, "key", "", "API key (prefer env: ENKI_AI_KEY or DEEPSEEK_API_KEY)")
 	f.IntVar(&o.limit, "limit", 40, "maximum findings sent to the model")
+	f.StringVar(&o.format, "format", "auto", "output format: auto (text on a terminal, JSON otherwise), text, or json")
 	f.BoolVar(&o.showPayload, "show-payload", false, "include the redacted payload in the output")
 	return cmd
 }
@@ -90,6 +93,17 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 		return err
 	}
 
+	switch o.format {
+	case "auto", "text", "json":
+	default:
+		return fmt.Errorf("invalid --format %q: use auto, text, or json", o.format)
+	}
+	text := !o.showPayload && (o.format == "text" || (o.format == "auto" && isTerminal(cmd.OutOrStdout())))
+	if text {
+		ai.WriteHuman(cmd.OutOrStdout(), result, &rep)
+		return nil
+	}
+
 	out := struct {
 		Result       *ai.TriageResult `json:"result"`
 		FindingsSent int              `json:"findings_sent"`
@@ -125,4 +139,9 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 			result.Omitted, strings.Join(parts, ", "))
 	}
 	return nil
+}
+
+func isTerminal(w io.Writer) bool {
+	f, ok := w.(*os.File)
+	return ok && term.IsTerminal(int(f.Fd()))
 }
