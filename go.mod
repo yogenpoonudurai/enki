@@ -1,6 +1,6 @@
 module github.com/yogenpoonudurai/enki
 
-go 1.27.4
+go 1.27.0
 
 require (
 	github.com/charmbracelet/bubbles v1.0.0

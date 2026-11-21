@@ -15,14 +15,18 @@ apply guarded, reversible fixes.
 
 ## Install
 
+Verified release binaries are the recommended path; they have no runtime
+dependencies. Checksum and cosign verification steps for macOS, Linux, and
+Windows are in [docs/quickstart.md](docs/quickstart.md).
+
 ```sh
+# from source, if you prefer (Go 1.27.0+)
 go install github.com/yogenpoonudurai/enki/cmd/enki@latest
 enki version
 ```
 
-Release archives for all platforms and checksum verification:
-[docs/quickstart.md](docs/quickstart.md). Go 1.27+ is required for
-`go install`; release binaries have no runtime dependencies.
+With `GOTOOLCHAIN=auto` (the default), an older `go` command can fetch the
+required 1.27.0 toolchain automatically.
 
 ## 60-second golden path
 
@@ -146,7 +150,7 @@ make verify-docs-container  # execute the documented CLI commands in a container
 make cross              # CGO-free builds for 3 OSes × 2 architectures
 ```
 
-Requires Go 1.27+ for local builds. See [CONTRIBUTING.md](CONTRIBUTING.md).
+Requires Go 1.27.0+ for local builds. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 

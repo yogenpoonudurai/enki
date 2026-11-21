@@ -14,7 +14,7 @@ OS-specific install steps: [quickstart.md](quickstart.md).
 
 ## Requirements
 
-- A prebuilt binary, or Go 1.27+ to build from source.
+- A verified release binary (recommended), or Go 1.27.0+ to build from source.
 - Linux, macOS, or Windows (amd64/arm64).
 - No root required for a first scan. Elevated privileges only improve process
   attribution and OS package visibility.
@@ -23,14 +23,16 @@ OS-specific install steps: [quickstart.md](quickstart.md).
 
 ## Install
 
+Prebuilt binaries with checksum and cosign verification are the recommended
+path: [quickstart.md](quickstart.md).
+
 ```bash
-# from source
+# from source (Go 1.27.0+)
 go install github.com/yogenpoonudurai/enki/cmd/enki@latest
 go install github.com/yogenpoonudurai/enki/cmd/enki-mcp@latest    # MCP server for agents
-go install github.com/yogenpoonudurai/enki/cmd/enki-cloud@latest  # hosted triage (optional)
 
 # or from a checkout
-make build            # bin/enki, bin/enki-mcp, bin/enki-cloud
+make build            # bin/enki, bin/enki-mcp
 ```
 
 ## First scan

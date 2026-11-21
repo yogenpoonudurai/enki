@@ -1,11 +1,15 @@
-name: enki AI Security Scan
-description: Run the enki AI-SPM scanner and upload SARIF plus the ASCII report.
+name: enki AI Configuration Scan
+description: Run the enki AI configuration and exposure scanner and upload SARIF plus the ASCII report.
 author: Enki
 branding:
   icon: shield
   color: purple
 
 inputs:
+  version:
+    description: Release tag to install, for example v0.4.0 (defaults to the action ref when it is a tag).
+    required: false
+    default: ""
   args:
     description: Extra arguments for `enki scan` (for example "--scope host --probe-remote").
     required: false
@@ -29,13 +33,95 @@ runs:
     - name: Set up Go
       uses: actions/setup-go@v7
       with:
-        go-version: "1.27"
+        go-version: "1.27.0"
         cache: false
+
+    - name: Install cosign
+      uses: sigstore/cosign-installer@v3
 
     - name: Install enki
       shell: bash
-      working-directory: ${{ github.action_path }}
-      run: go install ./cmd/enki
+      env:
+        ENKI_VERSION: ${{ inputs.version }}
+        ACTION_REF: ${{ github.action_ref }}
+        ACTION_REPO: ${{ github.action_repository }}
+      run: |
+        set -euo pipefail
+
+        build_from_source() {
+          echo "::notice::Building enki from source ($1)."
+          cd "$GITHUB_ACTION_PATH"
+          go install ./cmd/enki
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+        }
+
+        version="${ENKI_VERSION}"
+        if [ -z "$version" ]; then
+          case "$ACTION_REF" in
+            refs/tags/v*) version="${ACTION_REF#refs/tags/}" ;;
+            v[0-9]*) version="$ACTION_REF" ;;
+          esac
+        fi
+        if [ -z "$version" ]; then
+          build_from_source "no release tag detected (ref: ${ACTION_REF:-none})"
+          exit 0
+        fi
+        case "$version" in
+          v*) ;;
+          *) version="v${version}" ;;
+        esac
+        if [ -z "${ACTION_REPO:-}" ]; then
+          build_from_source "action repository is unavailable for release lookup"
+          exit 0
+        fi
+
+        os="$(uname -s | tr '[:upper:]' '[:lower:]')"
+        case "$os" in
+          linux|darwin) ;;
+          *)
+            build_from_source "unsupported runner OS ${os}; signed archives target linux and macOS"
+            exit 0
+            ;;
+        esac
+        arch="$(uname -m)"
+        case "$arch" in
+          x86_64|amd64) arch=amd64 ;;
+          aarch64|arm64) arch=arm64 ;;
+          *)
+            echo "::error::Unsupported runner architecture: $arch"
+            exit 1
+            ;;
+        esac
+
+        ver="${version#v}"
+        asset="enki_${ver}_${os}_${arch}.tar.gz"
+        base="https://github.com/${ACTION_REPO}/releases/download/${version}"
+        tmp="$(mktemp -d)"
+        trap 'rm -rf "$tmp"' EXIT
+
+        curl -fsSL "$base/$asset" -o "$tmp/$asset"
+        curl -fsSL "$base/checksums.txt" -o "$tmp/checksums.txt"
+        curl -fsSL "$base/checksums.txt.sig" -o "$tmp/checksums.txt.sig"
+        curl -fsSL "$base/checksums.txt.pem" -o "$tmp/checksums.txt.pem"
+
+        cosign verify-blob "$tmp/checksums.txt" \
+          --certificate "$tmp/checksums.txt.pem" \
+          --signature "$tmp/checksums.txt.sig" \
+          --certificate-identity-regexp "^https://github\\.com/${ACTION_REPO}/\\.github/workflows/release\\.yml@refs/tags/v" \
+          --certificate-oidc-issuer "https://token.actions.githubusercontent.com"
+
+        if command -v sha256sum >/dev/null 2>&1; then
+          (cd "$tmp" && grep -F "$asset" checksums.txt | sha256sum -c -)
+        else
+          (cd "$tmp" && grep -F "$asset" checksums.txt | shasum -a 256 -c -)
+        fi
+
+        tar xzf "$tmp/$asset" -C "$tmp"
+        mkdir -p "$RUNNER_TEMP/enki-bin"
+        cp "$tmp/enki" "$RUNNER_TEMP/enki-bin/enki"
+        chmod 0755 "$RUNNER_TEMP/enki-bin/enki"
+        echo "$RUNNER_TEMP/enki-bin" >> "$GITHUB_PATH"
+        "$RUNNER_TEMP/enki-bin/enki" version
 
     - name: Scan
       id: scan
