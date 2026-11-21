@@ -100,8 +100,8 @@ edit, `a` for all SAFE actions, `u` to undo.
 All dependencies are scanned by default:
 
 ```bash
-enki scan --deps all               # npm, PyPI, Go, Cargo, NuGet, Linux OS
-enki scan --deps ai                # only the AI catalog (quiet posture view)
+enki scan --deps ai                # AI catalog only (default)
+enki scan --deps all --os-packages # broad inventory: all ecosystems + Linux OS
 enki scan --paths ../service --depth 4
 enki scan --include-dev=false      # skip dev dependencies
 enki scan --include-global         # include global npm packages
@@ -181,7 +181,7 @@ Remote MCP (hosted triage): point a Streamable HTTP MCP client at
 - uses: actions/checkout@v7
 - uses: yogenpoonudurai/enki@v0.4.0
   with:
-    args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
+    args: "--scope project --fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 ```
 
 Uploads `enki.sarif` and the ASCII report as artifacts; fails the job on

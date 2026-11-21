@@ -45,7 +45,7 @@ func (o Options) normalized() Options {
 		o.Scope = scanner.ScopeFull
 	}
 	if o.Deps == "" {
-		o.Deps = "all"
+		o.Deps = "ai"
 	}
 	if o.Depth <= 0 {
 		o.Depth = 3
@@ -97,6 +97,14 @@ func Run(parent context.Context, opts Options, onProgress func(scanner.Progress)
 	sc.Configs = configs
 	sc.Gaps = append(sc.Gaps, gaps...)
 	sc.Gaps = append(sc.Gaps, scopeGaps(opts.Scope)...)
+	if opts.Scope.IncludesHost() && !opts.OSPackages {
+		sc.Gaps = append(sc.Gaps, scanner.CoverageGap{
+			Module: "sbom",
+			Kind:   scanner.GapNotApplicable,
+			Scope:  "host",
+			Reason: "OS package inventory was not requested; pass --os-packages to include it",
+		})
+	}
 
 	results := (&scanner.Engine{Modules: modules}).Run(sc)
 	return report.Build(version.Version, rules.Version, sc, results, started, ""), nil

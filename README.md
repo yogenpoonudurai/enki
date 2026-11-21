@@ -50,7 +50,7 @@ Exit codes: `0` clean or below threshold, `1` findings at/above `--fail-on`
 |---|---|
 | `enki` | interactive dashboard on a terminal; plain scan when piped |
 | `enki scan --scope project --deps ai --sarif --fail-on high > enki.sarif` | SARIF for code scanning |
-| `enki scan --deps ai` | quiet AI-catalog dependency view |
+| `enki scan --deps all --os-packages` | broad dependency and OS package inventory |
 | `enki sbom -o bom.json` | CycloneDX 1.5 SBOM |
 | `enki doctor` | local system context used for tailored advice |
 | `enki rules list` | built-in rule catalog |
@@ -65,7 +65,7 @@ Exit codes: `0` clean or below threshold, `1` findings at/above `--fail-on`
 | secrets | provider keys in `.env`/config/history, permissive modes, Hugging Face tokens |
 | agent-permissions | `bypassPermissions`, `Bash(*)`, auto-run, `~/.ssh` grants |
 | model-artifacts | pickle/`torch.load`, `trust_remote_code`, weights fetched over HTTP |
-| sbom | CVEs across npm, PyPI, Go, Cargo, NuGet, and Linux OS packages, prioritized with CISA KEV and EPSS |
+| sbom | CVEs across npm, PyPI, Go, Cargo, NuGet, and Linux OS packages; AI catalog by default, `--deps all` for every package, prioritized with CISA KEV and EPSS |
 
 23 rules across six modules. Full rule and data-source references:
 [docs/rules.md](docs/rules.md), [docs/detection-benchmark.md](docs/detection-benchmark.md)

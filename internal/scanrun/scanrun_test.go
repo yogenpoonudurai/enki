@@ -49,3 +49,13 @@ func TestSBOBOptionsByScope(t *testing.T) {
 		t.Fatal("full scope must include project manifests")
 	}
 }
+
+func TestOptionsNormalizeToAIAndFull(t *testing.T) {
+	o := Options{}.normalized()
+	if o.Deps != "ai" {
+		t.Fatalf("default deps = %q, want ai", o.Deps)
+	}
+	if o.Scope != scanner.ScopeFull {
+		t.Fatalf("default scope = %q, want full", o.Scope)
+	}
+}

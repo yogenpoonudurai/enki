@@ -7,18 +7,39 @@ ranges) is reported as a coverage gap, never as "clean".
 
 ## Flags
 
+`enki scan` defaults to the AI catalog so a routine configuration scan does
+not turn into a noisy CVE sweep.
+
 | Flag | Default | Purpose |
 |---|---|---|
-| `--deps all\|ai` | `all` | `ai` limits scanning to the AI package catalog |
+| `--deps ai\|all` | `ai` | `ai` limits scanning to the AI package catalog; `all` checks every resolved package |
 | `--paths` | cwd | additional project roots (repeatable) |
 | `--depth` | 3 | manifest discovery walk depth |
 | `--include-dev` | true | include dev dependencies (tagged otherwise) |
 | `--include-global` | false | `npm ls -g --depth=0` inventory |
 | `--scan-node-modules` | false | lockfile-less fallback |
-| `--os-packages` | true | Linux distro package inventory |
+| `--os-packages` | false | Linux distro package inventory (opt-in) |
 
-`enki sbom [flags] [-o file] [--vulns]` exports the same inventory as a
-CycloneDX 1.5 BOM; `--vulns` adds OSV advisories (network required).
+`enki sbom [flags] [-o file] [--vulns]` is the explicit inventory command and
+defaults to `--deps all --os-packages`; `--vulns` adds OSV advisories (network
+required).
+
+## When to use another scanner
+
+enki is not a full software-composition analysis replacement. It focuses on
+AI-adjacent packages and on connecting dependency findings to the
+configuration and host context around them.
+
+| Tool | Better for |
+|---|---|
+| Trivy | Container images, broad OS/application CVE coverage, IaC scanning |
+| Grype | Image and filesystem CVE matching with SBOM input |
+| OSV-Scanner | Broad OSV coverage across ecosystems and lockfiles |
+
+Use `enki sbom -o bom.json` when you want a CycloneDX inventory that another
+tool can consume. There is intentionally no Trivy/Grype JSON import mode yet:
+maintaining a second resolver is more work than value until users ask for it.
+If you need broad CVE coverage in CI today, run Trivy or Grype alongside enki.
 
 ## Ecosystem mapping (Linux)
 

@@ -45,10 +45,10 @@ func defaultScanOptions() *scanOptions {
 	return &scanOptions{
 		scope:      "full",
 		failOn:     "high",
-		deps:       "all",
+		deps:       "ai",
 		depth:      3,
 		includeDev: true,
-		osPackages: true,
+		osPackages: false,
 	}
 }
 
@@ -71,13 +71,13 @@ func newScanCmd() *cobra.Command {
 	f.StringSliceVar(&opts.modules, "modules", nil, "run only these modules: "+strings.Join(scanrun.ModuleNames(), ", "))
 	f.BoolVar(&opts.probeRemote, "probe-remote", false, "allow probing private-network listeners (RFC1918), not just loopback")
 	f.StringSliceVar(&opts.ignore, "ignore-rule", nil, "suppress a rule ID (repeatable)")
-	f.StringVar(&opts.deps, "deps", "all", "dependency scope: all (every package) or ai (AI catalog only)")
+	f.StringVar(&opts.deps, "deps", "ai", "dependency scope: ai (AI catalog, default) or all (every package)")
 	f.StringSliceVar(&opts.paths, "paths", nil, "additional project roots to scan for manifests (repeatable)")
 	f.IntVar(&opts.depth, "depth", 3, "directory walk depth for manifest discovery")
 	f.BoolVar(&opts.includeDev, "include-dev", true, "include dev dependencies (tagged dev when included)")
 	f.BoolVar(&opts.includeGlobal, "include-global", false, "include globally installed npm packages")
 	f.BoolVar(&opts.scanNodeModules, "scan-node-modules", false, "fallback: read node_modules when no lockfile exists")
-	f.BoolVar(&opts.osPackages, "os-packages", true, "include the Linux OS package inventory")
+	f.BoolVar(&opts.osPackages, "os-packages", false, "include the Linux OS package inventory (opt-in)")
 	return cmd
 }
 
