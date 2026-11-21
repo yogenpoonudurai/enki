@@ -2,6 +2,14 @@
 
 The posture score is deterministic and intentionally soft at the bottom end.
 
+## Severity is not a claim of compromise
+
+`severity` drives triage and the CI threshold. The finding also states a
+`category` (exposure, vulnerability, unsafe-config, hygiene), a `basis`
+(confirmed, conditional, presence), and a `confidence`. A conditional or
+presence finding can have a real severity without asserting that compromise
+already happened; read the basis before escalating it.
+
 ## Penalties
 
 | Severity | Weight |

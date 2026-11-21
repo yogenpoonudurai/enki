@@ -110,3 +110,15 @@ func TestBuildAttachesTargetFingerprints(t *testing.T) {
 		t.Fatalf("size = %q", params[fingerprint.ParamSize])
 	}
 }
+
+func TestBuildAttachesRuleMetadata(t *testing.T) {
+	f := finding.New("MCP-001", "mcp", "unpinned", "desc", finding.SeverityMedium, finding.ConfidenceHigh, finding.Location{Path: "/x/.mcp.json"})
+	rep := Build("test", "builtin-1", &scanner.Context{}, []*scanner.ModuleResult{{Module: "mcp", Findings: []finding.Finding{f}}}, time.Now(), "test-id")
+	got := rep.Findings[0]
+	if got.Category != finding.CategoryUnsafeConfig {
+		t.Fatalf("category = %q", got.Category)
+	}
+	if got.Basis != finding.BasisConditional {
+		t.Fatalf("basis = %q", got.Basis)
+	}
+}

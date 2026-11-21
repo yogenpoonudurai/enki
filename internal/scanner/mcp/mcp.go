@@ -144,8 +144,8 @@ func checkServer(sc *scanner.Context, cf collector.ConfigFile, srv serverDef) []
 	if pkg, unpinned := unpinnedPackage(srv.Command, srv.Args); unpinned {
 		f := finding.New("MCP-001", moduleName,
 			fmt.Sprintf("Unpinned MCP server package %q", pkg),
-			"The server is launched with a floating package specifier, so every start may execute a different (possibly compromised) release. Supply-chain attacks on MCP servers are a known vector.",
-			finding.SeverityHigh, finding.ConfidenceHigh, loc)
+			"The server is launched with a floating package specifier, so every start may execute a different (possibly compromised) release. This is supply-chain uncertainty, not evidence that the current package is malicious.",
+			finding.SeverityMedium, finding.ConfidenceHigh, loc)
 		f.Evidence = fmt.Sprintf("server %q: %s %s", srv.Name, filepath.Base(srv.Command), strings.Join(srv.Args, " "))
 		f.Remediation = &finding.Remediation{
 			Class:    finding.ActionModerate,

@@ -62,6 +62,41 @@ const (
 	ConfidenceHigh   Confidence = "high"
 )
 
+// Category separates what kind of risk a finding represents.
+type Category string
+
+const (
+	CategoryExposure      Category = "exposure"
+	CategoryVulnerability Category = "vulnerability"
+	CategoryUnsafeConfig  Category = "unsafe-config"
+	CategoryHygiene       Category = "hygiene"
+)
+
+func (c Category) Valid() bool {
+	switch c {
+	case CategoryExposure, CategoryVulnerability, CategoryUnsafeConfig, CategoryHygiene:
+		return true
+	}
+	return false
+}
+
+// Basis states how directly the evidence proves the risk.
+type Basis string
+
+const (
+	BasisConfirmed   Basis = "confirmed"
+	BasisConditional Basis = "conditional"
+	BasisPresence    Basis = "presence"
+)
+
+func (b Basis) Valid() bool {
+	switch b {
+	case BasisConfirmed, BasisConditional, BasisPresence:
+		return true
+	}
+	return false
+}
+
 // ActionClass classifies how safe an automated remediation is.
 type ActionClass string
 
@@ -109,6 +144,8 @@ type Finding struct {
 	Description string       `json:"description"`
 	Severity    Severity     `json:"severity"`
 	Confidence  Confidence   `json:"confidence"`
+	Category    Category     `json:"category,omitempty"`
+	Basis       Basis        `json:"basis,omitempty"`
 	Location    Location     `json:"location"`
 	Evidence    string       `json:"evidence,omitempty"`
 	References  []string     `json:"references,omitempty"`
@@ -131,7 +168,7 @@ func New(ruleID, module, title, description string, sev Severity, conf Confidenc
 }
 
 func instanceID(ruleID string, loc Location) string {
-	sum := sha256.Sum256([]byte(ruleID + "|" + loc.Path + "|" + loc.Addr))
+	sum := sha256.Sum256([]byte(fmt.Sprintf("%s|%s|%s|%d", ruleID, loc.Path, loc.Addr, loc.Line)))
 	return ruleID + "-" + hex.EncodeToString(sum[:])[:8]
 }
 

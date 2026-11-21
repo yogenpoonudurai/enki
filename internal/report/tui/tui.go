@@ -370,6 +370,9 @@ func (m *Model) renderDetail(f finding.Finding, w int) string {
 	if loc := f.Location.String(); loc != "" {
 		b.WriteString(dim(loc) + "\n")
 	}
+	if risk := riskLine(f); risk != "" {
+		b.WriteString(dim("risk: "+risk) + "\n")
+	}
 	b.WriteString("\n" + wrapPlain(f.Description, w-6) + "\n")
 	if f.Evidence != "" {
 		b.WriteString("\n" + dim("evidence: "+wrapPlain(f.Evidence, w-16)) + "\n")
@@ -632,6 +635,20 @@ func wrapPlain(s string, width int) string {
 		lines = append(lines, cur)
 	}
 	return strings.Join(lines, "\n")
+}
+
+func riskLine(f finding.Finding) string {
+	parts := make([]string, 0, 3)
+	if f.Category != "" {
+		parts = append(parts, string(f.Category))
+	}
+	if f.Basis != "" {
+		parts = append(parts, "basis "+string(f.Basis))
+	}
+	if f.Confidence != "" {
+		parts = append(parts, "confidence "+string(f.Confidence))
+	}
+	return strings.Join(parts, " · ")
 }
 
 func scopeOrFull(scope string) string {

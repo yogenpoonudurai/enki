@@ -4,6 +4,7 @@ package plain
 import (
 	"fmt"
 	"io"
+	"strings"
 
 	"github.com/yogenpoonudurai/enki/internal/finding"
 	"github.com/yogenpoonudurai/enki/internal/report"
@@ -34,6 +35,9 @@ func Write(w io.Writer, rep *report.Report, color bool) {
 			if f.Evidence != "" {
 				fmt.Fprintf(w, "         %s\n", report.Dim(color, f.Evidence))
 			}
+			if f.Category != "" || f.Basis != "" {
+				fmt.Fprintf(w, "         %s\n", report.Dim(color, riskLine(f)))
+			}
 			if f.Remediation != nil {
 				fmt.Fprintf(w, "         %s %s\n", report.Dim(color, "fix ("+string(f.Remediation.Class)+"):"), f.Remediation.Summary)
 			}
@@ -62,6 +66,20 @@ func Write(w io.Writer, rep *report.Report, color bool) {
 
 	fmt.Fprintln(w)
 	fmt.Fprintln(w, report.Dim(color, "Review remediations with: enki fix"))
+}
+
+func riskLine(f finding.Finding) string {
+	parts := make([]string, 0, 3)
+	if f.Category != "" {
+		parts = append(parts, "category "+string(f.Category))
+	}
+	if f.Basis != "" {
+		parts = append(parts, "basis "+string(f.Basis))
+	}
+	if f.Confidence != "" {
+		parts = append(parts, "confidence "+string(f.Confidence))
+	}
+	return strings.Join(parts, " · ")
 }
 
 func scopeOrFull(scope string) string {

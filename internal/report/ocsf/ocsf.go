@@ -58,6 +58,8 @@ type Event struct {
 	Resources    []Resource   `json:"resources,omitempty"`
 	Remediation  *Remediation `json:"remediation,omitempty"`
 	Scope        string       `json:"scope,omitempty"`
+	Category     string       `json:"category,omitempty"`
+	Basis        string       `json:"basis,omitempty"`
 }
 
 // Build converts a report into OCSF detection finding events.
@@ -82,6 +84,8 @@ func Build(rep *report.Report) []Event {
 			ConfidenceID: confidenceID(f.Confidence),
 			Time:         created,
 			Scope:        scope,
+			Category:     string(f.Category),
+			Basis:        string(f.Basis),
 			Metadata: Metadata{
 				Version: ocsfVersion,
 				Product: Product{Name: "enki", VendorName: "Enki", Version: rep.Tool.Version},

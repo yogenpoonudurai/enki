@@ -10,6 +10,7 @@ import (
 
 	"github.com/yogenpoonudurai/enki/internal/finding"
 	"github.com/yogenpoonudurai/enki/internal/fingerprint"
+	"github.com/yogenpoonudurai/enki/internal/rules"
 	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
 
@@ -99,6 +100,7 @@ func Build(ver, rulePack string, sc *scanner.Context, results []*scanner.ModuleR
 		rep.Coverage = append(rep.Coverage, res.Gaps...)
 	}
 	attachTargetFingerprints(rep.Findings)
+	attachRuleMetadata(rep.Findings)
 	finding.Sort(rep.Findings)
 	rep.Summary.Score, rep.Summary.Counts = Score(rep.Findings)
 	rep.Summary.Total = len(rep.Findings)
@@ -137,6 +139,28 @@ func attachTargetFingerprints(fs []finding.Finding) {
 		}
 		rm.Params[fingerprint.ParamSHA256] = sha
 		rm.Params[fingerprint.ParamSize] = strconv.FormatInt(size, 10)
+	}
+}
+
+// attachRuleMetadata fills category and evidence basis from the rule catalog,
+// so every finding states what kind of risk it represents and how directly the
+// evidence proves it.
+func attachRuleMetadata(fs []finding.Finding) {
+	index := make(map[string]rules.Rule, len(rules.Catalog))
+	for _, r := range rules.Catalog {
+		index[r.ID] = r
+	}
+	for i := range fs {
+		r, ok := index[fs[i].RuleID]
+		if !ok {
+			continue
+		}
+		if fs[i].Category == "" {
+			fs[i].Category = r.Category
+		}
+		if fs[i].Basis == "" {
+			fs[i].Basis = r.Basis
+		}
 	}
 }
 
