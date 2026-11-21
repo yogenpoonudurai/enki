@@ -23,10 +23,10 @@ present, otherwise `0.4.0-dev`.
 
 ## Scope policy
 
-The default archives contain `enki` and `enki-mcp`. Hosted/paid surfaces are
-deferred and require a separate manual build (`make build-cloud` or the
-`cloud-build` workflow); they are never published by the release workflow.
-New detectors or surfaces must follow the evidence bar in
+The archives contain `enki` and `enki-mcp`. The hosted service is maintained
+in a separate private repository and published on its own release channel; it
+is never built, signed, or published by this workflow. New detectors or
+surfaces must follow the evidence bar in
 [CONTRIBUTING.md](../CONTRIBUTING.md#scope-discipline-and-feature-freeze).
 
 ## Verify a download
@@ -50,8 +50,8 @@ artifact.
 ## Manual local build
 
 ```bash
-make build                 # all three binaries, version from tag or 0.4.0-dev
-make cross                 # linux/darwin/windows × amd64/arm64 (+ cloud on linux)
+make build                 # enki and enki-mcp, version from tag or 0.4.0-dev
+make cross                 # linux/darwin/windows × amd64/arm64
 ```
 
 Reproducibility: builds use `-trimpath` and `CGO_ENABLED=0`; `SOURCE_DATE_EPOCH`

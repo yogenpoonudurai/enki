@@ -212,7 +212,9 @@ cosign verify-blob checksums.txt \
 ## Free and open source
 
 All 23 checks, the TUI, plain/JSON/SARIF/OCSF reports, fix/undo, SBOM, local
-MCP, and BYOK triage are free and open source. No account or hosted service is
-required.
+MCP, and BYOK triage are free and open source. No account is required for any
+local feature. Optional paid hosted triage, hosted MCP, history, and team
+features are documented in [premium.md](premium.md); local detection is never
+gated.
 
 Full data sources: [data-sources.md](data-sources.md).

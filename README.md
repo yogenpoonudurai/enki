@@ -142,9 +142,28 @@ PR-gate walkthrough: [docs/ci-quickstart.md](docs/ci-quickstart.md).
   See [docs/ai-triage.md](docs/ai-triage.md).
 - **Agent Skill and local MCP:** [skills/enki/SKILL.md](skills/enki/SKILL.md)
   and `enki-mcp` (stdio tools for Claude Code, Cursor, and other agents).
+- **Hosted triage (paid, optional):** `enki triage --hosted --consent`
+  uploads the locally redacted payload to the hosted service and returns the
+  same ranking. Configure `ENKI_CLOUD_URL` and `ENKI_CLOUD_TOKEN`;
+  `enki account` shows the plan and remaining triages. See
+  [docs/premium.md](docs/premium.md).
 
 All detection, local remediations, SBOM export, and BYOK triage are free and
-open source. No account, telemetry, or hosted service is required.
+open source. The hosted service is a separate paid product; local detection is
+never gated or metered.
+
+## Editions
+
+| Edition | Included |
+|---|---|
+| Open source | Full scanner, TUI, fix/undo, SBOM, reports, local MCP, skills, BYOK triage. Apache-2.0. |
+| Pro | 300 hosted triages per month, CI history, hosted MCP endpoint. |
+| Team | 1,000 pooled credits, SSO, team policy, 90-day history. |
+| Enterprise | Self-hosted model gateway, DPA, SLA, premium feeds. |
+
+Hosted pricing is planned and subject to change; [docs/premium.md](docs/premium.md)
+is the canonical page. The hosted service code and premium feeds are not part
+of this repository.
 
 ## Documentation
 
@@ -170,6 +189,9 @@ Requires Go 1.27.0+ for local builds. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Apache-2.0. The core is open source and fully functional offline. Contribution
-rules: [CONTRIBUTING.md](CONTRIBUTING.md); vulnerability handling:
+The core is Apache-2.0 and fully functional offline. The hosted service,
+premium feeds, and the enki name and logo are separate: the service code is
+proprietary and lives outside this repository, and the trademarks are covered
+by [TRADEMARK.md](TRADEMARK.md). Contribution rules:
+[CONTRIBUTING.md](CONTRIBUTING.md) (DCO); vulnerability handling:
 [SECURITY.md](SECURITY.md).

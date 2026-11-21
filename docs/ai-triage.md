@@ -10,6 +10,8 @@ enki keeps a hard boundary between deterministic scanning and AI assistance.
 
 Triage uses your own provider key (BYOK) and calls the provider directly. There
 is no hosted compute, account, or quota. A local model works without any key.
+An optional paid hosted mode uses the same locally redacted payload; see
+[premium.md](premium.md).
 
 ## Agent skills and MCP
 
