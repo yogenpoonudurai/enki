@@ -177,8 +177,8 @@ func pickleFinding(dir string, names []string) finding.Finding {
 	}
 	f := finding.New("MDL-001", moduleName,
 		fmt.Sprintf("%d pickle-based weight file(s) in %s", len(names), filepath.Base(dir)),
-		"Pickle-based checkpoints deserialize Python objects and can execute arbitrary code on load. Prefer .safetensors, or load untrusted artifacts only inside a sandbox with object deserialization disabled.",
-		finding.SeverityMedium, finding.ConfidenceHigh,
+		"Pickle-based checkpoints deserialize Python objects and can execute arbitrary code on load. Presence alone is not evidence of compromise; prefer .safetensors, or load untrusted artifacts only inside a sandbox with object deserialization disabled.",
+		finding.SeverityLow, finding.ConfidenceHigh,
 		finding.Location{Path: dir})
 	f.Evidence = strings.Join(shown, ", ")
 	if len(names) > len(shown) {

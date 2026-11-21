@@ -103,8 +103,10 @@ func Build(rep *report.Report) document {
 			ShortDescription: message{Text: f.Title},
 			Help:             message{Text: f.Description},
 			Properties: map[string]any{
-				"tags":              []string{f.Module},
+				"tags":              []string{f.Module, string(f.Category)},
 				"security-severity": securityScore(f.Severity),
+				"category":          string(f.Category),
+				"basis":             string(f.Basis),
 			},
 		})
 	}
@@ -120,6 +122,8 @@ func Build(rep *report.Report) document {
 			Properties: map[string]any{
 				"severity":   string(f.Severity),
 				"confidence": string(f.Confidence),
+				"category":   string(f.Category),
+				"basis":      string(f.Basis),
 				"module":     f.Module,
 			},
 		}

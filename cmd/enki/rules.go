@@ -22,12 +22,12 @@ func newRulesCmd() *cobra.Command {
 		Short: "List built-in rules",
 		Run: func(cmd *cobra.Command, _ []string) {
 			w := cmd.OutOrStdout()
-			fmt.Fprintf(w, "%-9s %-20s %-16s %s\n", "ID", "MODULE", "SEVERITY", "TITLE")
+			fmt.Fprintf(w, "%-9s %-20s %-16s %-16s %-12s %s\n", "ID", "MODULE", "SEVERITY", "CATEGORY", "BASIS", "TITLE")
 			for _, r := range rules.Catalog {
 				if moduleFilter != "" && r.Module != moduleFilter {
 					continue
 				}
-				fmt.Fprintf(w, "%-9s %-20s %-16s %s\n", r.ID, r.Module, r.Severity, r.Title)
+				fmt.Fprintf(w, "%-9s %-20s %-16s %-16s %-12s %s\n", r.ID, r.Module, r.Severity, r.Category, r.Basis, r.Title)
 			}
 		},
 	}

@@ -50,6 +50,11 @@ func TestInstanceIDsAreUniqueAndStable(t *testing.T) {
 	if a.ID == c.ID {
 		t.Fatal("different locations must produce different IDs")
 	}
+	d := New("SEC-001", "m", "t", "d", SeverityHigh, ConfidenceHigh, Location{Path: "/x", Line: 1})
+	e := New("SEC-001", "m", "t", "d", SeverityHigh, ConfidenceHigh, Location{Path: "/x", Line: 2})
+	if d.ID == e.ID {
+		t.Fatal("same-rule findings on different lines must produce different IDs")
+	}
 }
 
 func TestSort(t *testing.T) {
