@@ -6,8 +6,8 @@ long-lived private key). The workflow is `.github/workflows/release.yml`.
 ## Cut a release
 
 ```bash
-git tag v0.3.0
-git push origin v0.3.0
+git tag v0.4.0
+git push origin v0.4.0
 ```
 
 The workflow:
@@ -19,7 +19,7 @@ The workflow:
 4. publishes a GitHub Release.
 
 `make build` remains the local development path: it uses the exact tag when
-present, otherwise `0.3.0-dev`.
+present, otherwise `0.4.0-dev`.
 
 ## Verify a download
 
@@ -42,7 +42,7 @@ artifact.
 ## Manual local build
 
 ```bash
-make build                 # all three binaries, version from tag or 0.3.0-dev
+make build                 # all three binaries, version from tag or 0.4.0-dev
 make cross                 # linux/darwin/windows × amd64/arm64 (+ cloud on linux)
 ```
 

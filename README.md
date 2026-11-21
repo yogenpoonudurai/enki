@@ -91,7 +91,7 @@ at/above the threshold):
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: yogenpoonudurai/enki@v0.3.0   # use the current release tag
+- uses: yogenpoonudurai/enki@v0.4.0   # use the current release tag
   with:
     args: "--fail-on high"
 ```

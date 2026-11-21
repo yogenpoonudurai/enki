@@ -1,6 +1,6 @@
-VERSION ?= $(shell (git describe --tags --exact-match 2>/dev/null || echo v0.3.0-dev) | sed 's/^v//')
+VERSION ?= $(shell (git describe --tags --exact-match 2>/dev/null || echo v0.4.0-dev) | sed 's/^v//')
 ifeq ($(strip $(VERSION)),)
-override VERSION := 0.3.0-dev
+override VERSION := 0.4.0-dev
 endif
 COMMIT  ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
 DATE    ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)

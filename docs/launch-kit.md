@@ -96,7 +96,7 @@ compliance are paid.
 - [x] Signed releases configured (cosign keyless in `.github/workflows/release.yml`)
 - [x] MCP registry metadata prepared (`server.json`, `docs/registry-submission.md`)
 - [x] Waitlist landing page and API (`site/`, `POST /v1/waitlist`)
-- [ ] Push the `v0.3.0` tag and verify the signed release
+- [ ] Push the `v0.4.0` tag and verify the signed release
 - [ ] Submit the server to MCP registries (needs accounts)
 - [ ] Deploy the waitlist site (`site/README.md`)
 

@@ -284,7 +284,7 @@ def render_braille_title(fonts):
     caption_y = y0 + len(art) * 4 * pitch + s(14)
     d.text((x0, caption_y), "ENKI", font=fonts["cap_bold"], fill=FG)
     cx = x0 + d.textlength("ENKI", font=fonts["cap_bold"])
-    d.text((cx, caption_y), " - AI Security Posture - v0.3.0-dev", font=fonts["cap"], fill=DIM)
+    d.text((cx, caption_y), " - AI Security Posture - v0.4.0", font=fonts["cap"], fill=DIM)
     return img
 
 

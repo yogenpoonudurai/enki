@@ -179,7 +179,7 @@ Remote MCP (hosted triage): point a Streamable HTTP MCP client at
 
 ```yaml
 - uses: actions/checkout@v4
-- uses: yogenpoonudurai/enki@v0.3.0
+- uses: yogenpoonudurai/enki@v0.4.0
   with:
     args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 ```

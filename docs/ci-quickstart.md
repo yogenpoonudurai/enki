@@ -12,8 +12,8 @@ able to fetch it:
 1. Push this repository to GitHub (public is simplest).
 2. Tag a release so the action is pinned and signed:
    ```bash
-   git tag v0.3.0
-   git push origin v0.3.0
+   git tag v0.4.0
+   git push origin v0.4.0
    ```
    `.github/workflows/release.yml` builds and signs the binaries.
 
@@ -28,7 +28,7 @@ Copy [`docs/examples/enki-workflow.yml`](examples/enki-workflow.yml) to
 The fast PR gate uses only offline modules — no OSV network dependency:
 
 ```yaml
-- uses: <owner>/enki@v0.3.0
+- uses: <owner>/enki@v0.4.0
   with:
     args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 ```
@@ -71,7 +71,7 @@ on:
     path: ~/.cache/enki
     key: enki-osv-${{ hashFiles('**/package-lock.json', '**/requirements*.txt') }}
 
-- uses: <owner>/enki@v0.3.0
+- uses: <owner>/enki@v0.4.0
   with:
     args: "--fail-on critical --deps all"
 ```
@@ -97,7 +97,7 @@ Exit codes: `0` clean/below threshold, `1` threshold met, `2` error.
   Actions access enabled).
 - Alternatively install from a release asset or `go install` in a step:
   ```yaml
-  - run: go install github.com/<owner>/enki/cmd/enki@v0.3.0
+  - run: go install github.com/<owner>/enki/cmd/enki@v0.4.0
   - run: enki scan --sarif --report enki-report.txt --fail-on high > enki.sarif
   ```
 

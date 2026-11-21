@@ -158,8 +158,14 @@ print("ok   enki triage report.json (local BYOK path)")
 PY
 
 # --- Linux release archive from the quickstart ------------------------------
-VERSION=0.3.0
+VERSION="$(sed -n 's/^VERSION=\([0-9][0-9.]*\)$/\1/p' "$ROOT/docs/quickstart.md" | head -1)"
+[ -n "$VERSION" ] || { echo "could not read VERSION from docs/quickstart.md" >&2; exit 1; }
 BASE="https://github.com/yogenpoonudurai/enki/releases/download/v${VERSION}"
+if ! curl -fsIL -o /dev/null "$BASE/enki_${VERSION}_linux_amd64.tar.gz"; then
+  echo "note: v${VERSION} archive is not published yet; verifying v0.3.0 archive format instead"
+  VERSION=0.3.0
+  BASE="https://github.com/yogenpoonudurai/enki/releases/download/v${VERSION}"
+fi
 (
   cd "$WORK/release"
   curl -fsSLO "$BASE/enki_${VERSION}_linux_amd64.tar.gz"
@@ -171,7 +177,7 @@ BASE="https://github.com/yogenpoonudurai/enki/releases/download/v${VERSION}"
   test -x ./enki-mcp
   ./enki version >/dev/null
 )
-ok "quickstart Linux archive + checksum"
+ok "quickstart Linux archive + checksum (v${VERSION})"
 
 # --- go install @latest -----------------------------------------------------
 (
