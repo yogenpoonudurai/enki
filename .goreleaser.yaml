@@ -1,0 +1,85 @@
+version: 2
+
+project_name: enki
+
+builds:
+  - id: enki
+    main: ./cmd/enki
+    binary: enki
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/yogenpoonudurai/enki/internal/version.Version={{.Version}}
+      - -X github.com/yogenpoonudurai/enki/internal/version.Commit={{.ShortCommit}}
+      - -X github.com/yogenpoonudurai/enki/internal/version.Date={{.Date}}
+  - id: enki-mcp
+    main: ./cmd/enki-mcp
+    binary: enki-mcp
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/yogenpoonudurai/enki/internal/version.Version={{.Version}}
+      - -X github.com/yogenpoonudurai/enki/internal/version.Commit={{.ShortCommit}}
+      - -X github.com/yogenpoonudurai/enki/internal/version.Date={{.Date}}
+  - id: enki-cloud
+    main: ./cmd/enki-cloud
+    binary: enki-cloud
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+      - -X github.com/yogenpoonudurai/enki/internal/version.Version={{.Version}}
+      - -X github.com/yogenpoonudurai/enki/internal/version.Commit={{.ShortCommit}}
+      - -X github.com/yogenpoonudurai/enki/internal/version.Date={{.Date}}
+
+archives:
+  - formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}
+
+checksum:
+  name_template: checksums.txt
+
+signs:
+  - cmd: cosign
+    artifacts: checksum
+    signature: "${artifact}.sig"
+    certificate: "${artifact}.pem"
+    args:
+      - sign-blob
+      - --yes
+      - --output-signature=${signature}
+      - --output-certificate=${certificate}
+      - ${artifact}
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"

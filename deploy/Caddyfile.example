@@ -1,0 +1,6 @@
+# Caddy reverse proxy for enki-cloud (automatic TLS).
+# Replace cloud.example.com and point DNS at the host.
+cloud.example.com {
+    encode zstd gzip
+    reverse_proxy 127.0.0.1:8080
+}

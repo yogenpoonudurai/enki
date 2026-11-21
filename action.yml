@@ -1,0 +1,71 @@
+name: enki AI Security Scan
+description: Run the enki AI-SPM scanner and upload SARIF plus the ASCII report.
+author: Enki
+branding:
+  icon: shield
+  color: purple
+
+inputs:
+  args:
+    description: Extra arguments for `enki scan` (for example "--deps ai --probe-remote").
+    required: false
+    default: "--fail-on high"
+  artifact-name:
+    description: Name of the uploaded artifact.
+    required: false
+    default: enki-report
+
+outputs:
+  exit-code:
+    description: "0 clean, 1 findings at/above threshold, 2 error"
+    value: ${{ steps.scan.outputs.exit-code }}
+  artifact-name:
+    description: Uploaded artifact name
+    value: ${{ inputs.artifact-name }}
+
+runs:
+  using: composite
+  steps:
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: "1.27"
+        cache: false
+
+    - name: Install enki
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: go install ./cmd/enki
+
+    - name: Scan
+      id: scan
+      shell: bash
+      env:
+        ENKI_ARGS: ${{ inputs.args }}
+      run: |
+        set +e
+        # shellcheck disable=SC2086
+        enki scan --sarif --report enki-report.txt $ENKI_ARGS > enki.sarif
+        code=$?
+        echo "exit-code=$code" >> "$GITHUB_OUTPUT"
+        if [ "$code" -eq 2 ]; then
+          echo "::error::enki scan failed to run"
+          exit 2
+        fi
+        exit 0
+
+    - name: Upload report
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.artifact-name }}
+        path: |
+          enki.sarif
+          enki-report.txt
+
+    - name: Enforce threshold
+      shell: bash
+      run: |
+        if [ "${{ steps.scan.outputs.exit-code }}" = "1" ]; then
+          echo "::error::enki found findings at or above the configured threshold"
+          exit 1
+        fi

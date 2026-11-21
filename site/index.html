@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ENKI — AI Security Posture</title>
+  <meta name="description" content="Open-source scanner for the AI stack: exposed inference endpoints, MCP supply-chain risk, agent permissions, secrets, model artifacts, and dependency CVEs. Reversible fixes.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#">ENKI<span>AI Security Posture</span></a>
+    <nav>
+      <a href="https://github.com/yogenpoonudurai/enki">GitHub</a>
+      <a href="https://github.com/yogenpoonudurai/enki/blob/main/docs/getting-started.md">Docs</a>
+      <a class="nav-cta" href="#beta">Beta</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">OPEN SOURCE · APACHE-2.0</p>
+      <h1>AI security posture<br>for the agent era.</h1>
+      <p class="sub">
+        Your laptop and GPU servers run local models, MCP servers, and agent
+        tooling. ENKI audits that layer — exposure, supply chain, permissions,
+        secrets, model artifacts, and dependency CVEs — then fixes what is safe,
+        reversibly.
+      </p>
+      <div class="cta-row">
+        <a class="btn" href="#beta">Join the hosted beta</a>
+        <a class="btn ghost" href="https://github.com/yogenpoonudurai/enki">View on GitHub</a>
+      </div>
+    </section>
+
+    <section class="terminal" aria-label="example scan output">
+      <div class="terminal-bar"><span></span><span></span><span></span><em>enki scan</em></div>
+      <pre><code><span class="p">$</span> enki scan
+<span class="d">POSTURE 43/100 · AT RISK</span>
+
+<span class="c">CRITICAL</span>  AEP-001  Ollama exposed on 0.0.0.0:11434
+<span class="h">HIGH</span>      MCP-001  Unpinned MCP server "@upstash/context7-mcp"
+<span class="h">HIGH</span>      AGT-001  Agent runs with bypassPermissions
+<span class="h">HIGH</span>      SEC-001  OpenAI API key in .env (tracked by git)
+<span class="g">GUIDANCE</span>  SBOM-001 Upgrade torch to 2.6.0 or later
+
+<span class="p">$</span> enki fix --apply
+<span class="s">SAFE</span>      chmod 0600 ~/.claude.json        SEC-001
+<span class="r">RISKY</span>     Bind Ollama to 127.0.0.1          AEP-001
+
+<span class="p">$</span> enki undo
+<span class="s">UNDO</span> restored ~/.claude.json</code></pre>
+    </section>
+
+    <section class="features">
+      <article><h3>Exposed AI endpoints</h3><p>Ollama, LM Studio, ComfyUI, A1111, vLLM, Jupyter — bound to the network without auth or with permissive CORS.</p></article>
+      <article><h3>MCP supply chain</h3><p>Unpinned npx/uvx packages, plaintext remote servers, inline credentials, broad filesystem grants.</p></article>
+      <article><h3>Agent permissions</h3><p>bypassPermissions, unrestricted shell, auto-run, and allow-lists that reach ~/.ssh, ~/.aws, or GPG keys.</p></article>
+      <article><h3>Secrets</h3><p>Provider keys in configs, dotfiles, shell history, and MCP env — redacted and fingerprinted, never logged raw.</p></article>
+      <article><h3>Model artifacts</h3><p>Pickle checkpoints, trust_remote_code, torch.load without weights_only, weights fetched over plain HTTP.</p></article>
+      <article><h3>Dependency CVEs</h3><p>npm, PyPI, Go, Cargo, NuGet, and Linux packages — CVSS-scored, KEV/EPSS prioritized, grouped per package.</p></article>
+    </section>
+
+    <section class="boundary">
+      <h2>Detection is free forever.</h2>
+      <p>
+        The CLI, TUI, skills, local MCP server, SBOM export, SARIF/OCSF output,
+        and fix/undo are open source and fully functional offline. Paid surfaces
+        are hosted AI triage, team workflow, premium rule/compliance feeds, and
+        enterprise self-host support.
+      </p>
+    </section>
+
+    <section id="beta" class="beta">
+      <h2>Hosted AI triage — early access</h2>
+      <p class="muted">
+        Three free triages. Bring your own key or use the hosted model.
+        Redacted payloads, 24-hour retention. We use your email only for beta
+        invitations.
+      </p>
+      <form id="waitlist-form">
+        <label>Work email <input type="email" name="email" required autocomplete="email" placeholder="you@company.com"></label>
+        <label class="half">Role
+          <select name="role">
+            <option value="">Select…</option>
+            <option>Developer</option>
+            <option>Platform / DevOps</option>
+            <option>Security engineer</option>
+            <option>Engineering manager</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label class="full">What would you scan? (optional)
+          <textarea name="use_case" rows="2" maxlength="280" placeholder="Laptops, GPU inference hosts, CI pull requests…"></textarea>
+        </label>
+        <button class="btn" type="submit" id="waitlist-submit">Request access</button>
+        <p id="waitlist-status" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Apache-2.0 · No telemetry · <a href="https://github.com/yogenpoonudurai/enki/blob/main/SECURITY.md">Security policy</a></p>
+  </footer>
+  <script src="app.js"></script>
+</body>
+</html>

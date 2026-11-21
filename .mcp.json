@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "enki": {
+      "command": "enki-mcp",
+      "args": []
+    }
+  }
+}
