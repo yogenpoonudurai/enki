@@ -1,0 +1,118 @@
+{
+  "target": "release-binary",
+  "release": "v0.5.1",
+  "version": "0.5.1",
+  "commit": "87cd9f6",
+  "osv": "live",
+  "cases": 111,
+  "duration_seconds": 63.2,
+  "rules": {
+    "MCP-001": {
+      "pos": 6,
+      "neg": 11,
+      "tp": 11,
+      "fp": 0,
+      "fn": 0
+    },
+    "MCP-002": {
+      "pos": 0,
+      "neg": 17,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "MCP-003": {
+      "pos": 0,
+      "neg": 17,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "MCP-004": {
+      "pos": 0,
+      "neg": 17,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "MCP-005": {
+      "pos": 0,
+      "neg": 17,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "AGT-001": {
+      "pos": 10,
+      "neg": 10,
+      "tp": 10,
+      "fp": 0,
+      "fn": 0
+    },
+    "AGT-002": {
+      "pos": 3,
+      "neg": 17,
+      "tp": 3,
+      "fp": 0,
+      "fn": 0
+    },
+    "AGT-003": {
+      "pos": 0,
+      "neg": 20,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "AGT-004": {
+      "pos": 0,
+      "neg": 20,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "MDL-002": {
+      "pos": 20,
+      "neg": 20,
+      "tp": 20,
+      "fp": 0,
+      "fn": 0
+    },
+    "MDL-003": {
+      "pos": 22,
+      "neg": 18,
+      "tp": 22,
+      "fp": 0,
+      "fn": 0
+    },
+    "MDL-004": {
+      "pos": 0,
+      "neg": 40,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "SEC-001": {
+      "pos": 0,
+      "neg": 14,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "SEC-003": {
+      "pos": 0,
+      "neg": 14,
+      "tp": 0,
+      "fp": 0,
+      "fn": 0
+    },
+    "SBOM-001": {
+      "pos": 16,
+      "neg": 4,
+      "tp": 16,
+      "fp": 0,
+      "fn": 0
+    }
+  },
+  "source_tree_comparison": "identical",
+  "mismatches": []
+}

@@ -1,6 +1,6 @@
 # Held-out real-world detection benchmark — v0.5.1 release run
 
-> **Release snapshot:** enki **v0.5.1** at commit **87cd9f6**, run with live OSV data from the `v0.5.1` tag. Current benchmark: [benchmark-heldout.md](benchmark-heldout.md). CI artifact: [44938671732](https://github.com/yogenpoonudurai/enki/actions/runs/44938671732). Machine-readable metrics: [benchmark-heldout-v0.5.1.json](benchmark-heldout-v0.5.1.json).
+> **Release snapshot:** enki **v0.5.1** at commit **87cd9f6**, run with live OSV data from the `v0.5.1` tag. Current benchmark: [benchmark-heldout.md](benchmark-heldout.md). CI artifact: [44938671732](https://github.com/yogenpoonudurai/enki/actions/runs/44938671732). Machine-readable metrics: [benchmark-heldout-v0.5.1.json](benchmark-heldout-v0.5.1.json). Release-binary run: [benchmark-heldout-v0.5.1-binary.md](benchmark-heldout-v0.5.1-binary.md).
 
 Generated on **2026-11-21** from `internal/bench/testdata/heldout.json` with live OSV advisory data. Do not edit by hand; run `make bench-heldout-update`.
 
