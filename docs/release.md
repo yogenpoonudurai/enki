@@ -6,8 +6,8 @@ long-lived private key). The workflow is `.github/workflows/release.yml`.
 ## Cut a release
 
 ```bash
-git tag v0.4.0
-git push origin v0.4.0
+git tag v0.5.0
+git push origin v0.5.0
 ```
 
 The workflow:
@@ -27,7 +27,7 @@ SBOM is generated before goreleaser and included at creation. Prerelease tags
 are marked as prereleases automatically.
 
 `make build` remains the local development path: it uses the exact tag when
-present, otherwise `0.4.0-dev`.
+present, otherwise `0.5.0-dev`.
 
 ## Scope policy
 
@@ -74,7 +74,7 @@ artifact.
 ## Manual local build
 
 ```bash
-make build                 # enki and enki-mcp, version from tag or 0.4.0-dev
+make build                 # enki and enki-mcp, version from tag or 0.5.0-dev
 make cross                 # linux/darwin/windows × amd64/arm64
 ```
 
