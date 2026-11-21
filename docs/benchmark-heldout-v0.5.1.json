@@ -1,0 +1,115 @@
+{
+  "release": "v0.5.1",
+  "commit": "87cd9f6",
+  "osv": "live",
+  "generated_on": "2026-11-21",
+  "categories": {
+    "heldout": {
+      "AGT-001": {
+        "pos_cases": 10,
+        "neg_cases": 10,
+        "tp": 10,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-002": {
+        "pos_cases": 3,
+        "neg_cases": 17,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-003": {
+        "pos_cases": 0,
+        "neg_cases": 20,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-004": {
+        "pos_cases": 0,
+        "neg_cases": 20,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-001": {
+        "pos_cases": 6,
+        "neg_cases": 11,
+        "tp": 11,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-002": {
+        "pos_cases": 0,
+        "neg_cases": 17,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-003": {
+        "pos_cases": 0,
+        "neg_cases": 17,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-004": {
+        "pos_cases": 0,
+        "neg_cases": 17,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-005": {
+        "pos_cases": 0,
+        "neg_cases": 17,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-002": {
+        "pos_cases": 20,
+        "neg_cases": 20,
+        "tp": 20,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-003": {
+        "pos_cases": 22,
+        "neg_cases": 18,
+        "tp": 22,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-004": {
+        "pos_cases": 0,
+        "neg_cases": 40,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "SBOM-001": {
+        "pos_cases": 16,
+        "neg_cases": 4,
+        "tp": 16,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-001": {
+        "pos_cases": 0,
+        "neg_cases": 14,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-003": {
+        "pos_cases": 0,
+        "neg_cases": 14,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      }
+    }
+  }
+}

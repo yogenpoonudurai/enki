@@ -2,6 +2,8 @@
 
 Generated on **2026-11-21** from `internal/bench/testdata/heldout.json` with live OSV advisory data. Do not edit by hand; run `make bench-heldout-update`.
 
+> **Release snapshot:** [v0.5.1](benchmark-heldout-v0.5.1.md) (commit 87cd9f6), run with live OSV from the tag.
+
 > **Held out:** these cases were sourced and labeled after detector tuning and were not used to change detection rules. Results are published as measured, including any false positives and false negatives.
 
 ## Method
