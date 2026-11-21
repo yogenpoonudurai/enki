@@ -14,7 +14,7 @@ body:
     attributes:
       label: enki version
       description: Output of `enki version`.
-      placeholder: "enki 0.5.1 (commit …, built …)"
+      placeholder: "enki 0.5.2 (commit …, built …)"
     validations:
       required: true
   - type: dropdown

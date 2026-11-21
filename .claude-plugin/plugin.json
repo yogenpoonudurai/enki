@@ -1,6 +1,6 @@
 {
   "name": "enki",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "AI security posture scanning, guarded remediation, and dependency SBOM for agents.",
   "author": {
     "name": "Enki"
