@@ -24,7 +24,7 @@ LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Commit=$(COMMIT) \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
-.PHONY: build build-cli build-mcp build-cloud test vet fmt cross clean install \
+.PHONY: build build-cli build-mcp test vet fmt cross clean install \
 	bench-detect bench-update \
 	container-image test-container smoke-container smoke-local-container verify-docs-container shell-container
 
@@ -64,9 +64,6 @@ build-cli:
 
 build-mcp:
 	CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/enki-mcp ./cmd/enki-mcp
-
-build-cloud:
-	CGO_ENABLED=0 go build -trimpath -ldflags "$(LDFLAGS)" -o bin/enki-cloud ./cmd/enki-cloud
 
 install:
 	go install -trimpath -ldflags "$(LDFLAGS)" ./cmd/enki ./cmd/enki-mcp
