@@ -518,7 +518,7 @@ func (m *Model) applySafeFixes() {
 }
 
 func (m *Model) undoLast() {
-	msgs, err := remediate.Undo(1)
+	msgs, err := remediate.Undo(1, false)
 	if err != nil {
 		m.fixMessage = "undo failed: " + err.Error()
 		return

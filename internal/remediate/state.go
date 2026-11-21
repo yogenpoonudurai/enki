@@ -12,18 +12,35 @@ import (
 	"strings"
 	"time"
 
+	"github.com/yogenpoonudurai/enki/internal/fingerprint"
 	"github.com/yogenpoonudurai/enki/internal/platform"
+)
+
+const (
+	statusPending  = "pending"
+	statusApplied  = "applied"
+	statusUndone   = "undone"
+	statusAborted  = "aborted"
+	statusConflict = "conflict"
 )
 
 type record struct {
 	ID           string    `json:"id"`
 	Time         time.Time `json:"time"`
 	Kind         string    `json:"kind"` // chmod | edit
+	Status       string    `json:"status,omitempty"`
 	RuleID       string    `json:"rule_id,omitempty"`
 	FindingID    string    `json:"finding_id,omitempty"`
 	Path         string    `json:"path,omitempty"`
 	BackupPath   string    `json:"backup_path,omitempty"`
 	OriginalMode uint32    `json:"original_mode,omitempty"`
+	NewMode      uint32    `json:"new_mode,omitempty"`
+	OriginalUID  int       `json:"original_uid,omitempty"`
+	OriginalGID  int       `json:"original_gid,omitempty"`
+	BeforeSHA256 string    `json:"before_sha256,omitempty"`
+	AfterSHA256  string    `json:"after_sha256,omitempty"`
+	OriginalSize int64     `json:"original_size,omitempty"`
+	NewSize      int64     `json:"new_size,omitempty"`
 	Detail       string    `json:"detail,omitempty"`
 }
 
@@ -51,7 +68,11 @@ func appendRecord(rec record) error {
 	return f.Sync()
 }
 
-func loadState() ([]record, error) {
+func appendStatus(id, status, detail string) error {
+	return appendRecord(record{ID: id, Time: time.Now().UTC(), Status: status, Detail: detail})
+}
+
+func loadJournal() ([]record, error) {
 	data, err := os.ReadFile(statePath())
 	if err != nil {
 		if os.IsNotExist(err) {
@@ -74,20 +95,110 @@ func loadState() ([]record, error) {
 	return recs, nil
 }
 
-func writeState(recs []record) error {
-	if err := ensureStateDir(); err != nil {
+// resolveJournal collapses append-only status lines into one record per action.
+// Records written before status tracking have no status and count as applied.
+func resolveJournal(raw []record) []record {
+	index := make(map[string]int, len(raw))
+	out := make([]record, 0, len(raw))
+	for _, r := range raw {
+		if i, ok := index[r.ID]; ok {
+			if r.Status != "" {
+				out[i].Status = r.Status
+			}
+			if r.Detail != "" {
+				out[i].Detail = r.Detail
+			}
+			if r.AfterSHA256 != "" {
+				out[i].AfterSHA256 = r.AfterSHA256
+			}
+			if r.NewSize != 0 {
+				out[i].NewSize = r.NewSize
+			}
+			if !r.Time.IsZero() {
+				out[i].Time = r.Time
+			}
+			continue
+		}
+		if r.Status == "" {
+			r.Status = statusApplied
+		}
+		index[r.ID] = len(out)
+		out = append(out, r)
+	}
+	return out
+}
+
+func appliedRecords() ([]record, error) {
+	raw, err := loadJournal()
+	if err != nil {
+		return nil, err
+	}
+	resolved := resolveJournal(raw)
+	var out []record
+	for _, r := range resolved {
+		if r.Status == statusApplied {
+			out = append(out, r)
+		}
+	}
+	return out, nil
+}
+
+// reconcile resolves actions interrupted mid-flight and flags orphan backups.
+// A pending record is committed when the file matches the intended result, and
+// aborted when it still matches the original.
+func reconcile() error {
+	raw, err := loadJournal()
+	if err != nil {
 		return err
 	}
-	var sb strings.Builder
-	for _, r := range recs {
-		line, err := json.Marshal(r)
-		if err != nil {
-			return err
+	resolved := resolveJournal(raw)
+	for _, r := range resolved {
+		if r.Status != statusPending {
+			continue
 		}
-		sb.Write(line)
-		sb.WriteByte('\n')
+		switch r.Kind {
+		case "chmod":
+			info, err := os.Lstat(r.Path)
+			switch {
+			case err == nil && r.NewMode != 0 && info.Mode().Perm() == fs.FileMode(r.NewMode):
+				_ = appendStatus(r.ID, statusApplied, "recovered interrupted chmod")
+			case err == nil:
+				_ = appendStatus(r.ID, statusAborted, "interrupted chmod did not complete")
+			default:
+				_ = appendStatus(r.ID, statusConflict, "target missing after interrupted chmod")
+			}
+		case "edit":
+			sha, _, err := fingerprint.Capture(r.Path)
+			switch {
+			case err == nil && r.AfterSHA256 != "" && sha == r.AfterSHA256:
+				_ = appendStatus(r.ID, statusApplied, "recovered interrupted edit")
+			case err == nil && r.BeforeSHA256 != "" && sha == r.BeforeSHA256:
+				_ = appendStatus(r.ID, statusAborted, "interrupted edit did not complete")
+			default:
+				_ = appendStatus(r.ID, statusConflict, "file changed during interrupted edit")
+			}
+		}
 	}
-	return writeFileAtomic(statePath(), []byte(sb.String()), 0o600)
+	flagOrphanBackups(resolveJournal(raw))
+	return nil
+}
+
+func flagOrphanBackups(recs []record) {
+	referenced := map[string]bool{}
+	for _, r := range recs {
+		if r.BackupPath != "" {
+			referenced[filepath.Base(r.BackupPath)] = true
+		}
+	}
+	entries, err := os.ReadDir(BackupsDir())
+	if err != nil {
+		return
+	}
+	for _, e := range entries {
+		if !referenced[e.Name()] {
+			audit("orphan backup " + e.Name() + " (no journal record)")
+		}
+	}
 }
 
 func audit(line string) {
@@ -134,9 +245,9 @@ func makeBackup(path string, data []byte) (string, error) {
 	return dst, nil
 }
 
-// writeFileAtomic writes data to path via a temp file in the same directory,
-// preserving the requested mode and replacing the target only on success.
-func writeFileAtomic(path string, data []byte, mode fs.FileMode) error {
+// writeFileAtomic writes data via a temp file in the same directory, preserves
+// ownership, and replaces the target only on success.
+func writeFileAtomic(path string, data []byte, mode fs.FileMode, uid, gid int) error {
 	dir := filepath.Dir(path)
 	tmp, err := os.CreateTemp(dir, ".enki-*")
 	if err != nil {
@@ -145,6 +256,10 @@ func writeFileAtomic(path string, data []byte, mode fs.FileMode) error {
 	tmpName := tmp.Name()
 	defer os.Remove(tmpName)
 	if err := tmp.Chmod(mode); err != nil {
+		tmp.Close()
+		return err
+	}
+	if err := preserveOwner(tmpName, uid, gid); err != nil {
 		tmp.Close()
 		return err
 	}
@@ -159,20 +274,30 @@ func writeFileAtomic(path string, data []byte, mode fs.FileMode) error {
 	if err := tmp.Close(); err != nil {
 		return err
 	}
-	return os.Rename(tmpName, path)
+	if err := os.Rename(tmpName, path); err != nil {
+		return err
+	}
+	return syncDir(dir)
 }
 
-// guardPath refuses to modify files under sensitive credential roots.
+// guardPath refuses to modify files that resolve into sensitive credential
+// roots. Symlinks are resolved so a symlinked parent cannot bypass the check.
 func guardPath(path string) error {
+	resolved, err := filepath.EvalSymlinks(path)
+	if err != nil {
+		return fmt.Errorf("resolve %s: %w", path, err)
+	}
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return nil
 	}
-	abs := filepath.Clean(path)
 	for _, rel := range []string{".ssh", ".aws", ".gnupg", ".config/gcloud"} {
 		root := filepath.Join(home, rel)
-		if abs == root || strings.HasPrefix(abs, root+string(os.PathSeparator)) {
-			return fmt.Errorf("refusing to modify sensitive path %s", abs)
+		if rr, err := filepath.EvalSymlinks(root); err == nil {
+			root = rr
+		}
+		if resolved == root || strings.HasPrefix(resolved, root+string(os.PathSeparator)) {
+			return fmt.Errorf("refusing to modify sensitive path %s", resolved)
 		}
 	}
 	return nil

@@ -1,9 +1,15 @@
 package report
 
 import (
+	"os"
+	"path/filepath"
+	"strconv"
 	"testing"
+	"time"
 
 	"github.com/yogenpoonudurai/enki/internal/finding"
+	"github.com/yogenpoonudurai/enki/internal/fingerprint"
+	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
 
 func TestScorePerModuleCap(t *testing.T) {
@@ -61,5 +67,28 @@ func TestVerdict(t *testing.T) {
 		if got := Verdict(tc.counts); got != tc.want {
 			t.Errorf("Verdict(%v) = %s, want %s", tc.counts, got, tc.want)
 		}
+	}
+}
+
+func TestBuildAttachesTargetFingerprints(t *testing.T) {
+	path := filepath.Join(t.TempDir(), ".env")
+	if err := os.WriteFile(path, []byte("OPENAI_API_KEY=x\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	f := finding.New("SEC-003", "secrets", "perms", "desc", finding.SeverityMedium, finding.ConfidenceHigh, finding.Location{Path: path})
+	f.Remediation = &finding.Remediation{
+		Class: finding.ActionSafe, Action: "chmod_private", Summary: "restrict",
+		Params: map[string]string{"path": path, "mode": "0600"},
+	}
+	rep := Build("test", "builtin-1", &scanner.Context{}, []*scanner.ModuleResult{{Module: "secrets", Findings: []finding.Finding{f}}}, time.Now(), "test-id")
+	if len(rep.Findings) != 1 {
+		t.Fatalf("findings = %d", len(rep.Findings))
+	}
+	params := rep.Findings[0].Remediation.Params
+	if params[fingerprint.ParamSHA256] == "" {
+		t.Fatal("report did not attach a target fingerprint")
+	}
+	if params[fingerprint.ParamSize] != strconv.Itoa(len("OPENAI_API_KEY=x\n")) {
+		t.Fatalf("size = %q", params[fingerprint.ParamSize])
 	}
 }
