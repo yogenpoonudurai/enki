@@ -33,7 +33,10 @@ import (
 	"github.com/yogenpoonudurai/enki/internal/scanner/secrets"
 )
 
-var update = flag.Bool("update", false, "rewrite the baseline and generated benchmark docs")
+var (
+	update  = flag.Bool("update", false, "rewrite the baseline and generated benchmark docs")
+	liveOSV = flag.Bool("live-osv", false, "use live OSV advisory data for SBOM cases")
+)
 
 type fileSpec struct {
 	Content string `json:"content"`
@@ -62,8 +65,9 @@ type sourceSpec struct {
 }
 
 type labelSpec struct {
-	RuleID string `json:"rule_id"`
-	Count  int    `json:"count,omitempty"`
+	RuleID   string `json:"rule_id"`
+	Count    int    `json:"count,omitempty"`
+	Presence bool   `json:"presence,omitempty"`
 }
 
 type benchCase struct {
@@ -247,7 +251,11 @@ func runCase(t *testing.T, c benchCase) (map[string]int, error) {
 		fs, _, err = model.New().Run(sc)
 	case "sbom":
 		opts := sbom.Options{Deps: "all", Roots: []string{work}, Depth: 3, IncludeDev: true, OSPackages: false}
-		fs, _, err = sbom.NewWithClient(opts, fakeOSV{}).Run(sc)
+		var client sbom.Client = fakeOSV{}
+		if *liveOSV {
+			client = sbom.NewClient()
+		}
+		fs, _, err = sbom.NewWithClient(opts, client).Run(sc)
 	default:
 		return nil, fmt.Errorf("unknown module %q", c.Module)
 	}
