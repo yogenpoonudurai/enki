@@ -55,7 +55,7 @@ builds:
 
 archives:
   - id: cli
-    builds:
+    ids:
       - enki
       - enki-mcp
     formats: [tar.gz]
@@ -65,7 +65,7 @@ archives:
     name_template: >-
       enki_{{ .Version }}_{{ .Os }}_{{ .Arch }}
   - id: cloud
-    builds:
+    ids:
       - enki-cloud
     formats: [tar.gz]
     name_template: >-
