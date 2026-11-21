@@ -37,6 +37,12 @@ builds:
       - -X github.com/yogenpoonudurai/enki/internal/version.Version={{.Version}}
       - -X github.com/yogenpoonudurai/enki/internal/version.Commit={{.ShortCommit}}
       - -X github.com/yogenpoonudurai/enki/internal/version.Date={{.Date}}
+
+release:
+  prerelease: auto
+  extra_files:
+    - glob: sbom/enki.sbom.cdx.json
+
 archives:
   - id: cli
     ids:

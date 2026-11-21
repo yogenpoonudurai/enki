@@ -28,6 +28,13 @@ jobs:
       - name: Public boundary check
         run: ./scripts/check-public-boundary.sh
 
+      - name: Generate CycloneDX SBOM
+        run: |
+          mkdir -p sbom
+          go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.12.0
+          "$(go env GOPATH)/bin/cyclonedx-gomod" mod \
+            -json -type application -std -output sbom/enki.sbom.cdx.json .
+
       - uses: goreleaser/goreleaser-action@a4f02ab5355a589de60d917a659ce617ed19b3de # v7
         with:
           version: "~> v2"
@@ -35,13 +42,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Generate CycloneDX SBOM
-        run: |
-          go install github.com/CycloneDX/cyclonedx-gomod/cmd/cyclonedx-gomod@v1.12.0
-          "$(go env GOPATH)/bin/cyclonedx-gomod" mod \
-            -json -type application -std -output dist/enki.sbom.cdx.json .
-
-      - name: Verify release asset allowlist (pre-SBOM)
+      - name: Verify release asset allowlist
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./scripts/check-release-assets.sh "$GITHUB_REF_NAME"
@@ -55,14 +56,4 @@ jobs:
             dist/checksums.txt
             dist/checksums.txt.sig
             dist/checksums.txt.pem
-            dist/enki.sbom.cdx.json
-
-      - name: Upload SBOM
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload "$GITHUB_REF_NAME" dist/enki.sbom.cdx.json --clobber
-
-      - name: Verify release asset allowlist (final)
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./scripts/check-release-assets.sh "$GITHUB_REF_NAME"
+            sbom/enki.sbom.cdx.json
