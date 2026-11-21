@@ -178,8 +178,8 @@ enki account
 ```
 
 `--consent` is required, and `--show-payload` prints exactly what is uploaded.
-`--key sk-...` forwards your own provider key without spending credits. Plans,
-data handling, and legal links: [premium.md](premium.md).
+`--key sk-...` forwards your own provider key without spending credits. Client
+usage and legal links: [premium.md](premium.md).
 
 ## Agent skills and MCP
 
