@@ -116,7 +116,7 @@ at/above the threshold):
 
 ```yaml
 - uses: actions/checkout@v7
-- uses: yogenpoonudurai/enki@v0.5.1   # use the current release tag
+- uses: yogenpoonudurai/enki@v0.5.2   # use the current release tag
   with:
     args: "--scope project --deps ai --fail-on high"
 ```

@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: yogenpoonudurai/enki@v0.5.1
+      - uses: yogenpoonudurai/enki@v0.5.2
         with:
           # Offline-fast checks only: no OSV network dependency.
           args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
@@ -61,7 +61,7 @@ jobs:
         with:
           path: ~/.cache/enki
           key: enki-osv-${{ hashFiles('**/package-lock.json', '**/requirements*.txt') }}
-      - uses: yogenpoonudurai/enki@v0.5.1
+      - uses: yogenpoonudurai/enki@v0.5.2
         with:
           args: "--fail-on critical --deps all"
 ```

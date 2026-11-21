@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v7
 
       # Offline-fast gate: repository MCP configs, agent permissions, secrets.
-      - uses: <owner>/enki@v0.5.1
+      - uses: <owner>/enki@v0.5.2
         with:
           args: "--scope project --fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 

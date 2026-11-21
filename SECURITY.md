@@ -15,7 +15,7 @@ coordinate disclosure within 90 days.
 ## Supported versions
 
 Security fixes are provided for the latest minor release line. Development
-snapshots (`0.5.1-dev`) are unsupported.
+snapshots (`0.5.2-dev`) are unsupported.
 
 ## Scope
 
