@@ -4,12 +4,14 @@ import (
 	"context"
 	"os"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
 
 	"github.com/yogenpoonudurai/enki/internal/finding"
+	"github.com/yogenpoonudurai/enki/internal/fingerprint"
 	"github.com/yogenpoonudurai/enki/internal/report"
 	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
@@ -31,6 +33,14 @@ func fixTestModel(t *testing.T) (*Model, string, string) {
 	if err := os.WriteFile(settings, []byte(original), 0o600); err != nil {
 		t.Fatal(err)
 	}
+	envSHA, envSize, err := fingerprint.Capture(envPath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	settingsSHA, settingsSize, err := fingerprint.Capture(settings)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	rep := &report.Report{
 		Tool: report.Tool{Name: "enki", Version: "test", SchemaVersion: "1"},
@@ -46,7 +56,11 @@ func fixTestModel(t *testing.T) (*Model, string, string) {
 				Location: finding.Location{Path: envPath},
 				Remediation: &finding.Remediation{
 					Class: finding.ActionSafe, Summary: "chmod 600", Action: "chmod_private",
-					Params: map[string]string{"path": envPath, "mode": "0600"},
+					Params: map[string]string{
+						"path": envPath, "mode": "0600",
+						fingerprint.ParamSHA256: envSHA,
+						fingerprint.ParamSize:   strconv.FormatInt(envSize, 10),
+					},
 				},
 			},
 			{
@@ -54,7 +68,11 @@ func fixTestModel(t *testing.T) (*Model, string, string) {
 				Location: finding.Location{Path: settings},
 				Remediation: &finding.Remediation{
 					Class: finding.ActionModerate, Summary: "remove bypass", Action: "remove_json_key",
-					Params: map[string]string{"path": settings, "key_path": "permissions.defaultMode"},
+					Params: map[string]string{
+						"path": settings, "key_path": "permissions.defaultMode",
+						fingerprint.ParamSHA256: settingsSHA,
+						fingerprint.ParamSize:   strconv.FormatInt(settingsSize, 10),
+					},
 				},
 			},
 			{

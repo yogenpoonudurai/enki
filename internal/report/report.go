@@ -5,9 +5,11 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"math"
+	"strconv"
 	"time"
 
 	"github.com/yogenpoonudurai/enki/internal/finding"
+	"github.com/yogenpoonudurai/enki/internal/fingerprint"
 	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
 
@@ -86,11 +88,39 @@ func Build(ver, rulePack string, sc *scanner.Context, results []*scanner.ModuleR
 		rep.Findings = append(rep.Findings, res.Findings...)
 		rep.Coverage = append(rep.Coverage, res.Gaps...)
 	}
+	attachTargetFingerprints(rep.Findings)
 	finding.Sort(rep.Findings)
 	rep.Summary.Score, rep.Summary.Counts = Score(rep.Findings)
 	rep.Summary.Total = len(rep.Findings)
 	rep.Summary.Verdict = Verdict(rep.Summary.Counts)
 	return rep
+}
+
+// attachTargetFingerprints records the content identity of every file that a
+// machine remediation would modify, so a stale report cannot overwrite a file
+// that changed after the scan.
+func attachTargetFingerprints(fs []finding.Finding) {
+	for i := range fs {
+		rm := fs[i].Remediation
+		if rm == nil || rm.Params == nil {
+			continue
+		}
+		switch rm.Action {
+		case "chmod_private", "remove_json_key":
+		default:
+			continue
+		}
+		path := rm.Params["path"]
+		if path == "" {
+			continue
+		}
+		sha, size, err := fingerprint.Capture(path)
+		if err != nil {
+			continue
+		}
+		rm.Params[fingerprint.ParamSHA256] = sha
+		rm.Params[fingerprint.ParamSize] = strconv.FormatInt(size, 10)
+	}
 }
 
 var severityPenalty = map[finding.Severity]int{

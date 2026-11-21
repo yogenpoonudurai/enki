@@ -30,5 +30,18 @@ treat `--probe-remote` as active testing and obtain approval first.
   (`permissions.defaultMode`, `dangerouslySkipPermissions`); backup + atomic
   write + parse-back validation.
 - RISKY: firewall commands are printed, never executed by enki.
+
+Fixes are guarded by content fingerprints captured at scan time. A fix refuses
+to run when the target file changed after the scan, so a stale report cannot
+overwrite newer edits. Paths are symlink-resolved and refused when they land in
+`~/.ssh`, `~/.aws`, `~/.gnupg`, or `~/.config/gcloud`; file ownership and mode
+are preserved.
+
+Every mutation is journaled before it starts and committed after it succeeds.
+An interrupted operation is reconciled on the next run, and concurrent
+`enki fix`/`enki undo` processes serialize on a state-directory lock.
+
 - Undo: every change is recorded in `$XDG_STATE_HOME/enki/state.jsonl` and the
-  backup lives in `$XDG_STATE_HOME/enki/backups/`.
+  backup lives in `$XDG_STATE_HOME/enki/backups/` (directory `0700`, backups
+  `0600`). Undo refuses to overwrite a file edited after the fix; use
+  `enki undo --force` only when you intend to discard those newer edits.

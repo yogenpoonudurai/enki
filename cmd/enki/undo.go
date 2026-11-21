@@ -11,6 +11,7 @@ import (
 
 func newUndoCmd() *cobra.Command {
 	var count int
+	var force bool
 	cmd := &cobra.Command{
 		Use:   "undo [n]",
 		Short: "Restore files and permissions changed by enki fix",
@@ -23,7 +24,7 @@ func newUndoCmd() *cobra.Command {
 				}
 				count = n
 			}
-			msgs, err := remediate.Undo(count)
+			msgs, err := remediate.Undo(count, force)
 			if err != nil {
 				return err
 			}
@@ -38,5 +39,6 @@ func newUndoCmd() *cobra.Command {
 		},
 	}
 	cmd.Flags().IntVarP(&count, "count", "n", 1, "number of applied actions to restore")
+	cmd.Flags().BoolVar(&force, "force", false, "restore even when the file changed after enki applied it")
 	return cmd
 }

@@ -6,24 +6,28 @@ package remediate
 import (
 	"fmt"
 	"sort"
+	"strconv"
 
 	"github.com/yogenpoonudurai/enki/internal/finding"
+	"github.com/yogenpoonudurai/enki/internal/fingerprint"
 	"github.com/yogenpoonudurai/enki/internal/report"
 )
 
 // Action is a single machine-executable remediation derived from a finding.
 type Action struct {
-	FindingID string              `json:"finding_id"`
-	RuleID    string              `json:"rule_id"`
-	Class     finding.ActionClass `json:"class"`
-	Kind      string              `json:"kind"` // chmod_private | remove_json_key | "" (manual)
-	Summary   string              `json:"summary"`
-	Path      string              `json:"path,omitempty"`
-	KeyPath   string              `json:"key_path,omitempty"`
-	Mode      string              `json:"mode,omitempty"`
-	Command   string              `json:"command,omitempty"`
-	Guidance  string              `json:"guidance,omitempty"`
-	Auto      bool                `json:"auto"`
+	FindingID      string              `json:"finding_id"`
+	RuleID         string              `json:"rule_id"`
+	Class          finding.ActionClass `json:"class"`
+	Kind           string              `json:"kind"` // chmod_private | remove_json_key | "" (manual)
+	Summary        string              `json:"summary"`
+	Path           string              `json:"path,omitempty"`
+	KeyPath        string              `json:"key_path,omitempty"`
+	Mode           string              `json:"mode,omitempty"`
+	Command        string              `json:"command,omitempty"`
+	Guidance       string              `json:"guidance,omitempty"`
+	Auto           bool                `json:"auto"`
+	ExpectedSHA256 string              `json:"expected_sha256,omitempty"`
+	ExpectedSize   int64               `json:"expected_size,omitempty"`
 }
 
 // Result reports the outcome of applying one action.
@@ -45,16 +49,20 @@ func BuildPlan(rep *report.Report) []Action {
 			continue
 		}
 		a := Action{
-			FindingID: f.ID,
-			RuleID:    f.RuleID,
-			Class:     rm.Class,
-			Kind:      rm.Action,
-			Summary:   rm.Summary,
-			Path:      rm.Params["path"],
-			KeyPath:   rm.Params["key_path"],
-			Mode:      rm.Params["mode"],
-			Command:   rm.Command,
-			Guidance:  rm.Guidance,
+			FindingID:      f.ID,
+			RuleID:         f.RuleID,
+			Class:          rm.Class,
+			Kind:           rm.Action,
+			Summary:        rm.Summary,
+			Path:           rm.Params["path"],
+			KeyPath:        rm.Params["key_path"],
+			Mode:           rm.Params["mode"],
+			Command:        rm.Command,
+			Guidance:       rm.Guidance,
+			ExpectedSHA256: rm.Params[fingerprint.ParamSHA256],
+		}
+		if size, err := strconv.ParseInt(rm.Params[fingerprint.ParamSize], 10, 64); err == nil {
+			a.ExpectedSize = size
 		}
 		switch a.Kind {
 		case "chmod_private", "remove_json_key":
