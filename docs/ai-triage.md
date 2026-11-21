@@ -8,6 +8,11 @@ enki keeps a hard boundary between deterministic scanning and AI assistance.
   findings only. The model cannot create findings, choose arbitrary commands,
   or execute anything.
 
+BYOK triage (your provider key, called directly) is **free forever**. The
+hosted service is the optional paid surface: 3 lifetime free triages, then
+Pro/Team credits. It also provides the remote MCP endpoint and hosted
+retention.
+
 ## Agent skills and MCP
 
 - Skill: `skills/enki/SKILL.md` (Agent Skills standard, works in Claude Code and
