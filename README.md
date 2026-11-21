@@ -158,7 +158,7 @@ implementation, billing, and premium feeds are not part of this repository.
 - [Rule catalog](docs/rules.md) · [Dependency coverage](docs/dependencies.md)
 - [AI triage and redaction](docs/ai-triage.md)
 - [CI quickstart](docs/ci-quickstart.md) · [Release verification](docs/release.md)
-- [Detection benchmarks](docs/detection-benchmark.md) · [Real-world benchmark](docs/benchmark-real-world.md)
+- [Detection benchmarks](docs/detection-benchmark.md) · [Real-world benchmark](docs/benchmark-real-world.md) · [Held-out live-OSV benchmark](docs/benchmark-heldout.md)
 - [Open-core boundary](docs/open-core.md)
 - [Case studies](docs/case-studies/laptop.md): laptop, GPU server, CI PR gate
 

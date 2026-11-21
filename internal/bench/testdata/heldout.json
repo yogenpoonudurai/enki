@@ -1,0 +1,2737 @@
+{
+  "cases": [
+    {
+      "name": "heldout-mcp-000",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "YFGaia/dify-plus",
+        "commit": "c48ecee4d7c31c64b7a8cee8633157f7eda801ca",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/YFGaia/dify-plus/c48ecee4d7c31c64b7a8cee8633157f7eda801ca/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "563d42934b4657c9"
+      },
+      "notes": "Public MCP config: YFGaia/dify-plus",
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "name": "heldout-mcp-001",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "YoshiiRyo1/document-templates-for-aws",
+        "commit": "16967f62e08d7f4cba9b044bd0d730212b273669",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/YoshiiRyo1/document-templates-for-aws/16967f62e08d7f4cba9b044bd0d730212b273669/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "ce55398dd447f094"
+      },
+      "notes": "Public MCP config: YoshiiRyo1/document-templates-for-aws",
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "heldout-mcp-002",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "lemma-work/lemma-platform",
+        "commit": "11a8ef22360bac80f808ff706a07a235d598e599",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/lemma-work/lemma-platform/11a8ef22360bac80f808ff706a07a235d598e599/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "2ca58a4e75ac0477"
+      },
+      "notes": "Public MCP config: lemma-work/lemma-platform"
+    },
+    {
+      "name": "heldout-mcp-003",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "Synerise/synerise-design",
+        "commit": "e05559e33d770681f839e6b7bfdfbceab7b54e73",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/Synerise/synerise-design/e05559e33d770681f839e6b7bfdfbceab7b54e73/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "40f03a1b6ace24df"
+      },
+      "notes": "Public MCP config: Synerise/synerise-design"
+    },
+    {
+      "name": "heldout-mcp-004",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "opendatahub-io/opendatahub-operator",
+        "commit": "140ba5d1fe24bec66422963bb1b03aedbb000531",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/opendatahub-io/opendatahub-operator/140ba5d1fe24bec66422963bb1b03aedbb000531/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "7f85f0826b6d322b"
+      },
+      "notes": "Public MCP config: opendatahub-io/opendatahub-operator"
+    },
+    {
+      "name": "heldout-mcp-005",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "alla2001/material-painter",
+        "commit": "f176e6c7d86779d0f944482c11346d772a2291b3",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/alla2001/material-painter/f176e6c7d86779d0f944482c11346d772a2291b3/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "c7113f06cfe6a3c1"
+      },
+      "notes": "Public MCP config: alla2001/material-painter"
+    },
+    {
+      "name": "heldout-mcp-006",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "moonwell-fi/moonwell-contracts-v2",
+        "commit": "c106698a4ed9c8f757cca96265d2d818f99fc4e1",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/moonwell-fi/moonwell-contracts-v2/c106698a4ed9c8f757cca96265d2d818f99fc4e1/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "d61894ebb29598d9"
+      },
+      "notes": "Public MCP config: moonwell-fi/moonwell-contracts-v2",
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 2
+        }
+      ]
+    },
+    {
+      "name": "heldout-mcp-007",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "lucaslorentz/durabletask-extensions",
+        "commit": "5324c118128cb24591b2232a511a64f340abbf1a",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/lucaslorentz/durabletask-extensions/5324c118128cb24591b2232a511a64f340abbf1a/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "fbff510cc24cf93a"
+      },
+      "notes": "Public MCP config: lucaslorentz/durabletask-extensions",
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "heldout-mcp-008",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "mamift/LinqToXsdCore",
+        "commit": "0445a464393a07c907e15630c31d4572423d1732",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/mamift/LinqToXsdCore/0445a464393a07c907e15630c31d4572423d1732/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "0282159b97a4fce1"
+      },
+      "notes": "Public MCP config: mamift/LinqToXsdCore",
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "heldout-mcp-009",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "AgentOrchestrator/AgentBase",
+        "commit": "5c26fc2935d4db34b801267af5994a14170f4f3f",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/AgentOrchestrator/AgentBase/5c26fc2935d4db34b801267af5994a14170f4f3f/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "d3425120a02e5916"
+      },
+      "notes": "Public MCP config: AgentOrchestrator/AgentBase"
+    },
+    {
+      "name": "heldout-mcp-010",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "PierreKieffer/http-tanker",
+        "commit": "abee53e6f6ee931dfecb5fc62955150c578ac2f6",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/PierreKieffer/http-tanker/abee53e6f6ee931dfecb5fc62955150c578ac2f6/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "2b949899c47708f4"
+      },
+      "notes": "Public MCP config: PierreKieffer/http-tanker"
+    },
+    {
+      "name": "heldout-mcp-011",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "korovin-aa97/talkthrough-mcp",
+        "commit": "990637be69756e1b1d842155ec4b8bb2258a55e8",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/korovin-aa97/talkthrough-mcp/990637be69756e1b1d842155ec4b8bb2258a55e8/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "e7560a0976c92ec3"
+      },
+      "notes": "Public MCP config: korovin-aa97/talkthrough-mcp"
+    },
+    {
+      "name": "heldout-mcp-012",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "AssemblyAI/blurt",
+        "commit": "673958527bed3de10c3d0b88a6fcbc73b0e56d3b",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/AssemblyAI/blurt/673958527bed3de10c3d0b88a6fcbc73b0e56d3b/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "1fd3a83c3ffc32a6"
+      },
+      "notes": "Public MCP config: AssemblyAI/blurt"
+    },
+    {
+      "name": "heldout-mcp-013",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "vobase/vobase",
+        "commit": "863ced3c2be97f73a781d7ac1a92902c0f9800f2",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/vobase/vobase/863ced3c2be97f73a781d7ac1a92902c0f9800f2/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "6dd0dea4ec075043"
+      },
+      "notes": "Public MCP config: vobase/vobase"
+    },
+    {
+      "name": "heldout-mcp-014",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "FriendsOfShopware/shopmon",
+        "commit": "89de701c7761dd952353d7031aa7201d6c98b1d6",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/FriendsOfShopware/shopmon/89de701c7761dd952353d7031aa7201d6c98b1d6/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "13c2e18cec1a0980"
+      },
+      "notes": "Public MCP config: FriendsOfShopware/shopmon",
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "heldout-mcp-015",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "seyka-ai/yandex-tools-mcp",
+        "commit": "f3230f6b0142611ea4e92471fc9fe14f0db31c71",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/seyka-ai/yandex-tools-mcp/f3230f6b0142611ea4e92471fc9fe14f0db31c71/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "a816dabf673ea945"
+      },
+      "notes": "Public MCP config: seyka-ai/yandex-tools-mcp"
+    },
+    {
+      "name": "heldout-mcp-016",
+      "category": "heldout",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-002",
+        "MCP-003",
+        "MCP-004",
+        "MCP-005"
+      ],
+      "source": {
+        "repo": "GuangminJu/mellos-mapping",
+        "commit": "4317bf9d311842bae3b25b15750c712c15adbadd",
+        "path": ".mcp.json",
+        "url": "https://raw.githubusercontent.com/GuangminJu/mellos-mapping/4317bf9d311842bae3b25b15750c712c15adbadd/.mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "notes": "Public MCP config",
+        "sha256_prefix": "fbb02fda181cc105"
+      },
+      "notes": "Public MCP config: GuangminJu/mellos-mapping"
+    },
+    {
+      "name": "heldout-agt-017",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "hajisensai/Fushi",
+        "commit": "24373cdf7837bfa1bcaae29915c243dad34e905f",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/hajisensai/Fushi/24373cdf7837bfa1bcaae29915c243dad34e905f/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "ee1ac0387e13694f"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: hajisensai/Fushi"
+    },
+    {
+      "name": "heldout-agt-018",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "crysxd/OctoApp-Plugin",
+        "commit": "f6d0cc21aefe77e54aa8e8674c65e911bed1a55e",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/crysxd/OctoApp-Plugin/f6d0cc21aefe77e54aa8e8674c65e911bed1a55e/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "8c40b07463435fb5"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: crysxd/OctoApp-Plugin"
+    },
+    {
+      "name": "heldout-agt-019",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "luanmorenommaciel/agentspec",
+        "commit": "e00f832c4d9949572c17d57621a3fd7f28ca2400",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/luanmorenommaciel/agentspec/e00f832c4d9949572c17d57621a3fd7f28ca2400/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "74b39737754e4691"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        },
+        {
+          "rule_id": "AGT-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: luanmorenommaciel/agentspec"
+    },
+    {
+      "name": "heldout-agt-020",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "firstintent/ccteam",
+        "commit": "5e33fca4ca53756d4daca65e8a4ddcc4ead734ff",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/firstintent/ccteam/5e33fca4ca53756d4daca65e8a4ddcc4ead734ff/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "4a264a5aace73be6"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        },
+        {
+          "rule_id": "AGT-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: firstintent/ccteam"
+    },
+    {
+      "name": "heldout-agt-021",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "tcmmichaelb139/.dotfiles",
+        "commit": "78eaee7efcc5946dd3b694b49fce51fad6cf53fe",
+        "path": "claude/.claude/settings.json",
+        "url": "https://raw.githubusercontent.com/tcmmichaelb139/.dotfiles/78eaee7efcc5946dd3b694b49fce51fad6cf53fe/claude/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "1060f3ee96ddeb5a"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: tcmmichaelb139/.dotfiles"
+    },
+    {
+      "name": "heldout-agt-022",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "nordstjernen-web/nordstjernen-sol-browser",
+        "commit": "77a511014e4249a950df35493f0ba8c037e926ee",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/nordstjernen-web/nordstjernen-sol-browser/77a511014e4249a950df35493f0ba8c037e926ee/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "6472d7849e39a95d"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        },
+        {
+          "rule_id": "AGT-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: nordstjernen-web/nordstjernen-sol-browser"
+    },
+    {
+      "name": "heldout-agt-023",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "nemori-ai/nemori",
+        "commit": "d2a6dff6e5481214a0be6a2d10147feccfc16244",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/nemori-ai/nemori/d2a6dff6e5481214a0be6a2d10147feccfc16244/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "81b1dc9b814cc057"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: nemori-ai/nemori"
+    },
+    {
+      "name": "heldout-agt-024",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "OpenRouterLabs/spawn",
+        "commit": "bf65928704c64939b3def4d9b8573f1e412df393",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/OpenRouterLabs/spawn/bf65928704c64939b3def4d9b8573f1e412df393/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "b40494f5033a0b07"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: OpenRouterLabs/spawn"
+    },
+    {
+      "name": "heldout-agt-025",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "CryptoMarius/CryptoScanBot",
+        "commit": "a7dcacd277e61fd4750af381ba16f72b72a5cb34",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/CryptoMarius/CryptoScanBot/a7dcacd277e61fd4750af381ba16f72b72a5cb34/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "3e81173b3767b619"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: CryptoMarius/CryptoScanBot"
+    },
+    {
+      "name": "heldout-agt-026",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "AymericLeFeyer/bonap",
+        "commit": "032600dde420852f6cc3be4b06d7787a05a96842",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/AymericLeFeyer/bonap/032600dde420852f6cc3be4b06d7787a05a96842/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "3f18998e5d7ec6a1"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Public Claude settings: AymericLeFeyer/bonap"
+    },
+    {
+      "name": "heldout-agt-027",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "IIIIQIIII/x-agent",
+        "commit": "f68403688eb3cc7df4447dbf1c13b54e7a96e0bb",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/IIIIQIIII/x-agent/f68403688eb3cc7df4447dbf1c13b54e7a96e0bb/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "1fe1a695d2677cb7"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: IIIIQIIII/x-agent"
+    },
+    {
+      "name": "heldout-agt-028",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "ModelEngine-Group/fit-framework",
+        "commit": "e2f285d1cf2f4d53330b2796bc56ecce6dc63544",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/ModelEngine-Group/fit-framework/e2f285d1cf2f4d53330b2796bc56ecce6dc63544/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "2d538afe2d36116c"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: ModelEngine-Group/fit-framework"
+    },
+    {
+      "name": "heldout-agt-029",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "kube-logging/logging-operator",
+        "commit": "cab10ab4057115469f4b50faa5e206bdb86ffb02",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/kube-logging/logging-operator/cab10ab4057115469f4b50faa5e206bdb86ffb02/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "70e3a58de8757603"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: kube-logging/logging-operator"
+    },
+    {
+      "name": "heldout-agt-030",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "DataDog/system-tests",
+        "commit": "e18688b80101005987adfa1f1cb8098a1f40437e",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/DataDog/system-tests/e18688b80101005987adfa1f1cb8098a1f40437e/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "a686aeca4ac57c5d"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: DataDog/system-tests"
+    },
+    {
+      "name": "heldout-agt-031",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "tidymodels/rsample",
+        "commit": "3f431877faf9e205f041aa45b7ce7a9e54578626",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/tidymodels/rsample/3f431877faf9e205f041aa45b7ce7a9e54578626/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "97110453baa6064f"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: tidymodels/rsample"
+    },
+    {
+      "name": "heldout-agt-032",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "r-lib/lobstr",
+        "commit": "57cc080a6f5e47d659a86e7f03a648d62fb47511",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/r-lib/lobstr/57cc080a6f5e47d659a86e7f03a648d62fb47511/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "767b3092c7dac5f1"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: r-lib/lobstr"
+    },
+    {
+      "name": "heldout-agt-033",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "r-lib/cpp11",
+        "commit": "7d0e4ac1127905fde7fbe8f41ba7344e2ddd1679",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/r-lib/cpp11/7d0e4ac1127905fde7fbe8f41ba7344e2ddd1679/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "1397771faba4735e"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: r-lib/cpp11"
+    },
+    {
+      "name": "heldout-agt-034",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "juanluispaz/ts-sql-query",
+        "commit": "80deb92e713de84d245f81282d09a6d2134d60c9",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/juanluispaz/ts-sql-query/80deb92e713de84d245f81282d09a6d2134d60c9/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "67820682081488dc"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: juanluispaz/ts-sql-query"
+    },
+    {
+      "name": "heldout-agt-035",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "dyoshikawa/rulesync",
+        "commit": "13ac0ae1e3291564403ef39f9338434261e2d02f",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/dyoshikawa/rulesync/13ac0ae1e3291564403ef39f9338434261e2d02f/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "7de3a9f0602298ec"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: dyoshikawa/rulesync"
+    },
+    {
+      "name": "heldout-agt-036",
+      "category": "heldout",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002",
+        "AGT-003",
+        "AGT-004"
+      ],
+      "source": {
+        "repo": "ossappscollective/oss-weather",
+        "commit": "ccd78b6b05ed2589e8947de7fd918cddaa0507db",
+        "path": ".claude/settings.json",
+        "url": "https://raw.githubusercontent.com/ossappscollective/oss-weather/ccd78b6b05ed2589e8947de7fd918cddaa0507db/.claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "notes": "Public Claude settings",
+        "sha256_prefix": "205d093cf0b5ad86"
+      },
+      "labels": [],
+      "notes": "Public Claude settings: ossappscollective/oss-weather"
+    },
+    {
+      "name": "heldout-mdl-037",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "LemonQu-GIT/ChatGLM-6B-Engineering",
+        "commit": "b36fc5e1efbafb0c13eac06fbd859394d8cf65c5",
+        "path": "api.py",
+        "url": "https://raw.githubusercontent.com/LemonQu-GIT/ChatGLM-6B-Engineering/b36fc5e1efbafb0c13eac06fbd859394d8cf65c5/api.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "2d56795fecc59c6f"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: LemonQu-GIT/ChatGLM-6B-Engineering"
+    },
+    {
+      "name": "heldout-mdl-038",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "DreamLM/Dream",
+        "commit": "31f94a60d187e3fd481fee3bbc2c732eb94a879c",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/DreamLM/Dream/31f94a60d187e3fd481fee3bbc2c732eb94a879c/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "33d7000e324395c0"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: DreamLM/Dream"
+    },
+    {
+      "name": "heldout-mdl-039",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "hhhuang/CAG",
+        "commit": "5c0d8ed6e28f34c72bb7208068f55cb3147d0c8c",
+        "path": "rag.py",
+        "url": "https://raw.githubusercontent.com/hhhuang/CAG/5c0d8ed6e28f34c72bb7208068f55cb3147d0c8c/rag.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "bb1b3bac846993fb"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: hhhuang/CAG"
+    },
+    {
+      "name": "heldout-mdl-040",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "xxw1995/chatglm3-finetune",
+        "commit": "be5824f32ebf87bd0074c5959ab04b532eb52ff6",
+        "path": "llm.py",
+        "url": "https://raw.githubusercontent.com/xxw1995/chatglm3-finetune/be5824f32ebf87bd0074c5959ab04b532eb52ff6/llm.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "2d2e63529982fa1b"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        },
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: xxw1995/chatglm3-finetune"
+    },
+    {
+      "name": "heldout-mdl-041",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "heshengtao/comfyui_LLM_party",
+        "commit": "3790b26a438bb8e77c1ad24d93870f710cc8ae41",
+        "path": "llm.py",
+        "url": "https://raw.githubusercontent.com/heshengtao/comfyui_LLM_party/3790b26a438bb8e77c1ad24d93870f710cc8ae41/llm.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "34924f6df53f8c0b"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: heshengtao/comfyui_LLM_party"
+    },
+    {
+      "name": "heldout-mdl-042",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "Tencent-Hunyuan/InstantCharacter",
+        "commit": "5f5c49a98ba15eb75caf70e60787156c6ae619b0",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/Tencent-Hunyuan/InstantCharacter/5f5c49a98ba15eb75caf70e60787156c6ae619b0/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "d87f07c1c07fe3ce"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: Tencent-Hunyuan/InstantCharacter"
+    },
+    {
+      "name": "heldout-mdl-043",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "Stable-X/StableNormal",
+        "commit": "594b934630ab3bc71f35c77d14ec7feb98480cd0",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/Stable-X/StableNormal/594b934630ab3bc71f35c77d14ec7feb98480cd0/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "9e1d0c48e6d7781b"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: Stable-X/StableNormal"
+    },
+    {
+      "name": "heldout-mdl-044",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "wdkwdkwdk/CLONE_DK",
+        "commit": "534a114836f2c45b5d51649fbe98c284dbbf6d8f",
+        "path": "web.py",
+        "url": "https://raw.githubusercontent.com/wdkwdkwdk/CLONE_DK/534a114836f2c45b5d51649fbe98c284dbbf6d8f/web.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "f7231e2a7b8510d9"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        },
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: wdkwdkwdk/CLONE_DK"
+    },
+    {
+      "name": "heldout-mdl-045",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "DataCanvasIO/Alaya",
+        "commit": "a3374a23bf80bb4e39af52f7c75c0daeeab29f0f",
+        "path": "api.py",
+        "url": "https://raw.githubusercontent.com/DataCanvasIO/Alaya/a3374a23bf80bb4e39af52f7c75c0daeeab29f0f/api.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "fa7ae0f0003eae33"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: DataCanvasIO/Alaya"
+    },
+    {
+      "name": "heldout-mdl-046",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "stepfun-ai/Step-Audio-EditX",
+        "commit": "a652e87052c109e26f616d60971376ff47a829d4",
+        "path": "tts.py",
+        "url": "https://raw.githubusercontent.com/stepfun-ai/Step-Audio-EditX/a652e87052c109e26f616d60971376ff47a829d4/tts.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "526da0ce80cffe5b"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: stepfun-ai/Step-Audio-EditX"
+    },
+    {
+      "name": "heldout-mdl-047",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "wp931120/LongChainKBQA",
+        "commit": "72ccb921e4bba18ef0e6edfcf89ce8c78c78aa90",
+        "path": "llm.py",
+        "url": "https://raw.githubusercontent.com/wp931120/LongChainKBQA/72ccb921e4bba18ef0e6edfcf89ce8c78c78aa90/llm.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "bc2a5b0e99f2d431"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: wp931120/LongChainKBQA"
+    },
+    {
+      "name": "heldout-mdl-048",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "FrostMiKu/ChatGLM-LangChain",
+        "commit": "ec1f8600965f7dd80c67525099ecf056a8f8056c",
+        "path": "ui.py",
+        "url": "https://raw.githubusercontent.com/FrostMiKu/ChatGLM-LangChain/ec1f8600965f7dd80c67525099ecf056a8f8056c/ui.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "4ed8914225587506"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: FrostMiKu/ChatGLM-LangChain"
+    },
+    {
+      "name": "heldout-mdl-049",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "AkaliKong/MiniOneRec",
+        "commit": "0cbd94de9ea58c59a6b05d4d1dbda7edf8d5b3b1",
+        "path": "sft.py",
+        "url": "https://raw.githubusercontent.com/AkaliKong/MiniOneRec/0cbd94de9ea58c59a6b05d4d1dbda7edf8d5b3b1/sft.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "44ffd4c4cd297894"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: AkaliKong/MiniOneRec"
+    },
+    {
+      "name": "heldout-mdl-050",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "leoshez/ChatGLM-6B",
+        "commit": "963d5645ef14304b25162ea1a013ff2552af2e73",
+        "path": "api.py",
+        "url": "https://raw.githubusercontent.com/leoshez/ChatGLM-6B/963d5645ef14304b25162ea1a013ff2552af2e73/api.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "a2a94c9708fa9257"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: leoshez/ChatGLM-6B"
+    },
+    {
+      "name": "heldout-mdl-051",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "kehanlu/DeSTA2",
+        "commit": "2d6b2bcdf764223b7cf36be4d77baccbed1b628d",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/kehanlu/DeSTA2/2d6b2bcdf764223b7cf36be4d77baccbed1b628d/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "6c21b57a033fa630"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: kehanlu/DeSTA2"
+    },
+    {
+      "name": "heldout-mdl-052",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "galilai-group/llm-jepa",
+        "commit": "ea0017c654ad917066ff32afc88276bea8ca5f7e",
+        "path": "stp.py",
+        "url": "https://raw.githubusercontent.com/galilai-group/llm-jepa/ea0017c654ad917066ff32afc88276bea8ca5f7e/stp.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "36ff57bcecc4d62b"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: galilai-group/llm-jepa"
+    },
+    {
+      "name": "heldout-mdl-053",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "Luo-Yihang/3DEnhancer",
+        "commit": "24abdf8c66a2391c562ad27991793d18d5654c17",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/Luo-Yihang/3DEnhancer/24abdf8c66a2391c562ad27991793d18d5654c17/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "c9c46e144438f674"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: Luo-Yihang/3DEnhancer"
+    },
+    {
+      "name": "heldout-mdl-054",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "neverbiasu/IELTSDuck",
+        "commit": "9598960180f143f86bdbdd36f8d1ac6bb61bc573",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/neverbiasu/IELTSDuck/9598960180f143f86bdbdd36f8d1ac6bb61bc573/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "a49117fea068117c"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: neverbiasu/IELTSDuck"
+    },
+    {
+      "name": "heldout-mdl-055",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "BUTSpeechFIT/DiCoW",
+        "commit": "801e2130d00142a7da5845754f87b97550053a75",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/BUTSpeechFIT/DiCoW/801e2130d00142a7da5845754f87b97550053a75/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "8b3a75226a0b0f7c"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: BUTSpeechFIT/DiCoW"
+    },
+    {
+      "name": "heldout-mdl-056",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "jiayaozhang/UnrealEngineGPT",
+        "commit": "0224fd9a2a885e25abf6bef5c74d6974e8a68f69",
+        "path": "app.py",
+        "url": "https://raw.githubusercontent.com/jiayaozhang/UnrealEngineGPT/0224fd9a2a885e25abf6bef5c74d6974e8a68f69/app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "fe537af6b695550b"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: jiayaozhang/UnrealEngineGPT"
+    },
+    {
+      "name": "heldout-mdl-057",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "minhmanho/deep_preset",
+        "commit": "04eb47352e2f4cd643d466c7c6835f17d9513c92",
+        "path": "dp.py",
+        "url": "https://raw.githubusercontent.com/minhmanho/deep_preset/04eb47352e2f4cd643d466c7c6835f17d9513c92/dp.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "6a600afdec9dba37"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: minhmanho/deep_preset"
+    },
+    {
+      "name": "heldout-mdl-058",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "johndpope/VASA-1-hack",
+        "commit": "b8c15d93dd514efc7b0c6f0c2443ca5e71406d89",
+        "path": "vi.py",
+        "url": "https://raw.githubusercontent.com/johndpope/VASA-1-hack/b8c15d93dd514efc7b0c6f0c2443ca5e71406d89/vi.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "b652c063bcbdef2c"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: johndpope/VASA-1-hack"
+    },
+    {
+      "name": "heldout-mdl-059",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "suriyadeepan/torchtest",
+        "commit": "66a2c8b669aa23601f64e208463e9449ffc135da",
+        "path": "tc.py",
+        "url": "https://raw.githubusercontent.com/suriyadeepan/torchtest/66a2c8b669aa23601f64e208463e9449ffc135da/tc.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "5c16eb770728a6c5"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: suriyadeepan/torchtest"
+    },
+    {
+      "name": "heldout-mdl-060",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "YukangWang/IFVD",
+        "commit": "950a7a5fd8686ceed87a6976c49143462fcb823a",
+        "path": "val.py",
+        "url": "https://raw.githubusercontent.com/YukangWang/IFVD/950a7a5fd8686ceed87a6976c49143462fcb823a/val.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "d43a78d83565dd89"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: YukangWang/IFVD"
+    },
+    {
+      "name": "heldout-mdl-061",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "INK-USC/MHGRN",
+        "commit": "e199dcb0fd820c47c73dc992f97e793fd28c4a7c",
+        "path": "lm.py",
+        "url": "https://raw.githubusercontent.com/INK-USC/MHGRN/e199dcb0fd820c47c73dc992f97e793fd28c4a7c/lm.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "6ad732a52f2df215"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: INK-USC/MHGRN"
+    },
+    {
+      "name": "heldout-mdl-062",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "VITA-Group/GAN-Slimming",
+        "commit": "10d11b939ff7cc7f9cc023bd9e87868485ad1478",
+        "path": "gs.py",
+        "url": "https://raw.githubusercontent.com/VITA-Group/GAN-Slimming/10d11b939ff7cc7f9cc023bd9e87868485ad1478/gs.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "b5d14b2ee9c6ffb5"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: VITA-Group/GAN-Slimming"
+    },
+    {
+      "name": "heldout-mdl-063",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "goldhuang/SRGAN-PyTorch",
+        "commit": "87bad6e789454090fb2f20c32c476130f9c70aa6",
+        "path": "sr.py",
+        "url": "https://raw.githubusercontent.com/goldhuang/SRGAN-PyTorch/87bad6e789454090fb2f20c32c476130f9c70aa6/sr.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "193330ccf0e9453c"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: goldhuang/SRGAN-PyTorch"
+    },
+    {
+      "name": "heldout-mdl-064",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "guillitte/pytorch-sentiment-neuron",
+        "commit": "04c411cbf57ecae823c3147c6e3ea6c22b681ba3",
+        "path": "lm.py",
+        "url": "https://raw.githubusercontent.com/guillitte/pytorch-sentiment-neuron/04c411cbf57ecae823c3147c6e3ea6c22b681ba3/lm.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "52ee07e469d8dceb"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: guillitte/pytorch-sentiment-neuron"
+    },
+    {
+      "name": "heldout-mdl-065",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "xuelunshen/rfnet",
+        "commit": "98f9d67f81b005e0c7b8a7c6d2cb036617aeed53",
+        "path": "ms.py",
+        "url": "https://raw.githubusercontent.com/xuelunshen/rfnet/98f9d67f81b005e0c7b8a7c6d2cb036617aeed53/ms.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "dd55395e53b2addd"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: xuelunshen/rfnet"
+    },
+    {
+      "name": "heldout-mdl-066",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "zalandoresearch/pytorch-dilated-rnn",
+        "commit": "0a33ccee0a059dcec02fb901daab201e30b77bcf",
+        "path": "lm.py",
+        "url": "https://raw.githubusercontent.com/zalandoresearch/pytorch-dilated-rnn/0a33ccee0a059dcec02fb901daab201e30b77bcf/lm.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "d490bdf931018051"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: zalandoresearch/pytorch-dilated-rnn"
+    },
+    {
+      "name": "heldout-mdl-067",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "AkaliKong/MiniOneRec",
+        "commit": "0cbd94de9ea58c59a6b05d4d1dbda7edf8d5b3b1",
+        "path": "rl.py",
+        "url": "https://raw.githubusercontent.com/AkaliKong/MiniOneRec/0cbd94de9ea58c59a6b05d4d1dbda7edf8d5b3b1/rl.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "bd57f6af222fcfa5"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: AkaliKong/MiniOneRec"
+    },
+    {
+      "name": "heldout-mdl-068",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "XinJingHao/SAC-Continuous-Pytorch",
+        "commit": "43c6ae2b2d378a40b42917405aa96bba984f03cf",
+        "path": "SAC.py",
+        "url": "https://raw.githubusercontent.com/XinJingHao/SAC-Continuous-Pytorch/43c6ae2b2d378a40b42917405aa96bba984f03cf/SAC.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "cbf2bbba11e1bbca"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: XinJingHao/SAC-Continuous-Pytorch"
+    },
+    {
+      "name": "heldout-mdl-069",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "uta-smile/TCL",
+        "commit": "04c21c5aa1cc0fc2155361a3ce48c0fcb1dedddc",
+        "path": "VE.py",
+        "url": "https://raw.githubusercontent.com/uta-smile/TCL/04c21c5aa1cc0fc2155361a3ce48c0fcb1dedddc/VE.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "5d15ead060b8b650"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: uta-smile/TCL"
+    },
+    {
+      "name": "heldout-mdl-070",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "bengxy/FastNeuralStyle",
+        "commit": "6d973e63a5e2ef249c716c688175c1d1365e2e0d",
+        "path": "go.py",
+        "url": "https://raw.githubusercontent.com/bengxy/FastNeuralStyle/6d973e63a5e2ef249c716c688175c1d1365e2e0d/go.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "3135b0da827cc733"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: bengxy/FastNeuralStyle"
+    },
+    {
+      "name": "heldout-mdl-071",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "BY571/Soft-Actor-Critic-and-Extensions",
+        "commit": "23ab34bd508d80409ebfb0df8bfe0981f16b1315",
+        "path": "run.py",
+        "url": "https://raw.githubusercontent.com/BY571/Soft-Actor-Critic-and-Extensions/23ab34bd508d80409ebfb0df8bfe0981f16b1315/run.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "72e744dfb68acbb0"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: BY571/Soft-Actor-Critic-and-Extensions"
+    },
+    {
+      "name": "heldout-mdl-072",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "modestyachts/imagenet-testbed",
+        "commit": "0170eec658d664289d9f61de8f90f967f49abca0",
+        "path": "db.py",
+        "url": "https://raw.githubusercontent.com/modestyachts/imagenet-testbed/0170eec658d664289d9f61de8f90f967f49abca0/db.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "9b48f3e4af673e1f"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: modestyachts/imagenet-testbed"
+    },
+    {
+      "name": "heldout-mdl-073",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "BeardHealth/Combined-Heat-and-Power-System-Economic-Dispatch",
+        "commit": "378127d6304e9b9979f87ccc20004ddd222de8dc",
+        "path": "DRL.py",
+        "url": "https://raw.githubusercontent.com/BeardHealth/Combined-Heat-and-Power-System-Economic-Dispatch/378127d6304e9b9979f87ccc20004ddd222de8dc/DRL.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "0427aeb8a9e8fdf4"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: BeardHealth/Combined-Heat-and-Power-System-Economic-Dispatch"
+    },
+    {
+      "name": "heldout-mdl-074",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "shaochuhan/medical-image-segmentation",
+        "commit": "2edebb3c5a3457632a6a2e3aa205d683d08718c2",
+        "path": "ui.py",
+        "url": "https://raw.githubusercontent.com/shaochuhan/medical-image-segmentation/2edebb3c5a3457632a6a2e3aa205d683d08718c2/ui.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "f89ebb51138a2e92"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: shaochuhan/medical-image-segmentation"
+    },
+    {
+      "name": "heldout-mdl-075",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "SIAnalytics/BMTT2022_SIA_track",
+        "commit": "5cdbed0e93e4c0583b12791a98a0b636f7a9c63b",
+        "path": "wa.py",
+        "url": "https://raw.githubusercontent.com/SIAnalytics/BMTT2022_SIA_track/5cdbed0e93e4c0583b12791a98a0b636f7a9c63b/wa.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "c2ae033574975fb7"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: SIAnalytics/BMTT2022_SIA_track"
+    },
+    {
+      "name": "heldout-mdl-076",
+      "category": "heldout",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003",
+        "MDL-004"
+      ],
+      "source": {
+        "repo": "antoyang/VidChapters",
+        "commit": "fa3900c6508d53ea9d490a07f079703b163c78ea",
+        "path": "vc.py",
+        "url": "https://raw.githubusercontent.com/antoyang/VidChapters/fa3900c6508d53ea9d490a07f079703b163c78ea/vc.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "notes": "Public Python model code",
+        "sha256_prefix": "973a33907de1e674"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Public model code: antoyang/VidChapters"
+    },
+    {
+      "name": "heldout-sec-077",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "gusye1234/nano-graphrag",
+        "commit": "acb35c065614eb5a2f5f1be9a56b235f5a2e0a7a",
+        "path": ".env.example.azure",
+        "url": "https://raw.githubusercontent.com/gusye1234/nano-graphrag/acb35c065614eb5a2f5f1be9a56b235f5a2e0a7a/.env.example.azure",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "5d1dc11654967dcb"
+      },
+      "notes": "Public env example (no live secrets): gusye1234/nano-graphrag"
+    },
+    {
+      "name": "heldout-sec-078",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "emergi-lab/evolving_personality",
+        "commit": "b135db59d0a7ee976d0d50cb162d21156f8a4642",
+        "path": "para.env.example",
+        "url": "https://raw.githubusercontent.com/emergi-lab/evolving_personality/b135db59d0a7ee976d0d50cb162d21156f8a4642/para.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "9eca4edab2304414"
+      },
+      "notes": "Public env example (no live secrets): emergi-lab/evolving_personality"
+    },
+    {
+      "name": "heldout-sec-079",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "op7418/Claude-to-IM-skill",
+        "commit": "536908f5e9bd65a151ca4cb4b08d3fedc1a43b4d",
+        "path": "config.env.example",
+        "url": "https://raw.githubusercontent.com/op7418/Claude-to-IM-skill/536908f5e9bd65a151ca4cb4b08d3fedc1a43b4d/config.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "0ed0dc98e8c9dd76"
+      },
+      "notes": "Public env example (no live secrets): op7418/Claude-to-IM-skill"
+    },
+    {
+      "name": "heldout-sec-080",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "thomwebb/gac",
+        "commit": "36771e30b85509896a256917cfa5dca432d4bc15",
+        "path": ".gac.env.example",
+        "url": "https://raw.githubusercontent.com/thomwebb/gac/36771e30b85509896a256917cfa5dca432d4bc15/.gac.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "c50ed9cf6e8b838d"
+      },
+      "notes": "Public env example (no live secrets): thomwebb/gac"
+    },
+    {
+      "name": "heldout-sec-081",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "zainulabedeen123/best-saas-kit",
+        "commit": "864e60cb0b2c35501a9ba34d6c80d1cb39b8d167",
+        "path": ".env.Example",
+        "url": "https://raw.githubusercontent.com/zainulabedeen123/best-saas-kit/864e60cb0b2c35501a9ba34d6c80d1cb39b8d167/.env.Example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "0d72864468c937c9"
+      },
+      "notes": "Public env example (no live secrets): zainulabedeen123/best-saas-kit"
+    },
+    {
+      "name": "heldout-sec-082",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "coddy-project/coddy-agent",
+        "commit": "013de75f285fcc15981f4fa805c0a1ef55a392db",
+        "path": ".env.examples",
+        "url": "https://raw.githubusercontent.com/coddy-project/coddy-agent/013de75f285fcc15981f4fa805c0a1ef55a392db/.env.examples",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "bb98dfe388469b87"
+      },
+      "notes": "Public env example (no live secrets): coddy-project/coddy-agent"
+    },
+    {
+      "name": "heldout-sec-083",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "Shaurya-Sethi/circuitron",
+        "commit": "6e2be932deab505464b62e1981eec55c997e8859",
+        "path": "mcp.env.example",
+        "url": "https://raw.githubusercontent.com/Shaurya-Sethi/circuitron/6e2be932deab505464b62e1981eec55c997e8859/mcp.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "c88ccdf7f105696c"
+      },
+      "notes": "Public env example (no live secrets): Shaurya-Sethi/circuitron"
+    },
+    {
+      "name": "heldout-sec-084",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "cxcscmu/AutoGEO",
+        "commit": "49456df236774ea24087c44f45e9e52005b8e6a4",
+        "path": "keys.env.example",
+        "url": "https://raw.githubusercontent.com/cxcscmu/AutoGEO/49456df236774ea24087c44f45e9e52005b8e6a4/keys.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "d76d5a189073272e"
+      },
+      "notes": "Public env example (no live secrets): cxcscmu/AutoGEO"
+    },
+    {
+      "name": "heldout-sec-085",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "hoangsonww/Agentic-AI-Pipeline",
+        "commit": "443716a7d227b0d36cd73b82f134ccf00aa34185",
+        "path": ".env.example.local",
+        "url": "https://raw.githubusercontent.com/hoangsonww/Agentic-AI-Pipeline/443716a7d227b0d36cd73b82f134ccf00aa34185/.env.example.local",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "9eedff928e5116ec"
+      },
+      "notes": "Public env example (no live secrets): hoangsonww/Agentic-AI-Pipeline"
+    },
+    {
+      "name": "heldout-sec-086",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "principia-ai/PhysGym",
+        "commit": "6fb4c44c80be10133dab362de97d0a15aef914b2",
+        "path": "api_keys.env.example",
+        "url": "https://raw.githubusercontent.com/principia-ai/PhysGym/6fb4c44c80be10133dab362de97d0a15aef914b2/api_keys.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "a6b9c096ccf386b0"
+      },
+      "notes": "Public env example (no live secrets): principia-ai/PhysGym"
+    },
+    {
+      "name": "heldout-sec-087",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "Md-Ashraful-Pramanik/MapCoder",
+        "commit": "c87e6d914d196e12fa2b144882122459a4b98007",
+        "path": ".env.example.openai",
+        "url": "https://raw.githubusercontent.com/Md-Ashraful-Pramanik/MapCoder/c87e6d914d196e12fa2b144882122459a4b98007/.env.example.openai",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "e70415efbbab0f92"
+      },
+      "notes": "Public env example (no live secrets): Md-Ashraful-Pramanik/MapCoder"
+    },
+    {
+      "name": "heldout-sec-088",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "modernice/goes",
+        "commit": "e12a246d2401f8fc2b3d28dac4f80be1720a630e",
+        "path": "dev.env.example",
+        "url": "https://raw.githubusercontent.com/modernice/goes/e12a246d2401f8fc2b3d28dac4f80be1720a630e/dev.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "bf6fbfc233c9d83f"
+      },
+      "notes": "Public env example (no live secrets): modernice/goes"
+    },
+    {
+      "name": "heldout-sec-089",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "deerwan/nav",
+        "commit": "64d6ecdc398dda2ba665fdb9f741a4f71fb8fd0c",
+        "path": ".env.example.txt",
+        "url": "https://raw.githubusercontent.com/deerwan/nav/64d6ecdc398dda2ba665fdb9f741a4f71fb8fd0c/.env.example.txt",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "776e0cede7a9cc32"
+      },
+      "notes": "Public env example (no live secrets): deerwan/nav"
+    },
+    {
+      "name": "heldout-sec-090",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "restackio/examples-python",
+        "commit": "a003f61bfe4c54107b87f5dce0010d23d53dc71c",
+        "path": "pdf_ocr/.env.Example",
+        "url": "https://raw.githubusercontent.com/restackio/examples-python/a003f61bfe4c54107b87f5dce0010d23d53dc71c/pdf_ocr/.env.Example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "9cf0efc3e6b2f42b"
+      },
+      "notes": "Public env example (no live secrets): restackio/examples-python"
+    },
+    {
+      "name": "heldout-sec-091",
+      "category": "heldout",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "restackio/examples-python",
+        "commit": "a003f61bfe4c54107b87f5dce0010d23d53dc71c",
+        "path": "agent_rag/.env.Example",
+        "url": "https://raw.githubusercontent.com/restackio/examples-python/a003f61bfe4c54107b87f5dce0010d23d53dc71c/agent_rag/.env.Example",
+        "work_path": ".env",
+        "mode": "0600",
+        "notes": "Public env example with placeholders",
+        "sha256_prefix": "68817985d43ef866"
+      },
+      "notes": "Public env example (no live secrets): restackio/examples-python"
+    },
+    {
+      "name": "heldout-sbom-092",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/axios-0.21.1/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile axios@0.21.1"
+      },
+      "notes": "Public npm lockfile axios@0.21.1",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-093",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/minimist-1.2.5/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile minimist@1.2.5"
+      },
+      "notes": "Public npm lockfile minimist@1.2.5",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-094",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/json5-2.2.1/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile json5@2.2.1"
+      },
+      "notes": "Public npm lockfile json5@2.2.1",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-095",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/node-fetch-2.6.6/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile node-fetch@2.6.6"
+      },
+      "notes": "Public npm lockfile node-fetch@2.6.6",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-096",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/tar-6.1.0/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile tar@6.1.0"
+      },
+      "notes": "Public npm lockfile tar@6.1.0",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-097",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/glob-parent-5.1.1/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile glob-parent@5.1.1"
+      },
+      "notes": "Public npm lockfile glob-parent@5.1.1",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-098",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/follow-redirects-1.14.7/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile follow-redirects@1.14.7"
+      },
+      "notes": "Public npm lockfile follow-redirects@1.14.7",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-099",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/cross-fetch-3.1.4/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile cross-fetch@3.1.4"
+      },
+      "notes": "Public npm lockfile cross-fetch@3.1.4",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-100",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/semver-7.3.5/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile semver@7.3.5"
+      },
+      "notes": "Public npm lockfile semver@7.3.5",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-101",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/word-wrap-1.2.3/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile word-wrap@1.2.3"
+      },
+      "notes": "Public npm lockfile word-wrap@1.2.3",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-102",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/tough-cookie-4.1.2/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile tough-cookie@4.1.2"
+      },
+      "notes": "Public npm lockfile tough-cookie@4.1.2",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-103",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/loader-utils-2.0.2/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile loader-utils@2.0.2"
+      },
+      "notes": "Public npm lockfile loader-utils@2.0.2",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-104",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/jsonwebtoken-8.5.1/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile jsonwebtoken@8.5.1"
+      },
+      "notes": "Public npm lockfile jsonwebtoken@8.5.1",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-105",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/qs-6.10.2/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile qs@6.10.2"
+      },
+      "notes": "Public npm lockfile qs@6.10.2",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-106",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/braces-3.0.2/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile braces@3.0.2"
+      },
+      "notes": "Public npm lockfile braces@3.0.2",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    },
+    {
+      "name": "heldout-sbom-107",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/minimist-1.2.8/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile minimist@1.2.8"
+      },
+      "notes": "Public npm lockfile minimist@1.2.8"
+    },
+    {
+      "name": "heldout-sbom-108",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/json5-2.2.3/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile json5@2.2.3"
+      },
+      "notes": "Public npm lockfile json5@2.2.3"
+    },
+    {
+      "name": "heldout-sbom-109",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/node-fetch-3.3.2/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile node-fetch@3.3.2"
+      },
+      "notes": "Public npm lockfile node-fetch@3.3.2"
+    },
+    {
+      "name": "heldout-sbom-110",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/tough-cookie-4.1.4/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile tough-cookie@4.1.4"
+      },
+      "notes": "Public npm lockfile tough-cookie@4.1.4"
+    },
+    {
+      "name": "heldout-sbom-111",
+      "category": "heldout",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "heldout/ecosystem/minimatch-3.0.4/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile minimatch@3.0.4"
+      },
+      "notes": "Public npm lockfile minimatch@3.0.4",
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "presence": true
+        }
+      ]
+    }
+  ]
+}
