@@ -329,7 +329,7 @@ func (m *Model) renderFindings(w int) string {
 		return b.String() + dim("scan in progress…")
 	}
 	if len(m.rep.Findings) == 0 {
-		return b.String() + dim("no findings — clean AI posture")
+		return b.String() + dim("no findings — clean AI configuration surface")
 	}
 
 	window := 10

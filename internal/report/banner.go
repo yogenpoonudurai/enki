@@ -12,7 +12,7 @@ const (
 	// Brand is the product name shown with the tagline.
 	Brand = "ENKI"
 	// Tagline is the product descriptor.
-	Tagline = "AI Security Posture"
+	Tagline = "AI Configuration & Exposure"
 	// Title is the full branded line used in the UI and CLI headers.
 	Title = Brand + " - " + Tagline
 )

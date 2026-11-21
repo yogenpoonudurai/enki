@@ -91,7 +91,7 @@ func TestFullArtHeaderOnLargeTerminal(t *testing.T) {
 	if !strings.Contains(view, report.SmallLogoLines()[0]) {
 		t.Fatal("compact artwork not used as the dashboard header")
 	}
-	if !strings.Contains(view, "ENKI") || !strings.Contains(view, "AI Security Posture") {
+	if !strings.Contains(view, "ENKI") || !strings.Contains(view, "AI Configuration") {
 		t.Fatal("branded title line missing from the dashboard")
 	}
 	if !strings.Contains(view, "MODULES") {

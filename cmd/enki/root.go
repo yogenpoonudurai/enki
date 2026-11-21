@@ -23,12 +23,14 @@ func Execute() error {
 func newRootCmd() *cobra.Command {
 	root := &cobra.Command{
 		Use:   "enki",
-		Short: "AI security posture scanner for laptops and servers",
+		Short: "AI configuration and exposure scanner for laptops and servers",
 		Long: strings.Join(report.SmallLogoLines(), "\n") + "\n" +
 			report.Title + " · " + version.Version + "\n\n" +
-			"enki audits local AI tooling: exposed inference endpoints, MCP server\n" +
-			"configurations, agent permissions, provider secrets, model artifacts,\n" +
-			"and AI dependency vulnerabilities — with guarded, reversible fixes.",
+			"enki audits the AI configuration and exposure surface: inference endpoints,\n" +
+			"MCP server configs, agent permissions, provider secrets, model artifacts,\n" +
+			"and dependency vulnerabilities — with guarded, reversible fixes.\n" +
+			"It reads configuration and metadata; it does not instrument runtime behavior\n" +
+			"or inspect model weights.",
 		SilenceErrors: true,
 		SilenceUsage:  true,
 		RunE: func(cmd *cobra.Command, _ []string) error {

@@ -1,4 +1,4 @@
-// Package asciireport renders a standalone ASCII posture report.
+// Package asciireport renders a standalone ASCII configuration/exposure report.
 package asciireport
 
 import (

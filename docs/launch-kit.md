@@ -49,7 +49,7 @@ Guarded fixes with undo. SARIF/OCSF/CycloneDX. Apache-2.0.
 ## Directory blurbs
 
 Short (≤200 chars)
-> Single-binary AI security posture scanner: exposed inference endpoints, MCP
+> Single-binary AI configuration and exposure scanner: exposed inference endpoints, MCP
 > supply-chain risk, agent permissions, secrets, model artifacts, dependency
 > CVEs. Guarded, reversible fixes. TUI + SARIF/OCSF/CycloneDX. Apache-2.0.
 

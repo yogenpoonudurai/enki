@@ -1,10 +1,14 @@
-# enki — AI Security Posture CLI
+# enki — AI configuration and exposure scanner
 
-enki is a single static binary that audits the AI stack on developer laptops and
-production servers: exposed inference endpoints, MCP server configuration,
-agent permissions, provider secrets, unsafe model artifacts, and known
-vulnerabilities in AI and application dependencies. It finds issues and can
-apply guarded, reversible fixes.
+enki is a single static binary that audits the AI configuration and exposure
+surface of developer laptops and servers: exposed inference endpoints, MCP
+server configuration, agent permissions, provider secrets, unsafe model
+artifacts, and known vulnerabilities in AI and application dependencies. It
+finds issues and can apply guarded, reversible fixes.
+
+It is deliberately narrower than an AI security platform. It reads
+configuration, process, file, and package metadata; it does not instrument
+runtime behavior, inspect model weights, or prove that a risk is exploitable.
 
 - Pure Go, no runtime dependencies: macOS · Linux · Windows (amd64/arm64)
 - Deterministic scans; no account, telemetry, or LLM required

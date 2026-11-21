@@ -48,7 +48,7 @@ Notes:
 
 Short (≤200 chars):
 
-> AI security posture for laptops and GPU servers: exposed inference endpoints,
+> AI configuration and exposure scanning for laptops and GPU servers: exposed inference endpoints,
 > MCP supply-chain risk, agent permissions, secrets, model artifacts, and CVE
 > scanning — with reversible fixes.
 

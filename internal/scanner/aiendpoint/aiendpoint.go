@@ -23,7 +23,7 @@ import (
 
 const moduleName = "endpoint-exposure"
 
-const userAgent = "enki/0.1 (AI-SPM scanner)"
+const userAgent = "enki/0.1 (AI configuration/exposure scanner)"
 
 type Module struct{}
 

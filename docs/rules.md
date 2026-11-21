@@ -20,6 +20,20 @@ A HIGH finding is not automatically a confirmed vulnerability. For example, an
 unpinned MCP package is conditional supply-chain uncertainty, and the presence
 of pickle weights is hygiene until an untrusted file is actually loaded.
 
+## What the rules do not prove
+
+- **Presence is not compromise.** A pickle file, shell-capable MCP server, or
+  unpinned package may be perfectly legitimate; the finding identifies a
+  condition that deserves review.
+- **Configuration parsing is heuristic.** Rules understand the common shapes
+  of each tool's config and can miss unusual nesting, wrappers, or custom
+  loaders.
+- **Dependency findings cover resolved versions only.** Lockfile-less ranges,
+  unsupported distributions, and untracked ecosystems appear as coverage gaps,
+  not as clean results.
+- **No rule proves exploitability.** enki does not execute payloads, authenticate
+  to services, or demonstrate an attack path.
+
 ## AEP — endpoint exposure (`endpoint-exposure`)
 
 | ID | Severity | Category | Basis | Check |
