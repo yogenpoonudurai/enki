@@ -198,7 +198,7 @@ Local MCP server (`enki-mcp`, stdio): `enki_scan`, `enki_plan_fix`,
 
 ```yaml
 - uses: actions/checkout@v7
-- uses: yogenpoonudurai/enki@v0.4.0
+- uses: yogenpoonudurai/enki@v0.5.0
   with:
     args: "--scope project --fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 ```
