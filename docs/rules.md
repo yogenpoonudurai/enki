@@ -12,6 +12,10 @@ Every finding carries four independent signals:
   artifact or setting exists, but that alone does not prove compromise).
 - **Confidence** — how sure the detector is that the observation is real.
 
+Detection quality is tracked per rule in
+[detection-benchmark.md](detection-benchmark.md), with positive, negative, and
+adversarial fixtures and a CI regression gate.
+
 A HIGH finding is not automatically a confirmed vulnerability. For example, an
 unpinned MCP package is conditional supply-chain uncertainty, and the presence
 of pickle weights is hygiene until an untrusted file is actually loaded.

@@ -32,5 +32,8 @@ jobs:
       - name: Test
         run: go test ./...
 
+      - name: Detection benchmark
+        run: go test ./internal/bench -run TestDetectionBenchmark -count=1 -v
+
       - name: Cross-compile
         run: make cross

@@ -25,6 +25,7 @@ LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
 .PHONY: build build-cli build-mcp build-cloud test vet fmt cross clean install \
+	bench-detect bench-update \
 	container-image test-container smoke-container smoke-local-container verify-docs-container shell-container
 
 container-image:
@@ -72,6 +73,12 @@ install:
 
 test:
 	go test ./...
+
+bench-detect:
+	go test ./internal/bench -run TestDetectionBenchmark -count=1 -v
+
+bench-update:
+	go test ./internal/bench -run TestDetectionBenchmark -count=1 -update -v
 
 vet:
 	go vet ./...

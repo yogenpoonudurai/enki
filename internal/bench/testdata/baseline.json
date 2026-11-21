@@ -1,0 +1,119 @@
+{
+  "rules": {
+    "AEP-001": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AEP-002": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AEP-003": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AEP-004": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AGT-001": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AGT-002": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AGT-003": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "AGT-004": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MCP-001": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MCP-002": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MCP-003": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MCP-004": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MCP-005": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MCP-006": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MDL-001": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MDL-002": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MDL-003": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "MDL-004": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "SBOM-001": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "SEC-001": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "SEC-002": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "SEC-003": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    },
+    "SEC-004": {
+      "positive": 1,
+      "negative": 2,
+      "adversarial": 1
+    }
+  }
+}
