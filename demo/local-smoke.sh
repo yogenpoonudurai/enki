@@ -37,11 +37,15 @@ print("findings:", len(r["findings"]), "rules:", sorted({f["rule_id"] for f in r
 PY
 
 echo "== triage with $MODEL at $BASE_URL =="
-HOME="$HOME_DIR" XDG_CONFIG_HOME="$HOME_DIR/.config" \
-ENKI_AI_PROVIDER=ollama \
-ENKI_AI_BASE_URL="$BASE_URL" \
-ENKI_AI_MODEL="$MODEL" \
-  "$BIN" triage "$WORK/report.json" > "$WORK/triage.json" 2> "$WORK/triage.err"
+if ! HOME="$HOME_DIR" XDG_CONFIG_HOME="$HOME_DIR/.config" \
+  ENKI_AI_PROVIDER=ollama \
+  ENKI_AI_BASE_URL="$BASE_URL" \
+  ENKI_AI_MODEL="$MODEL" \
+    "$BIN" triage "$WORK/report.json" > "$WORK/triage.json" 2> "$WORK/triage.err"; then
+  echo "triage failed:" >&2
+  cat "$WORK/triage.err" >&2
+  exit 1
+fi
 cat "$WORK/triage.err"
 
 python3 - "$WORK/triage.json" <<'PY'

@@ -90,8 +90,11 @@ enki triage report.json
 ```
 
 `make smoke-local-container` runs this path against Ollama inside the dev
-container. Small local models follow the schema more loosely and may propose
-`manual` instead of the canonical action; `action_verified` reflects that.
+container. On CPU, `qwen2.5:1.5b` is a good baseline: concise, four-of-four
+coverage, and canonical `manual` actions. `qwen2.5:3b` gives fuller rationale
+and ecosystem-specific steps (npm for JS, chmod for permissions) but may
+propose non-canonical actions, which enki marks unverified. Small local models
+follow the schema more loosely; `action_verified` reflects that.
 
 `enki triage` prints validated JSON: a summary, ranked items with `priority`,
 `why`, a recommended action, and `action_verified`. An action is verified only
