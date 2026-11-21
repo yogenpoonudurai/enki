@@ -13,7 +13,7 @@ it with the current tag if a newer release exists.
 ### macOS (Apple Silicon or Intel, macOS 11+)
 
 ```bash
-VERSION=0.5.0
+VERSION=0.5.1
 BASE="https://github.com/yogenpoonudurai/enki/releases/download/v${VERSION}"
 
 # Apple Silicon; use darwin_amd64 for Intel
@@ -36,7 +36,7 @@ Privacy & Security → “Open Anyway”, or (only after the checksum passes)
 ### Linux (amd64 or arm64)
 
 ```bash
-VERSION=0.5.0
+VERSION=0.5.1
 BASE="https://github.com/yogenpoonudurai/enki/releases/download/v${VERSION}"
 
 # amd64; use linux_arm64 for ARM
@@ -61,7 +61,7 @@ gap instead of claiming “clean”.
 Use Windows Terminal for the TUI. In PowerShell:
 
 ```powershell
-$Version = "0.5.0"
+$Version = "0.5.1"
 $Base = "https://github.com/yogenpoonudurai/enki/releases/download/v$Version"
 
 Invoke-WebRequest "$Base/enki_${Version}_windows_amd64.zip" -OutFile enki.zip
@@ -131,7 +131,7 @@ The composite GitHub Action uploads SARIF and the ASCII report:
 
 ```yaml
 - uses: actions/checkout@v7
-- uses: yogenpoonudurai/enki@v0.5.0   # use the current release tag
+- uses: yogenpoonudurai/enki@v0.5.1   # use the current release tag
   with:
     args: "--fail-on high"
 ```
@@ -185,7 +185,7 @@ grep "enki_${VERSION}_linux_amd64.tar.gz\$" checksums.txt > enki.sha256
 sha256sum -c enki.sha256
 
 # optional: verify the signed checksums
-VERSION=0.5.0
+VERSION=0.5.1
 BASE="https://github.com/yogenpoonudurai/enki/releases/download/v${VERSION}"
 curl -fLO "$BASE/checksums.txt.pem"
 curl -fLO "$BASE/checksums.txt.sig"
