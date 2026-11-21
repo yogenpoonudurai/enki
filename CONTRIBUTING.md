@@ -89,6 +89,9 @@ below, it should wait.
    to `internal/bench/testdata/realworld.json` with its commit and SHA256.
    Run `make bench-real-world` manually (it fetches pinned public files and is
    not part of PR CI); refresh it with `make bench-real-world-update`.
+   The blind held-out corpus is `internal/bench/testdata/heldout.json`; run it
+   with live OSV via `make bench-heldout-update`. Do not tune detectors on
+   held-out results before publishing them.
 5. Add a unit test for module-specific behavior. For remediation, verify `fix`
    then `undo` restores the file byte-for-byte and never touches sensitive
    paths.

@@ -80,6 +80,8 @@ Generated from `internal/bench/testdata/realworld.json` plus the controlled fixt
 | MDL-003 | 2/0 | 2 | 0 | 0 | 100.0% | 100.0% | 100.0% |
 | SBOM-001 | 1/1 | 1 | 0 | 0 | 100.0% | 100.0% | 100.0% |
 
+A separate blind, held-out review with live OSV data is published in [benchmark-heldout.md](benchmark-heldout.md).
+
 ## Findings from this corpus
 
 - The IBM public MCP config exposed an MCP-003 false positive on placeholder values such as `YOUR_API_KEY` and `<APIKEY>`. The detector now ignores placeholder-shaped values, and `mcp-003-negative-long-placeholder` is a regression fixture. The results above reflect the fixed detector.
