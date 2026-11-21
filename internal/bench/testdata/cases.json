@@ -1,0 +1,1291 @@
+{
+  "cases": [
+    {
+      "name": "aep-001-positive-confirmed",
+      "module": "endpoint-exposure",
+      "rule": "AEP-001",
+      "type": "positive",
+      "listeners": [
+        {
+          "addr": "0.0.0.0",
+          "server": "ollama",
+          "cors": "",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ],
+      "expect": [
+        "AEP-001"
+      ],
+      "forbid": [
+        "AEP-002"
+      ]
+    },
+    {
+      "name": "aep-001-negative-loopback",
+      "module": "endpoint-exposure",
+      "rule": "AEP-001",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "ollama",
+          "cors": "",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-001-negative-auth-required",
+      "module": "endpoint-exposure",
+      "rule": "AEP-001",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "0.0.0.0",
+          "server": "ollama401",
+          "cors": "",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-001-adversarial-non-ai-listener",
+      "module": "endpoint-exposure",
+      "rule": "AEP-001",
+      "type": "adversarial",
+      "listeners": [
+        {
+          "addr": "0.0.0.0",
+          "server": "generic",
+          "cors": "",
+          "process": "nginx",
+          "cmdline": [
+            "nginx",
+            "-g",
+            "daemon off;"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-002-positive-cors-reflection",
+      "module": "endpoint-exposure",
+      "rule": "AEP-002",
+      "type": "positive",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "ollama",
+          "cors": "reflect",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ],
+      "expect": [
+        "AEP-002"
+      ]
+    },
+    {
+      "name": "aep-002-negative-no-cors",
+      "module": "endpoint-exposure",
+      "rule": "AEP-002",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "ollama",
+          "cors": "",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-002-negative-auth-required",
+      "module": "endpoint-exposure",
+      "rule": "AEP-002",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "ollama401",
+          "cors": "",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-002-adversarial-fixed-origin",
+      "module": "endpoint-exposure",
+      "rule": "AEP-002",
+      "type": "adversarial",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "ollama",
+          "cors": "https://trusted.example",
+          "process": "ollama",
+          "cmdline": [
+            "ollama",
+            "serve"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-003-positive-gradio-share",
+      "module": "endpoint-exposure",
+      "rule": "AEP-003",
+      "type": "positive",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "none",
+          "cors": "",
+          "process": "python",
+          "cmdline": [
+            "python",
+            "app.py",
+            "--share"
+          ],
+          "port": 7860
+        }
+      ],
+      "expect": [
+        "AEP-003"
+      ]
+    },
+    {
+      "name": "aep-003-negative-non-gradio",
+      "module": "endpoint-exposure",
+      "rule": "AEP-003",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "none",
+          "cors": "",
+          "process": "nginx",
+          "cmdline": [
+            "nginx",
+            "--share"
+          ],
+          "port": 7861
+        }
+      ]
+    },
+    {
+      "name": "aep-003-negative-no-share",
+      "module": "endpoint-exposure",
+      "rule": "AEP-003",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "none",
+          "cors": "",
+          "process": "python",
+          "cmdline": [
+            "python",
+            "app.py"
+          ],
+          "port": 7862
+        }
+      ]
+    },
+    {
+      "name": "aep-003-adversarial-shared-files",
+      "module": "endpoint-exposure",
+      "rule": "AEP-003",
+      "type": "adversarial",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "none",
+          "cors": "",
+          "process": "python",
+          "cmdline": [
+            "python",
+            "app.py",
+            "--shared-files"
+          ],
+          "port": 7863
+        }
+      ]
+    },
+    {
+      "name": "aep-004-positive-tokenless-jupyter",
+      "module": "endpoint-exposure",
+      "rule": "AEP-004",
+      "type": "positive",
+      "listeners": [
+        {
+          "addr": "0.0.0.0",
+          "server": "jupyter",
+          "cors": "",
+          "process": "jupyter",
+          "cmdline": [
+            "jupyter",
+            "notebook"
+          ],
+          "port": 0
+        }
+      ],
+      "expect": [
+        "AEP-004"
+      ]
+    },
+    {
+      "name": "aep-004-negative-auth-required",
+      "module": "endpoint-exposure",
+      "rule": "AEP-004",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "0.0.0.0",
+          "server": "jupyter401",
+          "cors": "",
+          "process": "jupyter",
+          "cmdline": [
+            "jupyter",
+            "notebook"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-004-negative-auth-loopback",
+      "module": "endpoint-exposure",
+      "rule": "AEP-004",
+      "type": "negative",
+      "listeners": [
+        {
+          "addr": "127.0.0.1",
+          "server": "jupyter401",
+          "cors": "",
+          "process": "jupyter",
+          "cmdline": [
+            "jupyter",
+            "notebook"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "aep-004-adversarial-non-jupyter-server",
+      "module": "endpoint-exposure",
+      "rule": "AEP-004",
+      "type": "adversarial",
+      "listeners": [
+        {
+          "addr": "0.0.0.0",
+          "server": "generic",
+          "cors": "",
+          "process": "python",
+          "cmdline": [
+            "python",
+            "-m",
+            "http.server",
+            "8888"
+          ],
+          "port": 0
+        }
+      ]
+    },
+    {
+      "name": "mcp-001-positive-unpinned",
+      "module": "mcp",
+      "rule": "MCP-001",
+      "type": "positive",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"@upstash/context7-mcp\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "MCP-001"
+      ]
+    },
+    {
+      "name": "mcp-001-negative-pinned",
+      "module": "mcp",
+      "rule": "MCP-001",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.4.2\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-001-negative-node-script",
+      "module": "mcp",
+      "rule": "MCP-001",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"node\",\n      \"args\": [\n        \"server.js\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-001-adversarial-package-flag",
+      "module": "mcp",
+      "rule": "MCP-001",
+      "type": "adversarial",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"--package=@mcp/server-filesystem@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-002-positive-plaintext",
+      "module": "mcp",
+      "rule": "MCP-002",
+      "type": "positive",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"remote\": {\n      \"type\": \"http\",\n      \"url\": \"http://mcp.example.internal/sse\"\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "MCP-002"
+      ]
+    },
+    {
+      "name": "mcp-002-negative-https",
+      "module": "mcp",
+      "rule": "MCP-002",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"remote\": {\n      \"type\": \"http\",\n      \"url\": \"https://mcp.example.internal/sse\"\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-002-negative-loopback-http",
+      "module": "mcp",
+      "rule": "MCP-002",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"remote\": {\n      \"type\": \"http\",\n      \"url\": \"http://127.0.0.1:8080/sse\"\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-002-adversarial-localhost-http",
+      "module": "mcp",
+      "rule": "MCP-002",
+      "type": "adversarial",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"remote\": {\n      \"type\": \"http\",\n      \"url\": \"http://localhost:8080/sse\"\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-003-positive-inline-secret",
+      "module": "mcp",
+      "rule": "MCP-003",
+      "type": "positive",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ],\n      \"env\": {\n        \"OPENAI_API_KEY\": \"sk-test-abcdefghijklmnopqrstuvwxyz123456\"\n      }\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "MCP-003"
+      ]
+    },
+    {
+      "name": "mcp-003-negative-nonsecret-env",
+      "module": "mcp",
+      "rule": "MCP-003",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ],\n      \"env\": {\n        \"GREETING\": \"hello\"\n      }\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-003-negative-no-env",
+      "module": "mcp",
+      "rule": "MCP-003",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-003-adversarial-short-env-value",
+      "module": "mcp",
+      "rule": "MCP-003",
+      "type": "adversarial",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ],\n      \"env\": {\n        \"OPENAI_API_KEY\": \"short\"\n      }\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-004-positive-fs-root",
+      "module": "mcp",
+      "rule": "MCP-004",
+      "type": "positive",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"files\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\",\n        \"/\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "MCP-004"
+      ]
+    },
+    {
+      "name": "mcp-004-negative-relative",
+      "module": "mcp",
+      "rule": "MCP-004",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"files\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\",\n        \"./src\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-004-negative-scoped",
+      "module": "mcp",
+      "rule": "MCP-004",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"files\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\",\n        \"/home/alice/project\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-004-adversarial-data-dir",
+      "module": "mcp",
+      "rule": "MCP-004",
+      "type": "adversarial",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"files\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\",\n        \"./data\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-005-positive-shell-name",
+      "module": "mcp",
+      "rule": "MCP-005",
+      "type": "positive",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"shell\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "MCP-005"
+      ]
+    },
+    {
+      "name": "mcp-005-negative-filesystem-name",
+      "module": "mcp",
+      "rule": "MCP-005",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"filesystem\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-005-negative-fetch-name",
+      "module": "mcp",
+      "rule": "MCP-005",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"fetch\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-005-adversarial-runner-name",
+      "module": "mcp",
+      "rule": "MCP-005",
+      "type": "adversarial",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"runner\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-006-positive-world-readable",
+      "module": "mcp",
+      "rule": "MCP-006",
+      "type": "positive",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "MCP-006"
+      ]
+    },
+    {
+      "name": "mcp-006-negative-owner-only",
+      "module": "mcp",
+      "rule": "MCP-006",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mcp-006-negative-group-readable",
+      "module": "mcp",
+      "rule": "MCP-006",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0640"
+        }
+      }
+    },
+    {
+      "name": "mcp-006-adversarial-group-writable",
+      "module": "mcp",
+      "rule": "MCP-006",
+      "type": "adversarial",
+      "files": {
+        ".mcp.json": {
+          "content": "{\n  \"mcpServers\": {\n    \"ctx\": {\n      \"command\": \"npx\",\n      \"args\": [\n        \"-y\",\n        \"pkg@1.0.0\"\n      ]\n    }\n  }\n}",
+          "mode": "0660"
+        }
+      }
+    },
+    {
+      "name": "sec-001-positive-env-key",
+      "module": "secrets",
+      "rule": "SEC-001",
+      "type": "positive",
+      "files": {
+        ".env": {
+          "content": "OPENAI_API_KEY=sk-test-abcdefghijklmnopqrstuvwxyz123456\n",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "SEC-001"
+      ]
+    },
+    {
+      "name": "sec-001-negative-placeholder",
+      "module": "secrets",
+      "rule": "SEC-001",
+      "type": "negative",
+      "files": {
+        ".env": {
+          "content": "OPENAI_API_KEY=changeme\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-001-negative-no-secret",
+      "module": "secrets",
+      "rule": "SEC-001",
+      "type": "negative",
+      "files": {
+        ".env": {
+          "content": "GREETING=hello\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-001-adversarial-non-scanned-file",
+      "module": "secrets",
+      "rule": "SEC-001",
+      "type": "adversarial",
+      "files": {
+        "README.md": {
+          "content": "OPENAI_API_KEY=sk-test-abcdefghijklmnopqrstuvwxyz123456\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "sec-002-positive-history",
+      "module": "secrets",
+      "rule": "SEC-002",
+      "type": "positive",
+      "home_files": {
+        ".zsh_history": {
+          "content": "export ANTHROPIC_API_KEY=sk-ant-test-abcdefghijklmnopqrstuvwxyz\n",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "SEC-002"
+      ]
+    },
+    {
+      "name": "sec-002-negative-clean-history",
+      "module": "secrets",
+      "rule": "SEC-002",
+      "type": "negative",
+      "home_files": {
+        ".zsh_history": {
+          "content": "ls -la\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-002-negative-placeholder",
+      "module": "secrets",
+      "rule": "SEC-002",
+      "type": "negative",
+      "home_files": {
+        ".zsh_history": {
+          "content": "export OPENAI_API_KEY=changeme\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-002-adversarial-echo",
+      "module": "secrets",
+      "rule": "SEC-002",
+      "type": "adversarial",
+      "home_files": {
+        ".zsh_history": {
+          "content": "echo hello\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-003-positive-permissive",
+      "module": "secrets",
+      "rule": "SEC-003",
+      "type": "positive",
+      "files": {
+        ".env": {
+          "content": "OPENAI_API_KEY=sk-test-abcdefghijklmnopqrstuvwxyz123456\n",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "SEC-003"
+      ]
+    },
+    {
+      "name": "sec-003-negative-no-secret",
+      "module": "secrets",
+      "rule": "SEC-003",
+      "type": "negative",
+      "files": {
+        ".env": {
+          "content": "GREETING=hello\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "sec-003-negative-owner-only",
+      "module": "secrets",
+      "rule": "SEC-003",
+      "type": "negative",
+      "files": {
+        ".env": {
+          "content": "OPENAI_API_KEY=sk-test-abcdefghijklmnopqrstuvwxyz123456\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-003-adversarial-placeholder-permissive",
+      "module": "secrets",
+      "rule": "SEC-003",
+      "type": "adversarial",
+      "files": {
+        ".env": {
+          "content": "OPENAI_API_KEY=changeme\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "sec-004-positive-hf-token",
+      "module": "secrets",
+      "rule": "SEC-004",
+      "type": "positive",
+      "home_files": {
+        ".cache/huggingface/token": {
+          "content": "hf_testabcdefghijklmnopqrstuvwxyz0123456789\n",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "SEC-004"
+      ]
+    },
+    {
+      "name": "sec-004-negative-not-a-token",
+      "module": "secrets",
+      "rule": "SEC-004",
+      "type": "negative",
+      "home_files": {
+        ".cache/huggingface/token": {
+          "content": "not-a-token\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "sec-004-negative-no-file",
+      "module": "secrets",
+      "rule": "SEC-004",
+      "type": "negative"
+    },
+    {
+      "name": "sec-004-adversarial-short-token",
+      "module": "secrets",
+      "rule": "SEC-004",
+      "type": "adversarial",
+      "home_files": {
+        ".cache/huggingface/token": {
+          "content": "hf_short\n",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-001-positive-bypass",
+      "module": "agent-permissions",
+      "rule": "AGT-001",
+      "type": "positive",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"defaultMode\": \"bypassPermissions\"\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "AGT-001"
+      ]
+    },
+    {
+      "name": "agt-001-negative-default",
+      "module": "agent-permissions",
+      "rule": "AGT-001",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"defaultMode\": \"default\"\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-001-negative-auto-run-false",
+      "module": "agent-permissions",
+      "rule": "AGT-001",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"cursor.general.autoRun\": false\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-001-adversarial-plan-mode",
+      "module": "agent-permissions",
+      "rule": "AGT-001",
+      "type": "adversarial",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"defaultMode\": \"plan\"\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-002-positive-bash-star",
+      "module": "agent-permissions",
+      "rule": "AGT-002",
+      "type": "positive",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(*)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "AGT-002"
+      ]
+    },
+    {
+      "name": "agt-002-negative-read-only",
+      "module": "agent-permissions",
+      "rule": "AGT-002",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read(./src/**)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-002-negative-scoped-bash",
+      "module": "agent-permissions",
+      "rule": "AGT-002",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(git status)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-002-adversarial-shell-scoped",
+      "module": "agent-permissions",
+      "rule": "AGT-002",
+      "type": "adversarial",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Shell(git status)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-003-positive-autorun",
+      "module": "agent-permissions",
+      "rule": "AGT-003",
+      "type": "positive",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"cursor.general.autoRun\": true\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "AGT-003"
+      ]
+    },
+    {
+      "name": "agt-003-negative-autorun-false",
+      "module": "agent-permissions",
+      "rule": "AGT-003",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"cursor.general.autoRun\": false\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-003-negative-clean",
+      "module": "agent-permissions",
+      "rule": "AGT-003",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"defaultMode\": \"default\"\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-003-adversarial-autoapprove-false",
+      "module": "agent-permissions",
+      "rule": "AGT-003",
+      "type": "adversarial",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"chat.tools.autoApprove\": false\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-004-positive-ssh-grant",
+      "module": "agent-permissions",
+      "rule": "AGT-004",
+      "type": "positive",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read(~/.ssh/**)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      },
+      "expect": [
+        "AGT-004"
+      ]
+    },
+    {
+      "name": "agt-004-negative-src",
+      "module": "agent-permissions",
+      "rule": "AGT-004",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read(./src/**)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-004-negative-scoped-bash",
+      "module": "agent-permissions",
+      "rule": "AGT-004",
+      "type": "negative",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Bash(git status)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "agt-004-adversarial-secrets-dir",
+      "module": "agent-permissions",
+      "rule": "AGT-004",
+      "type": "adversarial",
+      "files": {
+        ".claude/settings.json": {
+          "content": "{\n  \"permissions\": {\n    \"allow\": [\n      \"Read(./secrets/**)\"\n    ]\n  }\n}",
+          "mode": "0600"
+        }
+      }
+    },
+    {
+      "name": "mdl-001-positive-pickle",
+      "module": "model-artifacts",
+      "rule": "MDL-001",
+      "type": "positive",
+      "files": {
+        "models/a.pt": {
+          "content": "weights",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "MDL-001"
+      ]
+    },
+    {
+      "name": "mdl-001-negative-safetensors",
+      "module": "model-artifacts",
+      "rule": "MDL-001",
+      "type": "negative",
+      "files": {
+        "models/a.safetensors": {
+          "content": "weights",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-001-negative-no-weights",
+      "module": "model-artifacts",
+      "rule": "MDL-001",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "print('hello')\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-001-adversarial-small-bin",
+      "module": "model-artifacts",
+      "rule": "MDL-001",
+      "type": "adversarial",
+      "files": {
+        "models/tiny.bin": {
+          "content": "x",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-002-positive-trust-remote",
+      "module": "model-artifacts",
+      "rule": "MDL-002",
+      "type": "positive",
+      "files": {
+        "train.py": {
+          "content": "AutoModel.from_pretrained('x/y', trust_remote_code=True)\n",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "MDL-002"
+      ]
+    },
+    {
+      "name": "mdl-002-negative-false",
+      "module": "model-artifacts",
+      "rule": "MDL-002",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "AutoModel.from_pretrained('x/y', trust_remote_code=False)\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-002-negative-no-call",
+      "module": "model-artifacts",
+      "rule": "MDL-002",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "print('hello')\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-002-adversarial-spaced-false",
+      "module": "model-artifacts",
+      "rule": "MDL-002",
+      "type": "adversarial",
+      "files": {
+        "train.py": {
+          "content": "trust_remote_code = False\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-003-positive-torch-load",
+      "module": "model-artifacts",
+      "rule": "MDL-003",
+      "type": "positive",
+      "files": {
+        "train.py": {
+          "content": "torch.load('model.pt')\n",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "MDL-003"
+      ]
+    },
+    {
+      "name": "mdl-003-negative-weights-only",
+      "module": "model-artifacts",
+      "rule": "MDL-003",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "torch.load('model.pt', weights_only=True)\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-003-negative-no-load",
+      "module": "model-artifacts",
+      "rule": "MDL-003",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "print('hello')\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-003-adversarial-loader",
+      "module": "model-artifacts",
+      "rule": "MDL-003",
+      "type": "adversarial",
+      "files": {
+        "train.py": {
+          "content": "torch.loader('model.pt')\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-004-positive-http-weights",
+      "module": "model-artifacts",
+      "rule": "MDL-004",
+      "type": "positive",
+      "files": {
+        "train.py": {
+          "content": "url = 'http://example.com/weights.safetensors'\n",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "MDL-004"
+      ]
+    },
+    {
+      "name": "mdl-004-negative-https",
+      "module": "model-artifacts",
+      "rule": "MDL-004",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "url = 'https://example.com/weights.safetensors'\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-004-negative-non-weight-url",
+      "module": "model-artifacts",
+      "rule": "MDL-004",
+      "type": "negative",
+      "files": {
+        "train.py": {
+          "content": "url = 'http://example.com/model.json'\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "mdl-004-adversarial-json-extension",
+      "module": "model-artifacts",
+      "rule": "MDL-004",
+      "type": "adversarial",
+      "files": {
+        "train.py": {
+          "content": "url = 'ftp://example.com/weights.safetensors'\n",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "sbom-001-positive-advisory",
+      "module": "sbom",
+      "rule": "SBOM-001",
+      "type": "positive",
+      "files": {
+        "package-lock.json": {
+          "content": "{\n  \"name\": \"bench\",\n  \"lockfileVersion\": 2,\n  \"packages\": {\n    \"\": {\n      \"name\": \"bench\"\n    },\n    \"node_modules/lodash\": {\n      \"version\": \"4.17.20\"\n    }\n  }\n}",
+          "mode": "0644"
+        }
+      },
+      "expect": [
+        "SBOM-001"
+      ]
+    },
+    {
+      "name": "sbom-001-negative-fixed-version",
+      "module": "sbom",
+      "rule": "SBOM-001",
+      "type": "negative",
+      "files": {
+        "package-lock.json": {
+          "content": "{\n  \"name\": \"bench\",\n  \"lockfileVersion\": 2,\n  \"packages\": {\n    \"\": {\n      \"name\": \"bench\"\n    },\n    \"node_modules/lodash\": {\n      \"version\": \"4.17.21\"\n    }\n  }\n}",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "sbom-001-negative-no-lockfile",
+      "module": "sbom",
+      "rule": "SBOM-001",
+      "type": "negative",
+      "files": {
+        "package.json": {
+          "content": "{\"dependencies\": {\"lodash\": \"^4.17.20\"}}",
+          "mode": "0644"
+        }
+      }
+    },
+    {
+      "name": "sbom-001-adversarial-unrelated-package",
+      "module": "sbom",
+      "rule": "SBOM-001",
+      "type": "adversarial",
+      "files": {
+        "package-lock.json": {
+          "content": "{\n  \"name\": \"bench\",\n  \"lockfileVersion\": 2,\n  \"packages\": {\n    \"\": {\n      \"name\": \"bench\"\n    },\n    \"node_modules/express\": {\n      \"version\": \"4.18.2\"\n    }\n  }\n}",
+          "mode": "0644"
+        }
+      }
+    }
+  ]
+}

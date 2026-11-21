@@ -68,7 +68,9 @@ Exit codes: `0` clean or below threshold, `1` findings at/above `--fail-on`
 | sbom | CVEs across npm, PyPI, Go, Cargo, NuGet, and Linux OS packages, prioritized with CISA KEV and EPSS |
 
 23 rules across six modules. Full rule and data-source references:
-[docs/rules.md](docs/rules.md) and [docs/data-sources.md](docs/data-sources.md).
+[docs/rules.md](docs/rules.md), [docs/detection-benchmark.md](docs/detection-benchmark.md)
+(positive/negative/adversarial fixtures per rule), and
+[docs/data-sources.md](docs/data-sources.md).
 Endpoint probes are read-only and loopback-only by default; `--probe-remote`
 extends them to RFC1918 listeners you own.
 
