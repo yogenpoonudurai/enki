@@ -46,7 +46,7 @@ Add after the enki step if the repo has code scanning enabled (free for public
 repos; private repos need GitHub Code Security):
 
 ```yaml
-- uses: github/codeql-action/upload-sarif@v3
+- uses: github/codeql-action/upload-sarif@v4
   if: always()
   with:
     sarif_file: enki.sarif
@@ -66,7 +66,7 @@ on:
 ```
 
 ```yaml
-- uses: actions/cache@v4
+- uses: actions/cache@v6
   with:
     path: ~/.cache/enki
     key: enki-osv-${{ hashFiles('**/package-lock.json', '**/requirements*.txt') }}

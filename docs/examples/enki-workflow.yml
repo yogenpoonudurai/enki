@@ -12,7 +12,7 @@ jobs:
   ai-config:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # Offline-fast gate: MCP configs, agent permissions, secrets.
       - uses: <owner>/enki@v0.4.0
@@ -20,7 +20,7 @@ jobs:
           args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 
       # Optional: upload SARIF to code scanning (public repos / GHAS).
-      # - uses: github/codeql-action/upload-sarif@v3
+      # - uses: github/codeql-action/upload-sarif@v4
       #   if: always()
       #   with:
       #     sarif_file: enki.sarif

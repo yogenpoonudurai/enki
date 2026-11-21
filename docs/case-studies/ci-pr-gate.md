@@ -30,12 +30,12 @@ jobs:
   ai-config:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: yogenpoonudurai/enki@v0.4.0
         with:
           # Offline-fast checks only: no OSV network dependency.
           args: "--fail-on high --deps ai --modules mcp,secrets,agent-permissions"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: enki-report
@@ -56,8 +56,8 @@ jobs:
   full:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/cache@v4
+      - uses: actions/checkout@v7
+      - uses: actions/cache@v6
         with:
           path: ~/.cache/enki
           key: enki-osv-${{ hashFiles('**/package-lock.json', '**/requirements*.txt') }}
@@ -69,7 +69,7 @@ jobs:
 If GitHub code scanning is enabled for the repository, add the SARIF upload:
 
 ```yaml
-      - uses: github/codeql-action/upload-sarif@v3
+      - uses: github/codeql-action/upload-sarif@v4
         with:
           sarif_file: enki.sarif
 ```

@@ -244,7 +244,7 @@ the interface is small and intentionally swappable.
 Use the composite action from this repository:
 
 ```yaml
-- uses: actions/checkout@v4
+- uses: actions/checkout@v7
 - uses: yogenpoonudurai/enki@v0.4.0
   with:
     args: "--fail-on high"

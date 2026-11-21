@@ -130,7 +130,7 @@ enki scan --sarif --fail-on high > enki.sarif
 The composite GitHub Action uploads SARIF and the ASCII report:
 
 ```yaml
-- uses: actions/checkout@v4
+- uses: actions/checkout@v7
 - uses: yogenpoonudurai/enki@v0.4.0   # use the current release tag
   with:
     args: "--fail-on high"
