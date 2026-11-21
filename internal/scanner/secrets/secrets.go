@@ -61,22 +61,25 @@ func buildTargets(sc *scanner.Context) []target {
 	for _, cf := range sc.Configs {
 		add(cf.Path, "config")
 	}
-	add(filepath.Join(sc.HomeDir, ".codex", "auth.json"), "config")
-	add(filepath.Join(sc.HomeDir, ".continue", "config.json"), "config")
-	add(filepath.Join(sc.HomeDir, ".aider.conf.yml"), "config")
 
-	for _, name := range []string{".env", ".env.local", ".env.development", ".env.production"} {
-		add(filepath.Join(sc.WorkingDir, name), "env")
+	if sc.Scope.IncludesHost() {
+		add(filepath.Join(sc.HomeDir, ".codex", "auth.json"), "config")
+		add(filepath.Join(sc.HomeDir, ".continue", "config.json"), "config")
+		add(filepath.Join(sc.HomeDir, ".aider.conf.yml"), "config")
+		add(filepath.Join(sc.HomeDir, ".env"), "env")
+		add(filepath.Join(sc.HomeDir, ".zsh_history"), "history")
+		add(filepath.Join(sc.HomeDir, ".bash_history"), "history")
+		add(filepath.Join(sc.HomeDir, ".local", "share", "fish", "fish_history"), "history")
+		add(filepath.Join(sc.HomeDir, ".netrc"), "credential")
+		add(filepath.Join(sc.HomeDir, ".git-credentials"), "credential")
+		add(filepath.Join(sc.HomeDir, ".cache", "huggingface", "token"), "hf-token")
 	}
-	add(filepath.Join(sc.HomeDir, ".env"), "env")
 
-	add(filepath.Join(sc.HomeDir, ".zsh_history"), "history")
-	add(filepath.Join(sc.HomeDir, ".bash_history"), "history")
-	add(filepath.Join(sc.HomeDir, ".local", "share", "fish", "fish_history"), "history")
-
-	add(filepath.Join(sc.HomeDir, ".netrc"), "credential")
-	add(filepath.Join(sc.HomeDir, ".git-credentials"), "credential")
-	add(filepath.Join(sc.HomeDir, ".cache", "huggingface", "token"), "hf-token")
+	if sc.Scope.IncludesProject() {
+		for _, name := range []string{".env", ".env.local", ".env.development", ".env.production"} {
+			add(filepath.Join(sc.WorkingDir, name), "env")
+		}
+	}
 	return out
 }
 

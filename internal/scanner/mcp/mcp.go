@@ -46,7 +46,7 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 		defs, err := serversFrom(cf)
 		if err != nil {
 			if looksLikeMCP(cf.Data) {
-				gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("cannot parse %s: %v", cf.Path, err)})
+				gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: fmt.Sprintf("cannot parse %s: %v", cf.Path, err)})
 			}
 			continue
 		}

@@ -31,26 +31,26 @@ func inventoryOSPackages(ctx context.Context) ([]Pkg, []scanner.CoverageGap) {
 	case exists("dpkg-query"):
 		out, err := runInventoryCmd(ctx, "dpkg-query", "-W", "-f=${Package}\t${Version}\t${source:Package}\t${source:Version}\n")
 		if err != nil {
-			gaps = append(gaps, osGap("dpkg inventory failed: "+err.Error()))
+			gaps = append(gaps, osGap(moduleName, scanner.GapError, "dpkg inventory failed: "+err.Error()))
 		} else {
 			pkgs = parseDpkgOutput(out)
 		}
 	case exists("rpm"):
 		out, err := runInventoryCmd(ctx, "rpm", "-qa", "--qf", "%{NAME} %{EVR}\n")
 		if err != nil {
-			gaps = append(gaps, osGap("rpm inventory failed: "+err.Error()))
+			gaps = append(gaps, osGap(moduleName, scanner.GapError, "rpm inventory failed: "+err.Error()))
 		} else {
 			pkgs = parseRpmOutput(out)
 		}
 	case fileExists("/lib/apk/db/installed"):
 		data, err := os.ReadFile("/lib/apk/db/installed")
 		if err != nil {
-			gaps = append(gaps, osGap("apk database unreadable: "+err.Error()))
+			gaps = append(gaps, osGap(moduleName, scanner.GapError, "apk database unreadable: "+err.Error()))
 		} else {
 			pkgs = parseApkInstalled(data)
 		}
 	default:
-		gaps = append(gaps, osGap("no supported OS package manager (dpkg/rpm/apk) found; OS package coverage skipped"))
+		gaps = append(gaps, osGap(moduleName, scanner.GapUnsupported, "no supported OS package manager (dpkg/rpm/apk) found; OS package coverage skipped"))
 		return nil, gaps
 	}
 
@@ -61,7 +61,7 @@ func inventoryOSPackages(ctx context.Context) ([]Pkg, []scanner.CoverageGap) {
 		for i := range pkgs {
 			pkgs[i].Ecosystem = "OS"
 		}
-		gaps = append(gaps, osGap(fmt.Sprintf(
+		gaps = append(gaps, osGap(moduleName, scanner.GapUnsupported, fmt.Sprintf(
 			"OSV has no vulnerability data for %q %q; %d OS packages are inventory-only",
 			rel["ID"], rel["VERSION_ID"], len(pkgs))))
 		return pkgs, gaps
@@ -70,14 +70,14 @@ func inventoryOSPackages(ctx context.Context) ([]Pkg, []scanner.CoverageGap) {
 		pkgs[i].Ecosystem = eco
 	}
 	if len(pkgs) > maxOSPackages {
-		gaps = append(gaps, osGap(fmt.Sprintf("OS package inventory truncated at %d entries", maxOSPackages)))
+		gaps = append(gaps, osGap(moduleName, scanner.GapTruncated, fmt.Sprintf("OS package inventory truncated at %d entries", maxOSPackages)))
 		pkgs = pkgs[:maxOSPackages]
 	}
 	return pkgs, gaps
 }
 
-func osGap(reason string) scanner.CoverageGap {
-	return scanner.CoverageGap{Module: moduleName, Reason: reason}
+func osGap(module, kind, reason string) scanner.CoverageGap {
+	return scanner.CoverageGap{Module: module, Kind: kind, Reason: reason}
 }
 
 func runInventoryCmd(ctx context.Context, name string, args ...string) ([]byte, error) {

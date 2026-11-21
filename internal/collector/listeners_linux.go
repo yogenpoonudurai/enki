@@ -45,12 +45,14 @@ func Listeners() ([]Listener, []Gap) {
 	if unattributed > 0 {
 		gaps = append(gaps, Gap{
 			Module: "listeners",
+			Kind:   GapPermission,
 			Reason: fmt.Sprintf("%d listener(s) could not be attributed to a process (owned by other users); rerun elevated for full coverage", unattributed),
 		})
 	}
 	if inContainer() {
 		gaps = append(gaps, Gap{
 			Module: "listeners",
+			Kind:   GapUnsupported,
 			Reason: "scanning the current network namespace only; host or other-container listeners are not visible",
 		})
 	}

@@ -30,6 +30,7 @@ func LookupAdvisories(ctx context.Context, c Client, pkgs []Pkg) (map[string][]*
 	if err != nil {
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapNetwork,
 			Reason: "osv.dev unreachable; vulnerability status unknown: " + err.Error(),
 		})
 		return nil, gaps
@@ -60,6 +61,7 @@ func LookupAdvisories(ctx context.Context, c Client, pkgs []Pkg) (map[string][]*
 	if len(ids) > maxAdvisories {
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapTruncated,
 			Reason: "advisories omitted due to the per-run limit",
 		})
 		ids = ids[:maxAdvisories]
@@ -70,6 +72,7 @@ func LookupAdvisories(ctx context.Context, c Client, pkgs []Pkg) (map[string][]*
 	if failed > 0 {
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapNetwork,
 			Reason: "some advisory detail requests failed; results are partial",
 		})
 	}

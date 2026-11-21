@@ -35,7 +35,9 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 		}
 		out = append(out, checkConfig(cf.Path, root)...)
 	}
-	out = append(out, checkShellProfiles(sc.HomeDir)...)
+	if sc.Scope.IncludesHost() {
+		out = append(out, checkShellProfiles(sc.HomeDir)...)
+	}
 	finding.Sort(out)
 	return out, nil, nil
 }

@@ -63,6 +63,7 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 	if len(selected) > maxPackages {
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapTruncated,
 			Reason: fmt.Sprintf("%d packages omitted (limit %d per scan)", len(selected)-maxPackages, maxPackages),
 		})
 		selected = selected[:maxPackages]
@@ -78,6 +79,7 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 	if err != nil {
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapNetwork,
 			Reason: "osv.dev unreachable; dependency vulnerability status is unknown (not clean): " + err.Error(),
 		})
 		return nil, gaps, nil
@@ -103,6 +105,7 @@ func (m *Module) Run(sc *scanner.Context) ([]finding.Finding, []scanner.Coverage
 	if failed > 0 {
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapNetwork,
 			Reason: fmt.Sprintf("%d advisory detail request(s) failed; those CVEs are unreported", failed),
 		})
 	}
@@ -183,6 +186,7 @@ func (m *Module) advisoryIDSet(hits []advisoryHit, gaps *[]scanner.CoverageGap) 
 	if limit > maxAdvisories {
 		*gaps = append(*gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapTruncated,
 			Reason: fmt.Sprintf("%d advisories omitted (limit %d per scan)", len(ids)-maxAdvisories, maxAdvisories),
 		})
 		limit = maxAdvisories

@@ -47,3 +47,11 @@ trend indicator while the verdict and severity counts carry the urgency.
 
 Coverage gaps (for example "osv.dev unreachable") never improve the score;
 they are reported separately so that "unknown" is never presented as "clean".
+A gap carries a kind — `network`, `permission`, `unsupported`, `truncated`,
+`error`, or `not-applicable` — and, where relevant, the scope it belongs to.
+
+When there are no findings but a real gap exists, the verdict is
+`GOOD (partial)`. `not-applicable` gaps come from scope selection (`--scope
+project` skips host checks and vice versa) and do not downgrade the verdict.
+Each module also reports whether it was skipped, how many gaps it produced,
+and its runtime.

@@ -13,7 +13,7 @@ import (
 	"github.com/yogenpoonudurai/enki/internal/scanner"
 )
 
-const SchemaVersion = "1"
+const SchemaVersion = "2"
 
 type Tool struct {
 	Name          string `json:"name"`
@@ -32,6 +32,7 @@ type Scan struct {
 	User       string    `json:"user"`
 	Elevated   bool      `json:"elevated"`
 	WorkDir    string    `json:"workdir"`
+	Scope      string    `json:"scope"`
 }
 
 type Summary struct {
@@ -45,6 +46,8 @@ type ModuleInfo struct {
 	Name       string `json:"name"`
 	Findings   int    `json:"findings"`
 	DurationMS int64  `json:"duration_ms"`
+	Gaps       int    `json:"gaps,omitempty"`
+	Skipped    bool   `json:"skipped,omitempty"`
 	Error      string `json:"error,omitempty"`
 }
 
@@ -74,13 +77,20 @@ func Build(ver, rulePack string, sc *scanner.Context, results []*scanner.ModuleR
 			User:       sc.Username,
 			Elevated:   sc.Elevated,
 			WorkDir:    sc.WorkingDir,
+			Scope:      scopeName(sc.Scope),
 		},
 		Findings: []finding.Finding{},
 		Modules:  []ModuleInfo{},
 	}
 	rep.Coverage = append(rep.Coverage, sc.Gaps...)
 	for _, res := range results {
-		mi := ModuleInfo{Name: res.Module, Findings: len(res.Findings), DurationMS: res.Duration.Milliseconds()}
+		mi := ModuleInfo{
+			Name:       res.Module,
+			Findings:   len(res.Findings),
+			DurationMS: res.Duration.Milliseconds(),
+			Gaps:       len(res.Gaps),
+			Skipped:    res.Skipped,
+		}
 		if res.Err != nil {
 			mi.Error = res.Err.Error()
 		}
@@ -92,8 +102,15 @@ func Build(ver, rulePack string, sc *scanner.Context, results []*scanner.ModuleR
 	finding.Sort(rep.Findings)
 	rep.Summary.Score, rep.Summary.Counts = Score(rep.Findings)
 	rep.Summary.Total = len(rep.Findings)
-	rep.Summary.Verdict = Verdict(rep.Summary.Counts)
+	rep.Summary.Verdict = Verdict(rep.Summary.Counts, rep.Coverage)
 	return rep
+}
+
+func scopeName(s scanner.Scope) string {
+	if s == "" {
+		return string(scanner.ScopeFull)
+	}
+	return string(s)
 }
 
 // attachTargetFingerprints records the content identity of every file that a
@@ -168,17 +185,25 @@ func Score(fs []finding.Finding) (int, map[string]int) {
 	return score, counts
 }
 
-func Verdict(counts map[string]int) string {
+func Verdict(counts map[string]int, coverage []scanner.CoverageGap) string {
+	base := "GOOD"
 	switch {
 	case counts[string(finding.SeverityCritical)] > 0:
-		return "AT RISK"
+		base = "AT RISK"
 	case counts[string(finding.SeverityHigh)] > 0:
-		return "ATTENTION"
+		base = "ATTENTION"
 	case counts[string(finding.SeverityMedium)] > 0:
-		return "REVIEW"
-	default:
-		return "GOOD"
+		base = "REVIEW"
 	}
+	if base != "GOOD" {
+		return base
+	}
+	for _, g := range coverage {
+		if g.Kind != scanner.GapNotApplicable {
+			return "GOOD (partial)"
+		}
+	}
+	return "GOOD"
 }
 
 func newScanID() string {

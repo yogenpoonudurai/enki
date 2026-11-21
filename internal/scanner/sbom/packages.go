@@ -32,6 +32,7 @@ type Options struct {
 	IncludeGlobal   bool
 	ScanNodeModules bool
 	OSPackages      bool
+	NoProject       bool // skip project manifests (host-scoped scans)
 }
 
 // DefaultOptions scans everything under the working directory.
@@ -73,176 +74,178 @@ func Discover(ctx context.Context, opts Options, defaultRoot string) ([]Pkg, []s
 	dirsWithPackageJSON := map[string]bool{}
 	files := 0
 
-	for _, root := range roots {
-		root = filepath.Clean(root)
-		err := filepath.WalkDir(root, func(path string, d fs.DirEntry, walkErr error) error {
-			if walkErr != nil {
-				return nil
-			}
-			rel, relErr := filepath.Rel(root, path)
-			if relErr != nil {
-				return nil
-			}
-			depth := strings.Count(rel, string(os.PathSeparator))
-			if d.IsDir() {
-				if path != root && (skipDirs[d.Name()] || depth >= opts.Depth) {
-					return filepath.SkipDir
+	if !opts.NoProject {
+		for _, root := range roots {
+			root = filepath.Clean(root)
+			err := filepath.WalkDir(root, func(path string, d fs.DirEntry, walkErr error) error {
+				if walkErr != nil {
+					return nil
 				}
-				return nil
-			}
-			files++
-			if files > maxWalkFiles {
-				return filepath.SkipAll
-			}
+				rel, relErr := filepath.Rel(root, path)
+				if relErr != nil {
+					return nil
+				}
+				depth := strings.Count(rel, string(os.PathSeparator))
+				if d.IsDir() {
+					if path != root && (skipDirs[d.Name()] || depth >= opts.Depth) {
+						return filepath.SkipDir
+					}
+					return nil
+				}
+				files++
+				if files > maxWalkFiles {
+					return filepath.SkipAll
+				}
 
-			base := d.Name()
-			switch {
-			case base == "package-lock.json" || base == "npm-shrinkwrap.json":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot read " + path})
-					return nil
+				base := d.Name()
+				switch {
+				case base == "package-lock.json" || base == "npm-shrinkwrap.json":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot read " + path})
+						return nil
+					}
+					ps, skipped, perr := parseNpmLock(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d non-registry npm dependencies skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+					dirsWithNpmLock[filepath.Dir(path)] = true
+				case base == "yarn.lock":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, skipped, perr := parseYarnLock(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d yarn entries without registry versions skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+					dirsWithNpmLock[filepath.Dir(path)] = true
+				case base == "pnpm-lock.yaml":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, skipped, perr := parsePnpmLock(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d pnpm entries without registry versions skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+					dirsWithNpmLock[filepath.Dir(path)] = true
+				case base == "package.json":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					dirsWithPackageJSON[filepath.Dir(path)] = true
+					set.addAll(parsePackageJSON(data), path)
+				case strings.HasPrefix(base, "requirements") && strings.HasSuffix(base, ".txt"):
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					set.addAll(parseRequirements(data), path)
+				case base == "pyproject.toml":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					set.addAll(parsePyproject(data), path)
+				case base == "poetry.lock" || base == "pdm.lock":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, skipped := parseTOMLPackages(data, false)
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d non-registry entries skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+				case base == "uv.lock":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, skipped := parseTOMLPackages(data, true)
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d editable/git/path packages skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+				case base == "Pipfile.lock":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, perr := parsePipfileLock(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					set.addAll(ps, path)
+				case base == "go.mod":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, skipped := parseGoMod(data)
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d local/unversioned Go replacements skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+				case base == "go.sum":
+					// go.sum cannot identify the selected version; only note the
+					// blind spot when go.mod is absent.
+					dir := filepath.Dir(path)
+					if _, statErr := os.Stat(filepath.Join(dir, "go.mod")); os.IsNotExist(statErr) {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapUnsupported, Reason: "go.sum without go.mod cannot resolve selected module versions: " + path})
+					}
+				case base == "Cargo.lock":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					set.addAll(parseCargoLock(data), path)
+				case base == "packages.lock.json":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, perr := parseNuGetLock(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					set.addAll(ps, path)
+				case base == "project.assets.json" && filepath.Base(filepath.Dir(path)) == "obj":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, perr := parseProjectAssets(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					set.addAll(ps, path)
 				}
-				ps, skipped, perr := parseNpmLock(data)
-				if perr != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot parse " + path + ": " + perr.Error()})
-					return nil
-				}
-				if skipped > 0 {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d non-registry npm dependencies skipped in %s", skipped, path)})
-				}
-				set.addAll(ps, path)
-				dirsWithNpmLock[filepath.Dir(path)] = true
-			case base == "yarn.lock":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, skipped, perr := parseYarnLock(data)
-				if perr != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot parse " + path + ": " + perr.Error()})
-					return nil
-				}
-				if skipped > 0 {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d yarn entries without registry versions skipped in %s", skipped, path)})
-				}
-				set.addAll(ps, path)
-				dirsWithNpmLock[filepath.Dir(path)] = true
-			case base == "pnpm-lock.yaml":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, skipped, perr := parsePnpmLock(data)
-				if perr != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot parse " + path + ": " + perr.Error()})
-					return nil
-				}
-				if skipped > 0 {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d pnpm entries without registry versions skipped in %s", skipped, path)})
-				}
-				set.addAll(ps, path)
-				dirsWithNpmLock[filepath.Dir(path)] = true
-			case base == "package.json":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				dirsWithPackageJSON[filepath.Dir(path)] = true
-				set.addAll(parsePackageJSON(data), path)
-			case strings.HasPrefix(base, "requirements") && strings.HasSuffix(base, ".txt"):
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				set.addAll(parseRequirements(data), path)
-			case base == "pyproject.toml":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				set.addAll(parsePyproject(data), path)
-			case base == "poetry.lock" || base == "pdm.lock":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, skipped := parseTOMLPackages(data, false)
-				if skipped > 0 {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d non-registry entries skipped in %s", skipped, path)})
-				}
-				set.addAll(ps, path)
-			case base == "uv.lock":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, skipped := parseTOMLPackages(data, true)
-				if skipped > 0 {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d editable/git/path packages skipped in %s", skipped, path)})
-				}
-				set.addAll(ps, path)
-			case base == "Pipfile.lock":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, perr := parsePipfileLock(data)
-				if perr != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot parse " + path + ": " + perr.Error()})
-					return nil
-				}
-				set.addAll(ps, path)
-			case base == "go.mod":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, skipped := parseGoMod(data)
-				if skipped > 0 {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: fmt.Sprintf("%d local/unversioned Go replacements skipped in %s", skipped, path)})
-				}
-				set.addAll(ps, path)
-			case base == "go.sum":
-				// go.sum cannot identify the selected version; only note the
-				// blind spot when go.mod is absent.
-				dir := filepath.Dir(path)
-				if _, statErr := os.Stat(filepath.Join(dir, "go.mod")); os.IsNotExist(statErr) {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "go.sum without go.mod cannot resolve selected module versions: " + path})
-				}
-			case base == "Cargo.lock":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				set.addAll(parseCargoLock(data), path)
-			case base == "packages.lock.json":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, perr := parseNuGetLock(data)
-				if perr != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot parse " + path + ": " + perr.Error()})
-					return nil
-				}
-				set.addAll(ps, path)
-			case base == "project.assets.json" && filepath.Base(filepath.Dir(path)) == "obj":
-				data, err := os.ReadFile(path)
-				if err != nil {
-					return nil
-				}
-				ps, perr := parseProjectAssets(data)
-				if perr != nil {
-					gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "cannot parse " + path + ": " + perr.Error()})
-					return nil
-				}
-				set.addAll(ps, path)
+				return nil
+			})
+			if err != nil {
+				gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "walk failed for " + root + ": " + err.Error()})
 			}
-			return nil
-		})
-		if err != nil {
-			gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "walk failed for " + root + ": " + err.Error()})
 		}
 	}
 
@@ -252,17 +255,18 @@ func Discover(ctx context.Context, opts Options, defaultRoot string) ([]Pkg, []s
 			continue
 		}
 		if gapCount >= 10 {
-			gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Reason: "additional package.json files without a lockfile were not enumerated"})
+			gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapUnsupported, Reason: "additional package.json files without a lockfile were not enumerated"})
 			break
 		}
 		gapCount++
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
+			Kind:   scanner.GapUnsupported,
 			Reason: "package.json without an npm/yarn/pnpm lockfile: version ranges are unresolved, coverage is incomplete in " + dir,
 		})
 	}
 
-	if opts.ScanNodeModules {
+	if opts.ScanNodeModules && !opts.NoProject {
 		for _, root := range roots {
 			ps := parseNodeModules(filepath.Clean(root))
 			set.addAll(ps, "node_modules")

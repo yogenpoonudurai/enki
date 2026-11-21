@@ -49,7 +49,7 @@ Exit codes: `0` clean or below threshold, `1` findings at/above `--fail-on`
 | Also useful | Purpose |
 |---|---|
 | `enki` | interactive dashboard on a terminal; plain scan when piped |
-| `enki scan --sarif --fail-on high > enki.sarif` | SARIF for code scanning |
+| `enki scan --scope project --deps ai --sarif --fail-on high > enki.sarif` | SARIF for code scanning |
 | `enki scan --deps ai` | quiet AI-catalog dependency view |
 | `enki sbom -o bom.json` | CycloneDX 1.5 SBOM |
 | `enki doctor` | local system context used for tailored advice |
@@ -93,14 +93,19 @@ at/above the threshold):
 - uses: actions/checkout@v7
 - uses: yogenpoonudurai/enki@v0.4.0   # use the current release tag
   with:
-    args: "--fail-on high"
+    args: "--scope project --deps ai --fail-on high"
 ```
 
 Or run the CLI directly:
 
 ```sh
-enki scan --sarif --fail-on high > enki.sarif
+enki scan --scope project --deps ai --sarif --fail-on high > enki.sarif
 ```
+
+`--scope project` checks the repository only. Runner-side scans cannot see a
+developer laptop's listeners, user-level MCP servers, or shell history; run
+`enki scan --scope host` locally for those. See
+[docs/ci-quickstart.md](docs/ci-quickstart.md#what-ci-can-and-cannot-see).
 
 PR-gate walkthrough: [docs/ci-quickstart.md](docs/ci-quickstart.md).
 

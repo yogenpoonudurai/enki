@@ -24,8 +24,9 @@ import (
 	"github.com/yogenpoonudurai/enki/internal/version"
 )
 
-// Options configures a host scan.
+// Options configures a scan.
 type Options struct {
+	Scope           scanner.Scope
 	Deps            string
 	Paths           []string
 	Depth           int
@@ -40,6 +41,9 @@ type Options struct {
 }
 
 func (o Options) normalized() Options {
+	if o.Scope == "" {
+		o.Scope = scanner.ScopeFull
+	}
 	if o.Deps == "" {
 		o.Deps = "all"
 	}
@@ -69,6 +73,7 @@ func Run(parent context.Context, opts Options, onProgress func(scanner.Progress)
 		Now:         started,
 		HomeDir:     homeDir(),
 		WorkingDir:  workDir(),
+		Scope:       opts.Scope,
 		OS:          runtime.GOOS,
 		Arch:        runtime.GOARCH,
 		Hostname:    hostname(),
@@ -76,18 +81,76 @@ func Run(parent context.Context, opts Options, onProgress func(scanner.Progress)
 		Elevated:    platform.Elevated(),
 		ProbeRemote: opts.ProbeRemote,
 		IgnoreRules: toSet(opts.IgnoreRules),
+		SkipModules: map[string]bool{},
 		OnProgress:  onProgress,
 	}
+	if !opts.Scope.IncludesHost() {
+		sc.SkipModules["endpoint-exposure"] = true
+	}
 
-	listeners, gaps := collector.Listeners()
-	sc.Listeners = listeners
-	sc.Gaps = append(sc.Gaps, gaps...)
-	configs, gaps := collector.DiscoverConfigs(sc.HomeDir, sc.WorkingDir)
+	if opts.Scope.IncludesHost() {
+		listeners, gaps := collector.Listeners()
+		sc.Listeners = listeners
+		sc.Gaps = append(sc.Gaps, gaps...)
+	}
+	configs, gaps := collector.DiscoverConfigs(sc.HomeDir, sc.WorkingDir, opts.Scope.IncludesHost(), opts.Scope.IncludesProject())
 	sc.Configs = configs
 	sc.Gaps = append(sc.Gaps, gaps...)
+	sc.Gaps = append(sc.Gaps, scopeGaps(opts.Scope)...)
 
 	results := (&scanner.Engine{Modules: modules}).Run(sc)
 	return report.Build(version.Version, rules.Version, sc, results, started, ""), nil
+}
+
+func sbomOptions(o Options) sbom.Options {
+	opts := sbom.Options{
+		Deps:            o.Deps,
+		Roots:           o.Paths,
+		Depth:           o.Depth,
+		IncludeDev:      o.IncludeDev,
+		IncludeGlobal:   o.IncludeGlobal,
+		ScanNodeModules: o.ScanNodeModules,
+		OSPackages:      o.OSPackages,
+	}
+	if o.Scope == scanner.ScopeProject {
+		opts.OSPackages = false
+	}
+	if o.Scope == scanner.ScopeHost {
+		opts.Roots = nil
+		opts.NoProject = true
+	}
+	return opts
+}
+
+// scopeGaps makes every scan mode state which surfaces it did not inspect.
+func scopeGaps(s scanner.Scope) []scanner.CoverageGap {
+	notChecked := func(module, scope, what string) scanner.CoverageGap {
+		return scanner.CoverageGap{
+			Module: module,
+			Kind:   scanner.GapNotApplicable,
+			Scope:  scope,
+			Reason: what + " not checked in " + string(s) + " scope",
+		}
+	}
+	switch s {
+	case scanner.ScopeProject:
+		return []scanner.CoverageGap{
+			notChecked("endpoint-exposure", "host", "network listeners"),
+			notChecked("secrets", "host", "user history, credential stores, and home configs"),
+			notChecked("agent-permissions", "host", "user shell profiles"),
+			notChecked("model-artifacts", "host", "home model caches"),
+			notChecked("sbom", "host", "OS packages"),
+		}
+	case scanner.ScopeHost:
+		return []scanner.CoverageGap{
+			notChecked("mcp", "project", "repository MCP configs"),
+			notChecked("agent-permissions", "project", "repository agent configs"),
+			notChecked("secrets", "project", "repository .env files"),
+			notChecked("model-artifacts", "project", "repository model artifacts"),
+			notChecked("sbom", "project", "repository dependency manifests"),
+		}
+	}
+	return nil
 }
 
 func buildModules(o Options) ([]scanner.Module, error) {
@@ -97,15 +160,7 @@ func buildModules(o Options) ([]scanner.Module, error) {
 		agentcfg.New(),
 		secrets.New(),
 		model.New(),
-		sbom.New(sbom.Options{
-			Deps:            o.Deps,
-			Roots:           o.Paths,
-			Depth:           o.Depth,
-			IncludeDev:      o.IncludeDev,
-			IncludeGlobal:   o.IncludeGlobal,
-			ScanNodeModules: o.ScanNodeModules,
-			OSPackages:      o.OSPackages,
-		}),
+		sbom.New(sbomOptions(o)),
 	}
 	if len(o.Modules) == 0 {
 		return all, nil
