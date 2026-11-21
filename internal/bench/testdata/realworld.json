@@ -1,0 +1,348 @@
+{
+  "cases": [
+    {
+      "name": "public-mcp-wp-calypso-unpinned",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001"
+      ],
+      "source": {
+        "repo": "Automattic/wp-calypso",
+        "commit": "4b645094fccc8135af985d0e2ab81ef04944dd4e",
+        "path": ".mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "e9432b2a1cab1497ddf59ca130d2d47144472823cfe9344f977d0d3683574542",
+        "notes": "Real .mcp.json from wp-calypso"
+      },
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 1
+        }
+      ],
+      "notes": "Real .mcp.json with an unpinned npx invocation"
+    },
+    {
+      "name": "public-mcp-dramaclaw-local-uv",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001"
+      ],
+      "source": {
+        "repo": "dramaclaw/dramaclaw",
+        "commit": "d00aad53ef4d88b94ee19a8dcaaa9d651b075a38",
+        "path": ".mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "5cdd49f6bc2ad50b7aebf420a1e7dcd28e153a500cf62ab7606fcd288b9e3ba3",
+        "notes": "Real .mcp.json using a local uv command"
+      },
+      "notes": "Real config with no floating npx/uvx package"
+    },
+    {
+      "name": "public-mcp-timescale-https",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-002"
+      ],
+      "source": {
+        "repo": "timescale/pg-aiguide",
+        "commit": "1aef6e452b97fae580d57677a807fd0d601ddc7b",
+        "path": "mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "a42e8c47abbe0ca6badca1d0efa1ad4c424eddac35cbf265209526c80d9001e2",
+        "notes": "Real mcp.json with an HTTPS remote"
+      },
+      "notes": "Remote MCP endpoint uses HTTPS"
+    },
+    {
+      "name": "public-mcp-atlassian-https",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-002"
+      ],
+      "source": {
+        "repo": "atlassian/atlassian-mcp-server",
+        "commit": "352a02b05189e2a958a973867cc6eca365cb8fc3",
+        "path": "mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "81486e806112b827802ffc08030e6cce7fa0345b5e805b923d6c59ca33175c17",
+        "notes": "Real mcp.json with an HTTPS streamable endpoint"
+      },
+      "notes": "Remote MCP endpoint uses HTTPS"
+    },
+    {
+      "name": "public-agent-eigenflux-bypass",
+      "category": "public",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002"
+      ],
+      "source": {
+        "repo": "phronesis-io/eigenflux",
+        "commit": "892041740da9f50c9d5faec829a1a7f092da0193",
+        "path": ".claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "sha256": "91b157ece878a57f3d32fcb58d15b2de29e0ed83cd7ced2a26ee8ea8d8d3787c",
+        "notes": "Real Claude settings file"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        },
+        {
+          "rule_id": "AGT-002",
+          "count": 1
+        }
+      ],
+      "notes": "Real settings with bypassPermissions and Bash(*)"
+    },
+    {
+      "name": "public-agent-keepalive-bypass",
+      "category": "public",
+      "module": "agent-permissions",
+      "evaluate": [
+        "AGT-001",
+        "AGT-002"
+      ],
+      "source": {
+        "repo": "finedaybreak/keepalive-for-react",
+        "commit": "4c23924682de3f5cbee13e9d4b1477428b972f7a",
+        "path": ".claude/settings.json",
+        "work_path": ".claude/settings.json",
+        "mode": "0600",
+        "sha256": "42e352e736fc822b9f3af2ca8413acbca45b5f51de6e2eba07d90335ebdb7dc3",
+        "notes": "Real Claude settings file"
+      },
+      "labels": [
+        {
+          "rule_id": "AGT-001",
+          "count": 1
+        }
+      ],
+      "notes": "Real settings with bypassPermissions and no unrestricted shell grant"
+    },
+    {
+      "name": "public-model-lgm-remote-code",
+      "category": "public",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002",
+        "MDL-003"
+      ],
+      "source": {
+        "repo": "3DTopia/LGM",
+        "commit": "fe8d12cff8c827df7bb77a3c8e8b37408cb6fe4c",
+        "path": "app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "sha256": "8abe80de72112107bdf578bde915132d57fa511cc150a6b63778b1388d93d42a",
+        "notes": "Real model application code"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        },
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Real app.py with trust_remote_code=True and torch.load"
+    },
+    {
+      "name": "public-model-fluxgym-remote-code",
+      "category": "public",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-002"
+      ],
+      "source": {
+        "repo": "cocktailpeanut/fluxgym",
+        "commit": "0667073462fc226f2bf09c7d20b9eb99401de188",
+        "path": "app.py",
+        "work_path": "app.py",
+        "mode": "0644",
+        "sha256": "50b9e3f4c117fa866bc94bf9a9563d83dfd644287b7cbfcaac5bcbb273f954a9",
+        "notes": "Real model application code"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-002",
+          "count": 1
+        }
+      ],
+      "notes": "Real app.py with trust_remote_code=True"
+    },
+    {
+      "name": "public-model-srgan-torch-load",
+      "category": "public",
+      "module": "model-artifacts",
+      "evaluate": [
+        "MDL-003"
+      ],
+      "source": {
+        "repo": "aitorzip/PyTorch-SRGAN",
+        "commit": "5377e3cb63b72db299f610ef21cfb9f1ed2bff5b",
+        "path": "train",
+        "work_path": "train.py",
+        "mode": "0644",
+        "sha256": "622dd9434c4448b9df98826bc51239285b7ae2c3815049e11570e61937c7f7f6",
+        "notes": "Real training script saved as train.py"
+      },
+      "labels": [
+        {
+          "rule_id": "MDL-003",
+          "count": 1
+        }
+      ],
+      "notes": "Real training script with torch.load"
+    },
+    {
+      "name": "public-secrets-llmdebug-placeholders",
+      "category": "public",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "mohsen1/llm-debugger-vscode-extension",
+        "commit": "17522a386e16bbe21952345c9fc1bc1ba84ad418",
+        "path": "api.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "sha256": "017027e3971db416b18b18c89029fb1cef05e6ca2392d5e531a584a104e86ffd",
+        "notes": "Public env example with placeholder values"
+      },
+      "notes": "Public env example; placeholders must not be reported as secrets"
+    },
+    {
+      "name": "public-secrets-tambo-placeholders",
+      "category": "public",
+      "module": "secrets",
+      "evaluate": [
+        "SEC-001",
+        "SEC-003"
+      ],
+      "source": {
+        "repo": "tambo-ai/tambo",
+        "commit": "6e2c1bff3b68a00c094b6d876788cc8f33f7bb02",
+        "path": "docker.env.example",
+        "work_path": ".env",
+        "mode": "0600",
+        "sha256": "27d2bb5bb34a1e4cb90dfea920bdbdd661d5acb0b156ee83073050c9df98c150",
+        "notes": "Public docker env example"
+      },
+      "notes": "Public env example; placeholder/configuration values must not be reported as secrets"
+    },
+    {
+      "name": "public-sbom-lodash-4.17.20",
+      "category": "public",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "ecosystem/lodash-4.17.20/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile generated with lodash@4.17.20"
+      },
+      "labels": [
+        {
+          "rule_id": "SBOM-001",
+          "count": 1
+        }
+      ],
+      "notes": "Real npm lockfile with a pinned vulnerable lodash"
+    },
+    {
+      "name": "public-sbom-lodash-4.17.21",
+      "category": "public",
+      "module": "sbom",
+      "evaluate": [
+        "SBOM-001"
+      ],
+      "source": {
+        "local_path": "ecosystem/lodash-4.17.21/package-lock.json",
+        "work_path": "package-lock.json",
+        "mode": "0644",
+        "notes": "npm registry lockfile generated with lodash@4.17.21"
+      },
+      "notes": "Real npm lockfile at the fixed lodash version"
+    },
+    {
+      "name": "public-mcp-ibm-mixed-packages",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-001",
+        "MCP-003"
+      ],
+      "source": {
+        "repo": "IBM/mcp",
+        "commit": "a6b8c9c82a5504dd6240d2e9658622ea0f2ea757",
+        "path": "mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "dc0330cec8b908bb0ce97392e8e97250b3003f175dddbf289ca12df2b58560e4",
+        "notes": "Real public MCP config with many npx/uvx packages and placeholder env values"
+      },
+      "labels": [
+        {
+          "rule_id": "MCP-001",
+          "count": 9
+        }
+      ],
+      "notes": "Nine floating npx/uvx specs; placeholder env values must not be reported as credentials"
+    },
+    {
+      "name": "public-mcp-beautifulrust-https",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-002"
+      ],
+      "source": {
+        "repo": "morganlinton/BeautifulRust",
+        "commit": "b9718436d77ee7bcf17cdcb6aa27628feb95d97a",
+        "path": "mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "043ba159a39e3af34c810b8d6d00b7147187f7c738ad0877fc2fd632c3296296",
+        "notes": "Real MCP config with an HTTPS remote"
+      },
+      "notes": "Remote MCP endpoint uses HTTPS"
+    },
+    {
+      "name": "public-mcp-sanity-https",
+      "category": "public",
+      "module": "mcp",
+      "evaluate": [
+        "MCP-002"
+      ],
+      "source": {
+        "repo": "sanity-io/agent-toolkit",
+        "commit": "828641ff3bae87327ec73844d9c72f38e591842e",
+        "path": "mcp.json",
+        "work_path": ".mcp.json",
+        "mode": "0600",
+        "sha256": "da08fd7d3eefbca54b7373c0a9dd59dbcf7f565b40c032cf2d66e1d318ec026f",
+        "notes": "Real MCP config with an HTTPS remote"
+      },
+      "notes": "Remote MCP endpoint uses HTTPS"
+    }
+  ]
+}

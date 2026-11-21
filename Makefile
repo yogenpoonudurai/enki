@@ -25,7 +25,7 @@ LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
 .PHONY: build build-cli build-mcp test vet fmt cross clean install \
-	bench-detect bench-update boundary-check \
+	bench-detect bench-update bench-real-world bench-real-world-update boundary-check \
 	container-image test-container smoke-container smoke-local-container verify-docs-container shell-container
 
 container-image:
@@ -76,6 +76,12 @@ bench-detect:
 
 bench-update:
 	go test ./internal/bench -run TestDetectionBenchmark -count=1 -update -v
+
+bench-real-world:
+	go test -tags=realworld ./internal/bench -run TestRealWorldBenchmark -count=1 -v
+
+bench-real-world-update:
+	go test -tags=realworld ./internal/bench -run TestRealWorldBenchmark -count=1 -update -v
 
 boundary-check:
 	./scripts/check-public-boundary.sh

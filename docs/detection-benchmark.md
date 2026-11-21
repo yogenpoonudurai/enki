@@ -2,7 +2,7 @@
 
 Generated from `internal/bench/testdata/cases.json`. Do not edit by hand; run `make bench-update`.
 
-92 offline fixtures across 23 rules. Positive fixtures must produce the rule under test; negative and adversarial fixtures must not produce that rule (or any explicitly forbidden rule).
+93 offline fixtures across 23 rules. Positive fixtures must produce the rule under test; negative and adversarial fixtures must not produce that rule (or any explicitly forbidden rule).
 
 | Rule | Module | Positive | Negative | Adversarial |
 |---|---|---:|---:|---:|
@@ -16,7 +16,7 @@ Generated from `internal/bench/testdata/cases.json`. Do not edit by hand; run `m
 | AGT-004 | agent-permissions | 1 | 2 | 1 |
 | MCP-001 | mcp | 1 | 2 | 1 |
 | MCP-002 | mcp | 1 | 2 | 1 |
-| MCP-003 | mcp | 1 | 2 | 1 |
+| MCP-003 | mcp | 1 | 3 | 1 |
 | MCP-004 | mcp | 1 | 2 | 1 |
 | MCP-005 | mcp | 1 | 2 | 1 |
 | MCP-006 | mcp | 1 | 2 | 1 |

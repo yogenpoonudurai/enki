@@ -1,0 +1,402 @@
+{
+  "categories": {
+    "combined": {
+      "AEP-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AEP-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AEP-003": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AEP-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-001": {
+        "pos_cases": 3,
+        "neg_cases": 3,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-002": {
+        "pos_cases": 2,
+        "neg_cases": 4,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-003": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-001": {
+        "pos_cases": 3,
+        "neg_cases": 4,
+        "tp": 11,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-002": {
+        "pos_cases": 1,
+        "neg_cases": 7,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-003": {
+        "pos_cases": 1,
+        "neg_cases": 5,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-005": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-006": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-002": {
+        "pos_cases": 3,
+        "neg_cases": 3,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-003": {
+        "pos_cases": 3,
+        "neg_cases": 3,
+        "tp": 3,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SBOM-001": {
+        "pos_cases": 2,
+        "neg_cases": 4,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-001": {
+        "pos_cases": 1,
+        "neg_cases": 5,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-003": {
+        "pos_cases": 1,
+        "neg_cases": 5,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "controlled": {
+      "AEP-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AEP-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AEP-003": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AEP-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-003": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-003": {
+        "pos_cases": 1,
+        "neg_cases": 4,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-005": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-006": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-003": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SBOM-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-001": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-002": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-003": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-004": {
+        "pos_cases": 1,
+        "neg_cases": 3,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      }
+    },
+    "public": {
+      "AGT-001": {
+        "pos_cases": 2,
+        "neg_cases": 0,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "AGT-002": {
+        "pos_cases": 1,
+        "neg_cases": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-001": {
+        "pos_cases": 2,
+        "neg_cases": 1,
+        "tp": 10,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-002": {
+        "pos_cases": 0,
+        "neg_cases": 4,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MCP-003": {
+        "pos_cases": 0,
+        "neg_cases": 1,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-002": {
+        "pos_cases": 2,
+        "neg_cases": 0,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "MDL-003": {
+        "pos_cases": 2,
+        "neg_cases": 0,
+        "tp": 2,
+        "fp": 0,
+        "fn": 0
+      },
+      "SBOM-001": {
+        "pos_cases": 1,
+        "neg_cases": 1,
+        "tp": 1,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-001": {
+        "pos_cases": 0,
+        "neg_cases": 2,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      },
+      "SEC-003": {
+        "pos_cases": 0,
+        "neg_cases": 2,
+        "tp": 0,
+        "fp": 0,
+        "fn": 0
+      }
+    }
+  }
+}

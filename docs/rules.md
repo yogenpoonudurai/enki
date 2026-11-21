@@ -13,8 +13,9 @@ Every finding carries four independent signals:
 - **Confidence** — how sure the detector is that the observation is real.
 
 Detection quality is tracked per rule in
-[detection-benchmark.md](detection-benchmark.md), with positive, negative, and
-adversarial fixtures and a CI regression gate.
+[detection-benchmark.md](detection-benchmark.md) and
+[benchmark-real-world.md](benchmark-real-world.md), with positive, negative, and
+adversarial fixtures, pinned public-source cases, and a CI regression gate.
 
 A HIGH finding is not automatically a confirmed vulnerability. For example, an
 unpinned MCP package is conditional supply-chain uncertainty, and the presence
