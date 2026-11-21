@@ -1,18 +1,9 @@
 # MCP registry submissions
 
-> **Deferred.** Hosted MCP registry submission is not part of the default
-> release while the hosted surface is deferred. This guide is retained for
-> maintainers.
-
-`server.json` at the repository root describes the **hosted** MCP endpoint. It
-is metadata only — update the two placeholders before publishing:
-
-1. `name` — must match your GitHub account/org: `io.github.<user>/enki`.
-2. `remotes[0].url` — a public HTTPS Streamable HTTP endpoint
-   (`https://<host>/mcp`). The hosted service requires a bearer token for tool
-   calls; the registry itself only verifies namespace ownership.
-
-The `description` field is limited to 100 characters by the registry.
+`server.json` at the repository root is metadata for the local **stdio** MCP
+server (`enki-mcp`). It deliberately carries no remote endpoint: hosted MCP is
+a separate paid surface published from a private repository, not from the open
+core.
 
 ## Official MCP Registry (preview)
 
@@ -36,6 +27,9 @@ Notes:
 
 - Publishing does not happen via a PR to the registry repository; use the CLI.
 - With GitHub auth the name must start with `io.github.<your-username>/`.
+- The registry expects a distribution (a package or a remote). This metadata
+  entry is published only when a packaged stdio distribution is available; do
+  not point it at the paid hosted endpoint.
 - Registry is in preview; data resets are possible.
 
 ## Other directories
@@ -43,10 +37,10 @@ Notes:
 | Directory | How |
 |---|---|
 | mcp.so | Submit via the “Submit server” form on mcp.so; use the short description below. |
-| Smithery | Add the server on smithery.ai (remote HTTP endpoint + auth description). |
+| Smithery | Add the local stdio server on smithery.ai. |
 | Glama | Submit through the Glama MCP directory form. |
 | Claude Code plugins | Repository already contains `.claude-plugin/plugin.json` and `marketplace.json`; users add it with `/plugin marketplace add <repo>` then `/plugin install enki@enki-marketplace`. |
-| Cursor | Ship `skills/enki` via `~/.cursor/skills` or `.cursor/skills`; configure the remote MCP endpoint in `.cursor/mcp.json`. |
+| Cursor | Ship `skills/enki` via `~/.cursor/skills` or `.cursor/skills`; configure `enki-mcp` as a local stdio server. |
 
 ## Copy blocks
 
@@ -63,14 +57,12 @@ Long:
 > permission sprawl, provider secrets, unsafe model artifacts, and dependency
 > vulnerabilities across npm, PyPI, Go, Cargo, NuGet, and Linux packages. Safe
 > fixes apply with backups; every change is reversible with `enki undo`.
-> Outputs include SARIF, OCSF, and CycloneDX. Hosted MCP exposes redacted,
-> consent-gated AI triage.
+> Outputs include SARIF, OCSF, and CycloneDX.
 
 ## Preflight checklist
 
-- [ ] `/mcp` is reachable over HTTPS from the public internet.
-- [ ] Auth requirements documented (bearer token for hosted tools).
 - [x] `server.json` name matches the publishing GitHub namespace.
 - [x] Version matches the release tag.
-- [x] `mcp-publisher validate` passes (v1.8.10, validated 2026-11-21).
+- [x] No remote endpoint is published from this repository.
+- [ ] `mcp-publisher validate` passes for the current schema.
 - [x] Demo GIF and getting-started link are live.

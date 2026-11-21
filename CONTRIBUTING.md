@@ -121,6 +121,7 @@ commit (`git commit -s`).
 
 ## License
 
-Contributions are accepted under Apache-2.0. Hosted services are deferred and
-are not part of the default release; contributing a detection rule does not
-change the open-source scope.
+Contributions are accepted under Apache-2.0. The hosted service and premium
+feeds are a separate private product: they are not in this repository, and
+community contributions are not accepted for them. Contributing a detection
+rule does not change the open-source scope.

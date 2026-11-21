@@ -158,9 +158,9 @@ Notes:
 ## 4. What enki does not use
 
 No NVD mirror, no Snyk/GHSA enterprise API, no CWE database, no CIS benchmark
-content, no commercial threat intelligence. Compliance mappings and
-premium/signed rule feeds are planned as separate paid surfaces, not part of
-the open core.
+content, no commercial threat intelligence. Compliance mappings and premium
+signed feeds are delivered by the separate hosted service; they are not part
+of the open core.
 
 ## 5. Verify against the code
 

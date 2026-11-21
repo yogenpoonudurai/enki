@@ -19,9 +19,10 @@ snapshots (`0.4.0-dev`) are unsupported.
 
 ## Scope
 
-In scope: the CLI, TUI, MCP server (`enki-mcp`), hosted service
-(`enki-cloud`), skills/plugin packaging, remediation engine, and release
-artifacts.
+In scope: the CLI, TUI, MCP server (`enki-mcp`), skills/plugin packaging,
+remediation engine, and release artifacts. The hosted service is a separate
+product; reports about it go through the same private advisory channel and are
+handled by the same maintainers.
 
 Out of scope: findings about the user's machine that enki correctly reports;
 misconfiguration of third-party model providers; attacks requiring the
@@ -40,5 +41,6 @@ ability to modify enki's binary or its state directory.
 ## Release integrity
 
 Release artifacts are built with `CGO_ENABLED=0` via goreleaser from tagged
-commits. Checksums are published with each release; signing is added before
-the first public launch.
+commits. `checksums.txt` is signed with cosign keyless (GitHub OIDC) and
+published with each release; verification steps are in
+[docs/release.md](docs/release.md).

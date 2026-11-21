@@ -165,6 +165,22 @@ tell whether the model saw the whole picture. Cost is labelled metered
 (DeepSeek) or unmetered/self-hosted. See [docs/ai-triage.md](ai-triage.md) for
 redaction and provider setup.
 
+### Hosted triage (paid, optional)
+
+If you do not want to manage a provider key, the hosted service returns the
+same ranking from the same locally redacted payload:
+
+```bash
+export ENKI_CLOUD_URL="https://<your-hosted-endpoint>"
+export ENKI_CLOUD_TOKEN="enki_..."
+enki triage --hosted --consent report.json
+enki account
+```
+
+`--consent` is required, and `--show-payload` prints exactly what is uploaded.
+`--key sk-...` forwards your own provider key without spending credits. Plans,
+data handling, and legal links: [premium.md](premium.md).
+
 ## Agent skills and MCP
 
 ```bash
