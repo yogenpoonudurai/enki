@@ -198,6 +198,7 @@ func f1(s rwStat) string {
 }
 
 func shortCommit(commit string) string {
+	commit = strings.ReplaceAll(commit, "-", "")
 	if len(commit) > 8 {
 		return commit[:8]
 	}
@@ -263,6 +264,8 @@ func writeRealWorldDocs(t *testing.T, path string, controlled, public manifest, 
 		sb.WriteString(fmt.Sprintf("| %s | %d/%d | %d | %d | %d | %s | %s | %s |\n",
 			r.ID, s.PosCases, s.NegCases, s.TP, s.FP, s.FN, pct(s.TP, s.TP+s.FP), pct(s.TP, s.TP+s.FN), f1(s)))
 	}
+
+	sb.WriteString("\nA separate blind, held-out review with live OSV data is published in [benchmark-heldout.md](benchmark-heldout.md).\n")
 
 	sb.WriteString("\n## Findings from this corpus\n\n")
 	sb.WriteString("- The IBM public MCP config exposed an MCP-003 false positive on placeholder values such as `YOUR_API_KEY` and `<APIKEY>`. The detector now ignores placeholder-shaped values, and `mcp-003-negative-long-placeholder` is a regression fixture. The results above reflect the fixed detector.\n")
