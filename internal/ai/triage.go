@@ -19,7 +19,7 @@ const (
 	maxTopItems  = 10
 	// RubricVersion identifies the prompt/validation contract. Bump it when
 	// the rubric or output schema changes so results stay reproducible.
-	RubricVersion = "enki-triage-1"
+	RubricVersion = "enki-triage-2"
 )
 
 // PayloadRemediation is the redacted remediation metadata sent to the model.
@@ -268,8 +268,7 @@ func Triage(ctx context.Context, p Provider, model string, rep *report.Report, l
 		if pf.Remediation != nil {
 			allowed = pf.Remediation.Action
 		}
-		action := strings.TrimSpace(item.RecommendedAction)
-		verified := (action == allowed && allowed != "") || (action == "manual" && allowed == "")
+		action, verified := verifyAction(item.RecommendedAction, allowed)
 		if len(action) > 60 {
 			action = action[:60]
 		}
@@ -304,6 +303,22 @@ func Triage(ctx context.Context, p Provider, model string, rep *report.Report, l
 		return result.Top[i].Priority < result.Top[j].Priority
 	})
 	return result, payload, nil
+}
+
+// verifyAction accepts the finding's canonical automation action or the
+// literal "manual", case-insensitively. Anything else stays unverified.
+func verifyAction(raw, allowed string) (string, bool) {
+	action := strings.TrimSpace(raw)
+	if action == "" {
+		return "", false
+	}
+	if strings.EqualFold(action, "manual") {
+		return "manual", true
+	}
+	if allowed != "" && strings.EqualFold(action, allowed) {
+		return allowed, true
+	}
+	return action, false
 }
 
 func clean(s string) string {

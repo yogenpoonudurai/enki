@@ -24,6 +24,19 @@ make smoke-container    # BYOK end-to-end against a local fake provider
 make shell-container    # interactive shell in the image
 ```
 
+Triage against a real local model instead (no API key, unmetered):
+
+```bash
+podman run -d --name enki-ollama -p 127.0.0.1:11434:11434 \
+  -v enki-ollama-models:/root/.ollama ollama/ollama
+podman exec enki-ollama ollama pull qwen2.5:1.5b
+make smoke-local-container
+```
+
+Override `LOCAL_AI_BASE_URL` / `LOCAL_AI_MODEL` for llama.cpp, vLLM, or LM
+Studio. On Docker Desktop use `LOCAL_AI_NETWORK=bridge` and
+`LOCAL_AI_BASE_URL=http://host.docker.internal:11434/v1`.
+
 Or open the repository in VS Code/Qoder with the devcontainer
 (`.devcontainer/`). The image includes Go 1.27, Python (with Pillow for the
 demo renderer), curl, jq, and make. Podman users need

@@ -81,13 +81,23 @@ export ENKI_AI_BASE_URL=http://127.0.0.1:8000/v1
 export ENKI_AI_KEY=optional
 export ENKI_AI_MODEL=deepseek-v4
 enki triage report.json
+
+# Local Ollama, no key required
+ollama pull qwen2.5:1.5b
+export ENKI_AI_PROVIDER=ollama
+export ENKI_AI_MODEL=qwen2.5:1.5b
+enki triage report.json
 ```
+
+`make smoke-local-container` runs this path against Ollama inside the dev
+container. Small local models follow the schema more loosely and may propose
+`manual` instead of the canonical action; `action_verified` reflects that.
 
 `enki triage` prints validated JSON: a summary, ranked items with `priority`,
 `why`, a recommended action, and `action_verified`. An action is verified only
-when it exactly matches one of enki's deterministic remediation actions; the
-model never invents executable steps. `--show-payload` prints the redacted
-payload sent to the provider.
+when it matches one of enki's deterministic remediation actions (ignoring case)
+or is the literal `manual`; the model never invents executable steps.
+`--show-payload` prints the redacted payload sent to the provider.
 
 ### What is sent
 
@@ -101,8 +111,9 @@ absolute paths, file contents, or secrets.
 
 Model output is schema-validated: ranked items with priority, rationale,
 `fix_steps` (max 4, sanitized), and a recommended action. An action is marked
-verified only when it equals one of enki's deterministic remediation actions;
-anything else is labelled unverified. The model never executes anything.
+verified only when it matches enki's deterministic remediation action or is
+`manual`; anything else is labelled unverified. The model never executes
+anything.
 
 The payload carries `rubric_version` (reproducibility) and, when the report is
 truncated, `omitted` plus `omitted_rules` counts. Results echo those fields plus

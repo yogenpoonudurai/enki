@@ -194,6 +194,29 @@ func TestTriageRejectsInvalidJSON(t *testing.T) {
 	}
 }
 
+func TestActionVerification(t *testing.T) {
+	cases := []struct {
+		raw      string
+		allowed  string
+		want     string
+		verified bool
+	}{
+		{"chmod_private", "chmod_private", "chmod_private", true},
+		{" CHMOD_PRIVATE ", "chmod_private", "chmod_private", true},
+		{"Manual", "", "manual", true},
+		{"manual", "chmod_private", "manual", true},
+		{"safe", "chmod_private", "safe", false},
+		{"", "", "", false},
+	}
+	for _, tc := range cases {
+		got, verified := verifyAction(tc.raw, tc.allowed)
+		if got != tc.want || verified != tc.verified {
+			t.Errorf("verifyAction(%q, %q) = %q, %v; want %q, %v",
+				tc.raw, tc.allowed, got, verified, tc.want, tc.verified)
+		}
+	}
+}
+
 func TestSegmentedCostLabels(t *testing.T) {
 	fake := &fakeProvider{
 		output:    `{"summary":"ok","top":[]}`,

@@ -9,6 +9,9 @@ MODULE  := github.com/yogenpoonudurai/enki
 CONTAINER ?= $(shell command -v docker 2>/dev/null || command -v podman 2>/dev/null)
 CONTAINER_KIND := $(notdir $(CONTAINER))
 IMAGE ?= enki-dev
+LOCAL_AI_NETWORK ?= host
+LOCAL_AI_BASE_URL ?= http://127.0.0.1:11434/v1
+LOCAL_AI_MODEL ?= qwen2.5:1.5b
 
 ifneq ($(CONTAINER),)
 CONTAINER_RUN = $(CONTAINER) run --rm
@@ -22,7 +25,7 @@ LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
 .PHONY: build build-cli build-mcp build-cloud test vet fmt cross clean install \
-	container-image test-container smoke-container shell-container
+	container-image test-container smoke-container smoke-local-container shell-container
 
 container-image:
 	$(CONTAINER) build -f .devcontainer/Dockerfile -t $(IMAGE) .
@@ -39,6 +42,14 @@ smoke-container: container-image
 
 shell-container: container-image
 	$(CONTAINER_RUN) -it -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) bash
+
+# Triage against a local OpenAI-compatible server (Ollama by default), no key.
+# Docker Desktop: LOCAL_AI_NETWORK=bridge and a host.docker.internal base URL.
+smoke-local-container: container-image
+	$(CONTAINER_RUN) --network=$(LOCAL_AI_NETWORK) \
+		-e ENKI_AI_BASE_URL=$(LOCAL_AI_BASE_URL) -e ENKI_AI_MODEL=$(LOCAL_AI_MODEL) \
+		-v "$(CURDIR)":/workspace -w /workspace $(IMAGE) \
+		sh -c 'go build -o /tmp/enki ./cmd/enki && ENKI_BIN=/tmp/enki ./demo/local-smoke.sh'
 
 build: build-cli build-mcp build-cloud
 
