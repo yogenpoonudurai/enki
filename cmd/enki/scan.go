@@ -56,7 +56,7 @@ func newScanCmd() *cobra.Command {
 	opts := defaultScanOptions()
 	cmd := &cobra.Command{
 		Use:   "scan",
-		Short: "Scan this host for AI security posture issues",
+		Short: "Scan for AI configuration and exposure issues",
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			return runScan(cmd.Context(), opts)
 		},

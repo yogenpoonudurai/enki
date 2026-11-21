@@ -1,9 +1,14 @@
 # Getting started with enki
 
-enki audits the AI stack on a machine or project: exposed inference endpoints,
-MCP server configuration, agent permissions, provider secrets, model
-artifacts, and dependency vulnerabilities — then offers guarded, reversible
-remediation.
+enki audits the AI configuration and exposure surface of a machine or project:
+exposed inference endpoints, MCP server configuration, agent permissions,
+provider secrets, model artifacts, and dependency vulnerabilities — then
+offers guarded, reversible remediation.
+
+It reads configuration, process, file, and package metadata. It does not
+instrument runtime behavior, inspect model weights, or replace a full
+software-composition scanner. See the non-goals in the
+[README](../README.md#scope-and-non-goals).
 
 Deterministic scanning is free forever and works offline (except OSV advisory
 lookups). Everything in this guide is free; the only paid surfaces are hosted

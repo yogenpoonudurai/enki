@@ -14,7 +14,7 @@ Hard rules implemented in the endpoint module:
    never sends exploit payloads.
 3. **Bounded.** 2 second timeout per request, redirects disabled, response
    bodies capped at 64 KiB, bounded concurrency.
-4. **Identifiable.** Requests carry `User-Agent: enki/0.1 (AI-SPM scanner)`.
+4. **Identifiable.** Requests carry `User-Agent: enki/0.1 (AI configuration/exposure scanner)`.
 5. **Conservative severity.** A CRITICAL exposure requires a positive service
    fingerprint **and** a successful unauthenticated response. Process-only
    matches are downgraded and marked with lower confidence.

@@ -3,13 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ENKI — AI Security Posture</title>
-  <meta name="description" content="Open-source scanner for the AI stack: exposed inference endpoints, MCP supply-chain risk, agent permissions, secrets, model artifacts, and dependency CVEs. Reversible fixes.">
+  <title>ENKI — AI Configuration &amp; Exposure Scanner</title>
+  <meta name="description" content="Open-source scanner for AI configuration and exposure: inference endpoints, MCP supply-chain risk, agent permissions, secrets, model artifacts, and selected dependency CVEs. Reversible fixes.">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="nav">
-    <a class="brand" href="#">ENKI<span>AI Security Posture</span></a>
+    <a class="brand" href="#">ENKI<span>AI Configuration &amp; Exposure</span></a>
     <nav>
       <a href="https://github.com/yogenpoonudurai/enki">GitHub</a>
       <a href="https://github.com/yogenpoonudurai/enki/blob/main/docs/getting-started.md">Docs</a>
@@ -20,12 +20,12 @@
   <main>
     <section class="hero">
       <p class="eyebrow">OPEN SOURCE · APACHE-2.0</p>
-      <h1>AI security posture<br>for the agent era.</h1>
+      <h1>Audit your AI<br>configuration surface.</h1>
       <p class="sub">
         Your laptop and GPU servers run local models, MCP servers, and agent
-        tooling. ENKI audits that layer — exposure, supply chain, permissions,
-        secrets, model artifacts, and dependency CVEs — then fixes what is safe,
-        reversibly.
+        tooling. ENKI checks the configuration and exposure layer — endpoints,
+        supply chain, permissions, secrets, and model artifacts — then fixes
+        what is safe, reversibly.
       </p>
       <div class="cta-row">
         <a class="btn" href="#beta">Join the hosted beta</a>
@@ -39,7 +39,7 @@
 <span class="d">POSTURE 43/100 · AT RISK</span>
 
 <span class="c">CRITICAL</span>  AEP-001  Ollama exposed on 0.0.0.0:11434
-<span class="h">HIGH</span>      MCP-001  Unpinned MCP server "@upstash/context7-mcp"
+<span class="m">MEDIUM</span>    MCP-001  Unpinned MCP server "@upstash/context7-mcp"
 <span class="h">HIGH</span>      AGT-001  Agent runs with bypassPermissions
 <span class="h">HIGH</span>      SEC-001  OpenAI API key in .env (tracked by git)
 <span class="g">GUIDANCE</span>  SBOM-001 Upgrade torch to 2.6.0 or later
@@ -59,6 +59,16 @@
       <article><h3>Secrets</h3><p>Provider keys in configs, dotfiles, shell history, and MCP env — redacted and fingerprinted, never logged raw.</p></article>
       <article><h3>Model artifacts</h3><p>Pickle checkpoints, trust_remote_code, torch.load without weights_only, weights fetched over plain HTTP.</p></article>
       <article><h3>Dependency CVEs</h3><p>npm, PyPI, Go, Cargo, NuGet, and Linux packages — CVSS-scored, KEV/EPSS prioritized, grouped per package.</p></article>
+    </section>
+
+    <section class="boundary">
+      <h2>What ENKI does not do</h2>
+      <p>
+        ENKI does not instrument runtime behavior, inspect model weights, prove
+        exploitability, or replace a full SCA or container scanner. Coverage
+        gaps are reported explicitly, so “clean” never means “everything was
+        visible”.
+      </p>
     </section>
 
     <section class="boundary">

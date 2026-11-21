@@ -12,7 +12,7 @@ import (
 
 // Write renders the report as plain lines, optionally with ANSI colors.
 func Write(w io.Writer, rep *report.Report, color bool) {
-	fmt.Fprintf(w, "%s %s · %s\n", report.Bold(color, "enki"), rep.Tool.Version, report.Dim(color, "AI Security Posture"))
+	fmt.Fprintf(w, "%s %s · %s\n", report.Bold(color, "enki"), rep.Tool.Version, report.Dim(color, report.Tagline))
 	fmt.Fprintf(w, "%s · %s/%s · %s · scope %s\n\n", rep.Scan.Host, rep.Scan.OS, rep.Scan.Arch, rep.Scan.User, scopeOrFull(rep.Scan.Scope))
 
 	counts := rep.Summary.Counts
