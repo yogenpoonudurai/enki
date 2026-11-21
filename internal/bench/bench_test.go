@@ -2,6 +2,8 @@ package bench
 
 import (
 	"context"
+	"crypto/sha256"
+	"encoding/hex"
 	"encoding/json"
 	"flag"
 	"fmt"
@@ -47,14 +49,36 @@ type listenerSpec struct {
 	Cmdline []string `json:"cmdline,omitempty"`
 }
 
+type sourceSpec struct {
+	Repo      string `json:"repo,omitempty"`
+	Commit    string `json:"commit,omitempty"`
+	Path      string `json:"path,omitempty"`
+	URL       string `json:"url,omitempty"`
+	SHA256    string `json:"sha256,omitempty"`
+	WorkPath  string `json:"work_path"`
+	Mode      string `json:"mode,omitempty"`
+	LocalPath string `json:"local_path,omitempty"`
+	Notes     string `json:"notes,omitempty"`
+}
+
+type labelSpec struct {
+	RuleID string `json:"rule_id"`
+	Count  int    `json:"count,omitempty"`
+}
+
 type benchCase struct {
 	Name      string              `json:"name"`
+	Category  string              `json:"category,omitempty"`
 	Module    string              `json:"module"`
 	Rule      string              `json:"rule"`
 	Type      string              `json:"type"` // positive|negative|adversarial
 	Files     map[string]fileSpec `json:"files,omitempty"`
 	HomeFiles map[string]fileSpec `json:"home_files,omitempty"`
 	Listeners []listenerSpec      `json:"listeners,omitempty"`
+	Source    *sourceSpec         `json:"source,omitempty"`
+	Labels    []labelSpec         `json:"labels,omitempty"`
+	Evaluate  []string            `json:"evaluate,omitempty"`
+	Notes     string              `json:"notes,omitempty"`
 	Expect    []string            `json:"expect,omitempty"`
 	Forbid    []string            `json:"forbid,omitempty"`
 }
@@ -119,7 +143,7 @@ func TestDetectionBenchmark(t *testing.T) {
 			continue
 		}
 		for _, want := range c.Expect {
-			if !got[want] {
+			if got[want] == 0 {
 				failures = append(failures, fmt.Sprintf("%s: expected %s", c.Name, want))
 			}
 		}
@@ -131,7 +155,7 @@ func TestDetectionBenchmark(t *testing.T) {
 			forbid[c.Rule] = true
 		}
 		for id := range forbid {
-			if got[id] {
+			if got[id] > 0 {
 				failures = append(failures, fmt.Sprintf("%s: unexpected %s", c.Name, id))
 			}
 		}
@@ -179,11 +203,16 @@ func TestDetectionBenchmark(t *testing.T) {
 	}
 }
 
-func runCase(t *testing.T, c benchCase) (map[string]bool, error) {
+func runCase(t *testing.T, c benchCase) (map[string]int, error) {
 	t.Helper()
 	work := t.TempDir()
 	home := t.TempDir()
 	t.Setenv("XDG_CONFIG_HOME", filepath.Join(home, ".config"))
+	if c.Source != nil {
+		if err := writeSource(t, work, c.Source); err != nil {
+			return nil, err
+		}
+	}
 	if err := writeFiles(work, c.Files); err != nil {
 		return nil, err
 	}
@@ -226,39 +255,123 @@ func runCase(t *testing.T, c benchCase) (map[string]bool, error) {
 		return nil, err
 	}
 
-	got := map[string]bool{}
+	got := map[string]int{}
 	for _, f := range fs {
-		got[f.RuleID] = true
+		got[f.RuleID]++
 	}
 	return got, nil
 }
 
 func writeFiles(root string, files map[string]fileSpec) error {
 	for name, spec := range files {
-		clean := filepath.Clean(filepath.FromSlash(name))
-		if clean == "." || strings.HasPrefix(clean, ".."+string(os.PathSeparator)) || filepath.IsAbs(clean) {
-			return fmt.Errorf("unsafe fixture path %q", name)
-		}
-		path := filepath.Join(root, clean)
-		if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
-			return err
-		}
-		mode := os.FileMode(0o644)
-		if spec.Mode != "" {
-			parsed, err := strconv.ParseUint(spec.Mode, 8, 32)
-			if err != nil {
-				return fmt.Errorf("mode %q: %w", spec.Mode, err)
-			}
-			mode = os.FileMode(parsed)
-		}
-		if err := os.WriteFile(path, []byte(spec.Content), mode); err != nil {
-			return err
-		}
-		if err := os.Chmod(path, mode); err != nil {
+		if err := writeOneFile(root, name, []byte(spec.Content), spec.Mode); err != nil {
 			return err
 		}
 	}
 	return nil
+}
+
+func writeSource(t *testing.T, root string, src *sourceSpec) error {
+	t.Helper()
+	var data []byte
+	var err error
+	if src.LocalPath != "" {
+		local := filepath.Clean(filepath.FromSlash(src.LocalPath))
+		if filepath.IsAbs(local) || strings.HasPrefix(local, ".."+string(os.PathSeparator)) || local == ".." {
+			return fmt.Errorf("unsafe local source path %q", src.LocalPath)
+		}
+		data, err = os.ReadFile(filepath.Join("testdata", "realworld", local))
+	} else {
+		data, err = fetchSource(src)
+	}
+	if err != nil {
+		return err
+	}
+	if src.SHA256 != "" {
+		sum := sha256.Sum256(data)
+		got := hex.EncodeToString(sum[:])
+		if got != src.SHA256 {
+			return fmt.Errorf("source hash mismatch for %s: got %s, want %s", src.URL, got, src.SHA256)
+		}
+	}
+	return writeOneFile(root, src.WorkPath, data, src.Mode)
+}
+
+func fetchSource(src *sourceSpec) ([]byte, error) {
+	srcURL := src.URL
+	if srcURL == "" {
+		srcURL = fmt.Sprintf("https://raw.githubusercontent.com/%s/%s/%s", src.Repo, src.Commit, src.Path)
+	}
+	parsed, err := url.Parse(srcURL)
+	if err != nil {
+		return nil, err
+	}
+	if parsed.Scheme != "https" || parsed.Hostname() != "raw.githubusercontent.com" {
+		return nil, fmt.Errorf("refusing source URL %q: only https://raw.githubusercontent.com is allowed", srcURL)
+	}
+	cacheDir, err := os.UserCacheDir()
+	if err != nil {
+		cacheDir = os.TempDir()
+	}
+	cacheDir = filepath.Join(cacheDir, "enki", "bench-realworld")
+	if err := os.MkdirAll(cacheDir, 0o700); err != nil {
+		return nil, err
+	}
+	name := sha256.Sum256([]byte(srcURL))
+	cachePath := filepath.Join(cacheDir, hex.EncodeToString(name[:])+".src")
+	if data, err := os.ReadFile(cachePath); err == nil {
+		return data, nil
+	}
+	client := &http.Client{
+		Timeout: 30 * time.Second,
+		CheckRedirect: func(*http.Request, []*http.Request) error {
+			return http.ErrUseLastResponse
+		},
+	}
+	req, err := http.NewRequest(http.MethodGet, srcURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Set("User-Agent", "enki-bench/1")
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("fetch %s: HTTP %d", srcURL, resp.StatusCode)
+	}
+	data, err := io.ReadAll(io.LimitReader(resp.Body, 20<<20))
+	if err != nil {
+		return nil, err
+	}
+	if err := os.WriteFile(cachePath, data, 0o600); err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func writeOneFile(root, name string, data []byte, modeText string) error {
+	clean := filepath.Clean(filepath.FromSlash(name))
+	if clean == "." || strings.HasPrefix(clean, ".."+string(os.PathSeparator)) || filepath.IsAbs(clean) {
+		return fmt.Errorf("unsafe fixture path %q", name)
+	}
+	path := filepath.Join(root, clean)
+	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
+		return err
+	}
+	mode := os.FileMode(0o644)
+	if modeText != "" {
+		parsed, err := strconv.ParseUint(modeText, 8, 32)
+		if err != nil {
+			return fmt.Errorf("mode %q: %w", modeText, err)
+		}
+		mode = os.FileMode(parsed)
+	}
+	if err := os.WriteFile(path, data, mode); err != nil {
+		return err
+	}
+	return os.Chmod(path, mode)
 }
 
 func startListeners(t *testing.T, specs []listenerSpec) []collector.Listener {

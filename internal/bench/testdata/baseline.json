@@ -52,7 +52,7 @@
     },
     "MCP-003": {
       "positive": 1,
-      "negative": 2,
+      "negative": 3,
       "adversarial": 1
     },
     "MCP-004": {

@@ -149,3 +149,33 @@ func TestBroadRoot(t *testing.T) {
 		}
 	}
 }
+
+func TestLooksLikePlaceholder(t *testing.T) {
+	for _, v := range []string{"YOUR_API_KEY", "YOUR_ASTRA_DB_TOKEN", "<APIKEY>", "YOUR_BEARER_TOKEN_ENDPOINT", "CHANGEME_123"} {
+		if !looksLikePlaceholder(v) {
+			t.Errorf("looksLikePlaceholder(%q) = false, want true", v)
+		}
+	}
+	for _, v := range []string{"sk-proj-abcdefghijklmnopqrstuvwxyz123456", "aBcD1234efghIJKL", "AKIA1234567890ABCD"} {
+		if looksLikePlaceholder(v) {
+			t.Errorf("looksLikePlaceholder(%q) = true, want false", v)
+		}
+	}
+}
+
+func TestPlaceholderEnvIsNotACredential(t *testing.T) {
+	cf := collector.ConfigFile{
+		Path: "/tmp/config.json", Agent: "claude-desktop", Kind: "mcp", Mode: fs.FileMode(0o600),
+		Data: []byte(`{"mcpServers":{"ctx":{"command":"npx","args":["-y","pkg@1.0.0"],"env":{"OPENAI_API_KEY":"YOUR_OPENAI_API_KEY","ASTRA_DB_APPLICATION_TOKEN":"YOUR_ASTRA_DB_TOKEN"}}}}`),
+	}
+	sc := &scanner.Context{HomeDir: "/home/alice", Configs: []collector.ConfigFile{cf}}
+	fs, _, err := New().Run(sc)
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, f := range fs {
+		if f.RuleID == "MCP-003" {
+			t.Fatalf("placeholder env reported as credential: %s", f.Evidence)
+		}
+	}
+}

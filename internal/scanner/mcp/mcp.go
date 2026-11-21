@@ -175,7 +175,7 @@ func checkServer(sc *scanner.Context, cf collector.ConfigFile, srv serverDef) []
 
 	for name, val := range srv.Env {
 		hit := secretlib.ScanValue(val)
-		if hit == nil && secretlib.IsSecretEnvName(name) && len(strings.TrimSpace(val)) >= 16 {
+		if hit == nil && secretlib.IsSecretEnvName(name) && len(strings.TrimSpace(val)) >= 16 && !looksLikePlaceholder(val) {
 			hit = &secretlib.Match{ID: "inline", Name: "Inline credential", Value: strings.TrimSpace(val)}
 		}
 		if hit == nil {
@@ -405,6 +405,32 @@ func broadRoot(arg, home string) bool {
 		return true // C:\ style drive root
 	}
 	return false
+}
+
+// looksLikePlaceholder rejects long env values that are documentation
+// placeholders rather than credentials, so MCP-003 does not flag examples such
+// as YOUR_API_KEY or <APIKEY>.
+func looksLikePlaceholder(v string) bool {
+	v = strings.TrimSpace(v)
+	if v == "" || strings.ContainsAny(v, "<>") {
+		return true
+	}
+	upper := strings.ToUpper(v)
+	for _, marker := range []string{"YOUR_", "YOUR-", "EXAMPLE", "PLACEHOLDER", "CHANGEME", "CHANGE_ME", "REPLACE_ME", "DUMMY", "REDACTED", "XXXX"} {
+		if strings.Contains(upper, marker) {
+			return true
+		}
+	}
+	hasLower, hasDigit := false, false
+	for _, r := range v {
+		if r >= 'a' && r <= 'z' {
+			hasLower = true
+		}
+		if r >= '0' && r <= '9' {
+			hasDigit = true
+		}
+	}
+	return !hasLower && !hasDigit
 }
 
 func isExecLike(name string) bool {

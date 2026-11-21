@@ -85,6 +85,10 @@ below, it should wait.
    not trigger the rule. Run `make bench-detect`; if the fixtures are
    intentional, run `make bench-update` to refresh the baseline and
    `docs/detection-benchmark.md`.
+   If the rule can be exercised on public data, add a pinned public-source case
+   to `internal/bench/testdata/realworld.json` with its commit and SHA256.
+   Run `make bench-real-world` manually (it fetches pinned public files and is
+   not part of PR CI); refresh it with `make bench-real-world-update`.
 5. Add a unit test for module-specific behavior. For remediation, verify `fix`
    then `undo` restores the file byte-for-byte and never touches sensitive
    paths.

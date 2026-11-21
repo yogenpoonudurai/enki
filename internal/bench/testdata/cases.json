@@ -1286,6 +1286,18 @@
           "mode": "0644"
         }
       }
+    },
+    {
+      "name": "mcp-003-negative-long-placeholder",
+      "module": "mcp",
+      "rule": "MCP-003",
+      "type": "negative",
+      "files": {
+        ".mcp.json": {
+          "content": "{\"mcpServers\":{\"ctx\":{\"command\":\"npx\",\"args\":[\"-y\",\"pkg@1.0.0\"],\"env\":{\"OPENAI_API_KEY\":\"YOUR_OPENAI_API_KEY\",\"ASTRA_DB_APPLICATION_TOKEN\":\"YOUR_ASTRA_DB_TOKEN\"}}}}\n",
+          "mode": "0600"
+        }
+      }
     }
   ]
 }
