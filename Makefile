@@ -25,7 +25,7 @@ LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
 .PHONY: build build-cli build-mcp test vet fmt cross clean install \
-	bench-detect bench-update \
+	bench-detect bench-update boundary-check \
 	container-image test-container smoke-container smoke-local-container verify-docs-container shell-container
 
 container-image:
@@ -76,6 +76,9 @@ bench-detect:
 
 bench-update:
 	go test ./internal/bench -run TestDetectionBenchmark -count=1 -update -v
+
+boundary-check:
+	./scripts/check-public-boundary.sh
 
 vet:
 	go vet ./...

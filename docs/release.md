@@ -16,7 +16,11 @@ The workflow:
 2. produces archives and `checksums.txt`;
 3. signs `checksums.txt` with cosign keyless (GitHub OIDC), emitting
    `checksums.txt.sig` and `checksums.txt.pem`;
-4. publishes a GitHub Release.
+4. generates a CycloneDX SBOM (`enki.sbom.cdx.json`);
+5. verifies the release asset allowlist;
+6. attests build provenance for the archives, checksums, signatures, and SBOM;
+7. uploads the SBOM and verifies the final asset allowlist;
+8. publishes a GitHub Release.
 
 `make build` remains the local development path: it uses the exact tag when
 present, otherwise `0.4.0-dev`.
@@ -28,6 +32,17 @@ in a separate private repository and published on its own release channel; it
 is never built, signed, or published by this workflow. New detectors or
 surfaces must follow the evidence bar in
 [CONTRIBUTING.md](../CONTRIBUTING.md#scope-discipline-and-feature-freeze).
+
+## Release assets
+
+The allowlist is enforced by `scripts/check-release-assets.sh` and permits only:
+
+- `enki_<version>_<os>_<arch>.tar.gz` / `.zip`
+- `checksums.txt`, `checksums.txt.sig`, `checksums.txt.pem`
+- `enki.sbom.cdx.json`
+
+Hosted service binaries are never published here. Legacy `enki-cloud` assets
+were removed from `v0.3.0` and `v0.4.0`; see [open-core.md](open-core.md).
 
 ## Verify a download
 
@@ -41,10 +56,15 @@ cosign verify-blob checksums.txt \
 
 # 2. verify the archive matches the signed checksum
 sha256sum -c checksums.txt --ignore-missing
+
+# 3. verify GitHub build provenance
+gh attestation verify enki_<version>_linux_amd64.tar.gz \
+  --repo yogenpoonudurai/enki
 ```
 
 The certificate identity pins the signing workflow and tag; the OIDC issuer
-proves it ran in GitHub Actions. If verification fails, do not install the
+proves it ran in GitHub Actions. The attestation binds the artifact digest to
+the release workflow run. If any verification fails, do not install the
 artifact.
 
 ## Manual local build
@@ -62,6 +82,8 @@ identical.
 
 - [ ] Update `server.json` version and the MCP registry entry.
 - [ ] `go test ./...` and `make cross` green.
-- [ ] Tag pushed; workflow succeeded; signature assets present.
+- [ ] Tag pushed; workflow succeeded; signature and SBOM assets present.
+- [ ] `scripts/check-release-assets.sh <tag>` passes.
 - [ ] `cosign verify-blob` passes from a clean machine.
+- [ ] `gh attestation verify <archive> --repo yogenpoonudurai/enki` passes.
 - [ ] Release notes list breaking changes and new rules.

@@ -158,6 +158,7 @@ implementation, billing, and premium feeds are not part of this repository.
 - [Rule catalog](docs/rules.md) · [Dependency coverage](docs/dependencies.md)
 - [AI triage and redaction](docs/ai-triage.md)
 - [CI quickstart](docs/ci-quickstart.md) · [Release verification](docs/release.md)
+- [Open-core boundary](docs/open-core.md)
 - [Case studies](docs/case-studies/laptop.md): laptop, GPU server, CI PR gate
 
 ## Development
@@ -178,6 +179,8 @@ Requires Go 1.27.0+ for local builds. See [CONTRIBUTING.md](CONTRIBUTING.md).
 The core is Apache-2.0 and fully functional offline. The hosted service,
 premium feeds, and the enki name and logo are separate: the service code is
 proprietary and lives outside this repository, and the trademarks are covered
-by [TRADEMARK.md](TRADEMARK.md). Contribution rules:
+by [TRADEMARK.md](TRADEMARK.md). See the
+[open-core boundary](docs/open-core.md) for what is public and what ships in
+releases. Contribution rules:
 [CONTRIBUTING.md](CONTRIBUTING.md) (DCO); vulnerability handling:
 [SECURITY.md](SECURITY.md).
