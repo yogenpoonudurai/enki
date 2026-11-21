@@ -6,12 +6,37 @@ COMMIT  ?= $(shell git rev-parse --short HEAD 2>/dev/null || echo none)
 DATE    ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 
 MODULE  := github.com/yogenpoonudurai/enki
+CONTAINER ?= $(shell command -v docker 2>/dev/null || command -v podman 2>/dev/null)
+CONTAINER_KIND := $(notdir $(CONTAINER))
+IMAGE ?= enki-dev
+
+ifneq ($(CONTAINER),)
+CONTAINER_RUN = $(CONTAINER) run --rm
+ifeq ($(CONTAINER_KIND),podman)
+CONTAINER_RUN += --userns=keep-id
+endif
+endif
 LDFLAGS := -s -w \
 	-X $(MODULE)/internal/version.Version=$(VERSION) \
 	-X $(MODULE)/internal/version.Commit=$(COMMIT) \
 	-X $(MODULE)/internal/version.Date=$(DATE)
 
-.PHONY: build build-cli build-mcp build-cloud test vet fmt cross clean install
+.PHONY: build build-cli build-mcp build-cloud test vet fmt cross clean install \
+	container-image test-container smoke-container shell-container
+
+container-image:
+	$(CONTAINER) build -f .devcontainer/Dockerfile -t $(IMAGE) .
+
+# Run the unit suite inside a container; no host test execution.
+test-container: container-image
+	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) make test
+
+# End-to-end BYOK test against a local fake provider, inside the container.
+smoke-container: container-image
+	$(CONTAINER_RUN) -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) ./demo/byok-smoke.sh
+
+shell-container: container-image
+	$(CONTAINER_RUN) -it -v "$(CURDIR)":/workspace -w /workspace $(IMAGE) bash
 
 build: build-cli build-mcp build-cloud
 

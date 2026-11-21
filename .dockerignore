@@ -1,0 +1,8 @@
+.git
+bin
+dist
+.qoder
+demo/*.gif
+demo/*.mp4
+demo/*.png
+docs/assets

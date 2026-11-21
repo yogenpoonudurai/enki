@@ -13,6 +13,23 @@ make vet
 make cross          # linux/darwin/windows × amd64/arm64
 ```
 
+### Containerized tests (recommended)
+
+Do not run smoke tests against your production machine. Use the dev container
+or the container targets — both Docker and Podman are supported:
+
+```bash
+make test-container     # unit tests inside the container
+make smoke-container    # BYOK end-to-end against a local fake provider
+make shell-container    # interactive shell in the image
+```
+
+Or open the repository in VS Code/Qoder with the devcontainer
+(`.devcontainer/`). The image includes Go 1.27, Python (with Pillow for the
+demo renderer), curl, jq, and make. Podman users need
+`--userns=keep-id` (already set in `devcontainer.json`); Docker users should
+remove that `runArgs` entry.
+
 Requirements for changes:
 
 - `gofmt` clean, `go vet` clean, `go test ./...` green.

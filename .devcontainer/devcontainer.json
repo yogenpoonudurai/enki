@@ -1,0 +1,20 @@
+// enki development container (Go 1.27 + Python for demo/BYOK smoke).
+// Podman: keep --userns=keep-id so files in the mounted workspace stay yours.
+// Docker: remove runArgs (Docker has no --userns=keep-id).
+{
+  "name": "enki (Go 1.27)",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+  "remoteUser": "dev",
+  "runArgs": ["--userns=keep-id"],
+  "postCreateCommand": "go mod download && make build",
+  "customizations": {
+    "vscode": {
+      "extensions": ["golang.go"]
+    }
+  }
+}
