@@ -7,7 +7,7 @@ findings, reversible remediation, and a fully functional open-source core.
 
 ```bash
 go version          # Go 1.27.0+
-make build          # bin/enki, bin/enki-mcp, bin/enki-cloud
+make build          # bin/enki, bin/enki-mcp
 make test
 make vet
 make cross          # linux/darwin/windows × amd64/arm64
@@ -47,10 +47,29 @@ remove that `runArgs` entry.
 Requirements for changes:
 
 - `gofmt` clean, `go vet` clean, `go test ./...` green.
+- `make bench-detect` green (the detection benchmark is part of CI).
 - No new network calls in scan modules without an explicit opt-in and a
   documented coverage gap on failure.
 - No telemetry, no hidden uploads, no secrets in logs or test fixtures.
 - Findings must remain deterministic; AI must never be in the detection path.
+
+## Scope discipline and feature freeze
+
+enki is pre-1.0 and optimizes for demonstrated detection quality, not surface
+area. Until repeated real-world usage and published benchmark results justify
+expansion:
+
+- Do not add new modules, dashboards, hosted services, integrations, or output
+  formats without maintainer agreement.
+- Do not expand a module's claim beyond what its fixtures and documentation
+  demonstrate.
+- Every new surface must document what it inspects, what it skips, and how
+  failures appear as coverage gaps.
+- Release notes must state any scope change and the reason for it.
+
+Remediation hardening and the detection benchmark are the prerequisites for
+expanding a detector or interface. If a proposal cannot meet the evidence bar
+below, it should wait.
 
 ## Adding a rule
 
@@ -58,17 +77,30 @@ Requirements for changes:
 2. Implement the check and emit `finding.New(ruleID, ...)` with severity,
    confidence, redacted evidence, and (when safe) a typed remediation:
    `Action: chmod_private` or `remove_json_key`, plus `Params`.
-3. Register the rule in `internal/rules/catalog.go` and document it in
-   `docs/rules.md`.
-4. Add a fixture-based test. For remediation, verify `fix` then `undo`
-   restores the file byte-for-byte and never touches sensitive paths.
-5. Update `skills/enki/references/rules.md` so agents know the rule.
+3. Register the rule in `internal/rules/catalog.go` with a category
+   (`exposure`, `vulnerability`, `unsafe-config`, `hygiene`) and a basis
+   (`confirmed`, `conditional`, `presence`). Document it in `docs/rules.md`.
+4. Add at least one positive, two negative, and one adversarial fixture to
+   `internal/bench/testdata/cases.json`. Negative and adversarial cases must
+   not trigger the rule. Run `make bench-detect`; if the fixtures are
+   intentional, run `make bench-update` to refresh the baseline and
+   `docs/detection-benchmark.md`.
+5. Add a unit test for module-specific behavior. For remediation, verify `fix`
+   then `undo` restores the file byte-for-byte and never touches sensitive
+   paths.
+6. Update `skills/enki/references/rules.md` so agents know the rule.
+
+The benchmark test fails when any catalog rule has fewer than
+1 positive / 2 negative / 1 adversarial fixture, so a rule cannot merge
+without evidence.
 
 Rules must be:
 
 - **Deterministic** — same inputs, same finding.
 - **Low-noise** — require corroborating signals for HIGH/CRITICAL; use
   confidence levels rather than guessing.
+- **Calibrated** — do not describe a presence or conditional signal as a
+  confirmed compromise.
 - **Safe** — never execute destructive actions; remediation is dry-run by
   default and backed up.
 - **Explainable** — evidence must let a user verify the finding without
@@ -89,6 +121,6 @@ commit (`git commit -s`).
 
 ## License
 
-Contributions are accepted under Apache-2.0. Hosted services and premium rule
-feeds are separate products; contributing a detection rule does not change the
-open-source scope.
+Contributions are accepted under Apache-2.0. Hosted services are deferred and
+are not part of the default release; contributing a detection rule does not
+change the open-source scope.
