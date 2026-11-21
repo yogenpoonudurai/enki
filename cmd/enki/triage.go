@@ -8,6 +8,7 @@ import (
 	"io"
 	"os"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
@@ -28,6 +29,7 @@ type triageOptions struct {
 	limit       int
 	format      string
 	apply       bool
+	only        string
 	yes         bool
 	showPayload bool
 }
@@ -56,7 +58,8 @@ func newTriageCmd() *cobra.Command {
 	f.IntVar(&o.limit, "limit", 40, "maximum findings sent to the model")
 	f.StringVar(&o.format, "format", "auto", "output format: auto (text on a terminal, JSON otherwise), text, or json")
 	f.BoolVar(&o.apply, "apply", false, "apply verified enki fixes after triage")
-	f.BoolVar(&o.yes, "yes", false, "skip the apply confirmation (requires --apply)")
+	f.StringVar(&o.only, "only", "", "apply only these verified rules, comma-separated (for example SEC-001,MCP-006)")
+	f.BoolVar(&o.yes, "yes", false, "apply all verified fixes without prompting (requires --apply)")
 	f.BoolVar(&o.showPayload, "show-payload", false, "include the redacted payload in the output")
 	return cmd
 }
@@ -64,6 +67,9 @@ func newTriageCmd() *cobra.Command {
 func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 	if o.yes && !o.apply {
 		return fmt.Errorf("--yes requires --apply")
+	}
+	if o.only != "" && !o.apply {
+		return fmt.Errorf("--only requires --apply")
 	}
 	var data []byte
 	var err error
@@ -114,11 +120,17 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 	var plan []remediate.Action
 	if o.apply {
 		plan = verifiedRemediations(result, &rep)
+		if o.only != "" {
+			plan = filterActions(plan, o.only)
+			if len(plan) == 0 {
+				return fmt.Errorf("apply: no verified fixes matched --only %q", o.only)
+			}
+		}
 	}
 	if text {
 		ai.WriteHuman(cmd.OutOrStdout(), result, &rep)
 		if o.apply {
-			if _, err := applyVerified(cmd.OutOrStdout(), cmd.ErrOrStderr(), cmd.InOrStdin(), plan, o.yes); err != nil {
+			if _, err := applyVerified(cmd.OutOrStdout(), cmd.ErrOrStderr(), cmd.InOrStdin(), plan, o.yes || o.only != ""); err != nil {
 				return err
 			}
 		}
@@ -137,7 +149,7 @@ func runTriage(cmd *cobra.Command, path string, o *triageOptions) error {
 		Omitted:      payload.Omitted,
 	}
 	if o.apply {
-		applied, err := applyVerified(io.Discard, cmd.ErrOrStderr(), cmd.InOrStdin(), plan, o.yes)
+		applied, err := applyVerified(io.Discard, cmd.ErrOrStderr(), cmd.InOrStdin(), plan, o.yes || o.only != "")
 		if err != nil {
 			return err
 		}
@@ -195,27 +207,49 @@ func verifiedRemediations(result *ai.TriageResult, rep *report.Report) []remedia
 	return remediate.BuildPlan(&filtered)
 }
 
-func applyVerified(reportOut, promptOut io.Writer, in io.Reader, plan []remediate.Action, yes bool) ([]remediate.Result, error) {
+func filterActions(plan []remediate.Action, only string) []remediate.Action {
+	wanted := make(map[string]bool)
+	for _, raw := range strings.Split(only, ",") {
+		if rule := strings.ToUpper(strings.TrimSpace(raw)); rule != "" {
+			wanted[rule] = true
+		}
+	}
+	var out []remediate.Action
+	for _, a := range plan {
+		if wanted[a.RuleID] {
+			out = append(out, a)
+		}
+	}
+	return out
+}
+
+func applyVerified(reportOut, promptOut io.Writer, in io.Reader, plan []remediate.Action, autoAll bool) ([]remediate.Result, error) {
 	if len(plan) == 0 {
 		fmt.Fprintln(promptOut, "apply: no verified enki actions to apply")
 		return nil, nil
 	}
-	if !yes {
+	selected := plan
+	if !autoAll {
 		if !platform.Interactive() {
-			return nil, fmt.Errorf("apply: confirmation requires a terminal; rerun with --yes")
+			return nil, fmt.Errorf("apply: selection requires a terminal; use --only RULE or --yes")
 		}
-		fmt.Fprintf(promptOut, "Apply %d verified enki fix(es)? [y/N] ", len(plan))
-		line, _ := bufio.NewReader(in).ReadString('\n')
-		ans := strings.ToLower(strings.TrimSpace(line))
-		if ans != "y" && ans != "yes" {
-			fmt.Fprintln(promptOut, "apply: skipped")
+		idx, err := promptSelection(promptOut, in, plan)
+		if err != nil {
+			return nil, err
+		}
+		if len(idx) == 0 {
+			fmt.Fprintln(promptOut, "apply: nothing selected")
 			return nil, nil
+		}
+		selected = make([]remediate.Action, 0, len(idx))
+		for _, i := range idx {
+			selected = append(selected, plan[i-1])
 		}
 	}
 
 	var results []remediate.Result
 	applied := 0
-	for _, a := range plan {
+	for _, a := range selected {
 		res, err := remediate.Apply(a, false)
 		if err != nil {
 			fmt.Fprintf(promptOut, "ERROR    %s · %v\n", a.RuleID, err)
@@ -234,4 +268,68 @@ func applyVerified(reportOut, promptOut io.Writer, in io.Reader, plan []remediat
 		fmt.Fprintf(reportOut, "Applied %d verified fix(es). Undo with: enki undo\n", applied)
 	}
 	return results, nil
+}
+
+func promptSelection(out io.Writer, in io.Reader, plan []remediate.Action) ([]int, error) {
+	fmt.Fprintln(out, "Verified enki fixes:")
+	for i, a := range plan {
+		fmt.Fprintf(out, "  %s\n", remediate.Describe(i, a))
+	}
+	reader := bufio.NewReader(in)
+	for attempt := 0; attempt < 3; attempt++ {
+		fmt.Fprint(out, "Apply which? (e.g. 1,3 / all / none; Enter = none): ")
+		line, _ := reader.ReadString('\n')
+		idx, err := parseSelection(line, len(plan))
+		if err == nil {
+			return idx, nil
+		}
+		fmt.Fprintf(out, "invalid selection: %v\n", err)
+	}
+	return nil, fmt.Errorf("apply: no valid selection")
+}
+
+func parseSelection(answer string, n int) ([]int, error) {
+	s := strings.ToLower(strings.TrimSpace(answer))
+	switch s {
+	case "", "none", "n", "no":
+		return nil, nil
+	case "all", "a", "y", "yes":
+		idx := make([]int, n)
+		for i := range idx {
+			idx[i] = i + 1
+		}
+		return idx, nil
+	}
+	fields := strings.FieldsFunc(s, func(r rune) bool {
+		return r == ',' || r == ';' || r == ' ' || r == '\t'
+	})
+	seen := make(map[int]bool)
+	for _, field := range fields {
+		if strings.Contains(field, "-") {
+			parts := strings.SplitN(field, "-", 2)
+			start, err1 := strconv.Atoi(strings.TrimSpace(parts[0]))
+			end, err2 := strconv.Atoi(strings.TrimSpace(parts[1]))
+			if err1 != nil || err2 != nil || start < 1 || end > n || start > end {
+				return nil, fmt.Errorf("invalid range %q (valid: 1-%d)", field, n)
+			}
+			for i := start; i <= end; i++ {
+				seen[i] = true
+			}
+			continue
+		}
+		num, err := strconv.Atoi(field)
+		if err != nil || num < 1 || num > n {
+			return nil, fmt.Errorf("invalid fix %q (valid: 1-%d)", field, n)
+		}
+		seen[num] = true
+	}
+	if len(seen) == 0 {
+		return nil, fmt.Errorf("no fixes selected")
+	}
+	idx := make([]int, 0, len(seen))
+	for i := range seen {
+		idx = append(idx, i)
+	}
+	sort.Ints(idx)
+	return idx, nil
 }

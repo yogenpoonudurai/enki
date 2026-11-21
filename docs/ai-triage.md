@@ -113,10 +113,16 @@ smoke tests are unaffected. Force either form with `--format text` or
 Apply verified fixes without copying commands:
 
 ```bash
-enki triage --apply report.json          # asks once, then applies and prints undo hint
-enki triage --apply --yes report.json    # non-interactive (explicit opt-in)
-enki undo                                # restore permissions/edits
+enki triage --apply report.json                    # choose 1,3 / all / none
+enki triage --apply --only SEC-001 report.json     # apply named rules only
+enki triage --apply --yes report.json              # all, non-interactive
+enki undo                                          # restore permissions/edits
 ```
+
+With `--apply`, enki lists the verified fixes and asks which to run; Enter
+applies none, `all` applies every one, and `1,3` or `1-3` selects individual
+entries. `--only` selects by rule ID for scripts, and `--yes` explicitly
+applies all without prompting.
 
 `--apply` runs only enki's deterministic remediation for findings where the
 model selected that exact action and validation marked it verified. The model

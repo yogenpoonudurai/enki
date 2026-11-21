@@ -88,7 +88,7 @@ HOME="$HOME_DIR" ENKI_AI_PROVIDER=openai \
 ENKI_AI_BASE_URL="http://127.0.0.1:$PORT/v1" \
 ENKI_AI_KEY="dummy-key" \
 ENKI_AI_MODEL="fake-byok-model" \
-  "$BIN" triage --apply --yes --format json "$WORK/report.json" > "$WORK/applied.json"
+  "$BIN" triage --apply --only SEC-001 --format json "$WORK/report.json" > "$WORK/applied.json"
 python3 - "$WORK/applied.json" "$PROJ/.env" <<'PY'
 import json, os, stat, sys
 out = json.load(open(sys.argv[1]))
