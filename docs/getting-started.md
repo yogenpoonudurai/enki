@@ -6,7 +6,11 @@ artifacts, and dependency vulnerabilities — then offers guarded, reversible
 remediation.
 
 Deterministic scanning is free forever and works offline (except OSV advisory
-lookups). AI triage is optional and consent-gated.
+lookups). Everything in this guide is free; the only paid surfaces are hosted
+AI triage beyond its free quota, team/org features, premium compliance packs,
+and enterprise support. BYOK AI triage is free.
+
+OS-specific install steps: [quickstart.md](quickstart.md).
 
 ## Requirements
 
@@ -112,10 +116,12 @@ enki sbom -o bom.json              # CycloneDX 1.5, no network
 enki sbom --vulns -o bom.json     # adds OSV advisories (network)
 ```
 
-## AI triage (optional)
+## AI triage (optional; BYOK is free)
 
 The deterministic scanner is the source of truth. Triage only ranks and
 explains existing findings; it cannot create findings or execute actions.
+Using your own provider key (BYOK) is free forever — there is no hosted compute
+and no quota. The hosted service is optional/paid after 3 lifetime runs.
 
 ```bash
 enki scan --json > report.json
@@ -210,6 +216,7 @@ non-interactive shells.
 
 ## Next steps
 
+- [OS quickstart (macOS/Linux/Windows)](quickstart.md)
 - [Rule catalogue](rules.md)
 - [Data sources: rules, OSV, KEV, EPSS, caching](data-sources.md)
 - [Dependency coverage](dependencies.md)

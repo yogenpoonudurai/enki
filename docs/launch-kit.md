@@ -92,6 +92,7 @@ compliance are paid.
 - [x] Demo GIF, MP4, 1080p/60fps MP4, poster, and title cards (`demo/render_gif.py`)
 - [x] Three case-study posts (laptop, GPU server, CI gate)
 - [x] Getting-started guide (`docs/getting-started.md`)
+- [x] OS-specific quickstart (`docs/quickstart.md`)
 - [x] Signed releases configured (cosign keyless in `.github/workflows/release.yml`)
 - [x] MCP registry metadata prepared (`server.json`, `docs/registry-submission.md`)
 - [x] Waitlist landing page and API (`site/`, `POST /v1/waitlist`)

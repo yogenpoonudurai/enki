@@ -1,7 +1,8 @@
 # Add enki to a GitHub CI pipeline
 
 The scanner runs on the GitHub runner. No server, account, or mini PC is
-required for the gate itself.
+required for the gate itself — the CI gate is free. Hosted triage is an
+optional paid surface (3 lifetime free runs); BYOK triage remains free.
 
 ## 0. Publish enki (once)
 
@@ -100,7 +101,7 @@ Exit codes: `0` clean/below threshold, `1` threshold met, `2` error.
   - run: enki scan --sarif --report enki-report.txt --fail-on high > enki.sarif
   ```
 
-## 6. Optional: AI triage in CI
+## 6. Optional: AI triage in CI (free with BYOK; hosted is paid)
 
 Triage is not needed for the gate. If you want it:
 

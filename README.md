@@ -24,7 +24,8 @@ make build && ./bin/enki version
 
 ## Quick start
 
-New here? Start with [docs/getting-started.md](docs/getting-started.md).
+New here? Start with [docs/getting-started.md](docs/getting-started.md) or the
+OS-specific [quickstart for macOS, Linux, and Windows](docs/quickstart.md).
 Three reference deployments: [laptop](docs/case-studies/laptop.md),
 [GPU server](docs/case-studies/gpu-server.md),
 [CI PR gate](docs/case-studies/ci-pr-gate.md).
@@ -119,39 +120,50 @@ and remediate scans directly.
   `~/.claude/skills/enki` or `.cursor/skills/enki`, or use the plugin manifests
   in `.claude-plugin/`.
 - **MCP tools** — `enki_scan`, `enki_plan_fix`, `enki_rules`, `enki_sbom`,
-  `enki_explain_rule`, `enki_triage` over stdio (`enki-mcp`); the hosted
-  service also serves `/mcp` (Streamable HTTP) with `enki_triage`,
-  `enki_plan_fix`, `enki_rules`, `enki_explain_rule`, `enki_usage`.
+  `enki_explain_rule`, `enki_triage` over stdio (`enki-mcp`). The optional
+  hosted service (paid) also serves `/mcp` (Streamable HTTP) with
+  `enki_triage`, `enki_plan_fix`, `enki_rules`, `enki_explain_rule`,
+  `enki_usage`.
 - **TUI shortcuts** — in the dashboard press `f`, then `1-9` to apply an
   action, `y` to confirm a config edit, `a` for all SAFE actions, `u` to undo.
 
 The skill works fully offline with the deterministic scanner. AI triage is
 opt-in and consent-gated.
 
-## AI triage & hosted service
+## AI triage: BYOK free, hosted optional
 
 Deterministic scanning stays free and offline. Optional AI triage ranks and
 explains *existing* findings only; the model cannot create findings or execute
 actions, and every suggested action must match one of enki's remediation
 actions or is marked unverified.
 
+**Free forever — BYOK.** Use your own provider key; enki calls it directly.
+There is no hosted compute, no quota, and nothing leaves your network if you
+point it at a local model:
+
 ```bash
 export DEEPSEEK_API_KEY=...        # or ENKI_AI_BASE_URL for vLLM/Ollama/self-host
-enki triage report.json            # prints validated JSON + metered cost
+enki triage report.json            # validated JSON + metered cost label
 ```
 
-`cmd/enki-cloud` is the reference hosted beta: bearer tokens, 3 lifetime free
-triages, Pro/Team credit plans, BYOK passthrough, consent enforcement, 24 h
-retention with purge, `/v1/data/delete`, and Stripe webhook verification
-(`Stripe-Signature`, HMAC-SHA256). Recommended pricing: Pro $19/mo for 300
-triages, Team $39/seat for 1,000 pooled. See
+**Paid (optional) — hosted triage.** `cmd/enki-cloud` is the reference hosted
+beta: 3 lifetime free triages, then Pro $19/mo for 300 credits or Team
+$39/seat for 1,000 pooled. It adds bearer tokens, remote MCP, BYOK passthrough
+(never consumes credits), consent enforcement, 24 h retention with purge,
+`/v1/data/delete`, and Stripe webhook verification. See
 [docs/ai-triage.md](docs/ai-triage.md) for the API, redaction rules, and
-self-hosting (DeepSeek V4 MIT weights on vLLM, or any OpenAI-compatible
-endpoint).
+self-hosting.
+
+| Free forever | Paid / hosted |
+|---|---|
+| All 23 checks, TUI, JSON/SARIF/OCSF/CycloneDX | Hosted triage beyond 3 lifetime runs |
+| fix/undo, backups, audit log | Remote MCP endpoint, dashboard, history |
+| Agent Skill + local MCP server | SSO, org policy, audit export, pooled credits |
+| BYOK AI triage | Premium rule/compliance packs, fleet/MDM, self-host + DPA |
 
 > DeepSeek's hosted API stores data in the PRC under Chinese law with no DPA
-> surfaced. Use it only with explicit consent; prefer a self-hosted gateway for
-> paid/enterprise data.
+> surfaced. Use it only with explicit consent; prefer BYOK with a self-hosted
+> gateway for paid/enterprise data.
 
 ## CI & deployment
 
