@@ -6,7 +6,7 @@ findings, reversible remediation, and a fully functional open-source core.
 ## Development setup
 
 ```bash
-go version          # Go 1.27+
+go version          # Go 1.27.0+
 make build          # bin/enki, bin/enki-mcp, bin/enki-cloud
 make test
 make vet

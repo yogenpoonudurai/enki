@@ -79,7 +79,7 @@ setx PATH "$env:PATH;$env:LOCALAPPDATA\enki\bin"
 
 Open a new terminal and run `enki version`.
 
-### Any platform with Go 1.27+
+### Any platform with Go 1.27.0+
 
 ```bash
 go install github.com/yogenpoonudurai/enki/cmd/enki@latest
