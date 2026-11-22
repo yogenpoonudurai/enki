@@ -1,9 +1,11 @@
 # MCP registry submissions
 
 `server.json` at the repository root is metadata for the local **stdio** MCP
-server (`enki-mcp`). It deliberately carries no remote endpoint: hosted MCP is
-a separate paid surface published from a private repository, not from the open
-core.
+server (`enki-mcp`). It deliberately carries no remote registry entry: hosted
+MCP is a separate paid surface published from a private repository, not from
+the open core. `enki-mcp --http` is a self-host option for your own LAN or
+tailnet (see [getting-started.md](getting-started.md)), not a hosted endpoint,
+and must not be registered as a remote server.
 
 ## Official MCP Registry (preview)
 

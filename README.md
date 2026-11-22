@@ -141,7 +141,9 @@ PR-gate walkthrough: [docs/ci-quickstart.md](docs/ci-quickstart.md).
   `ENKI_AI_PROVIDER=ollama ENKI_AI_MODEL=qwen2.5:1.5b enki triage enki-report.json`.
   See [docs/ai-triage.md](docs/ai-triage.md).
 - **Agent Skill and local MCP:** [skills/enki/SKILL.md](skills/enki/SKILL.md)
-  and `enki-mcp` (stdio tools for Claude Code, Cursor, and other agents).
+  and `enki-mcp` (stdio tools for Claude Code, Cursor, and other agents;
+  optional self-hosted Streamable HTTP endpoint for a LAN or tailnet scanner:
+  `enki-mcp --http <tailnet-ip>:8080 --token <secret>`).
 - **Hosted triage (paid, optional):** the open-source CLI includes the client
   for the separate hosted service: `enki triage --hosted --consent` and
   `enki account`. Configure `ENKI_CLOUD_URL` and `ENKI_CLOUD_TOKEN`. Details:

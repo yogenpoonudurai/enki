@@ -194,6 +194,44 @@ mkdir -p .cursor/skills && cp -r skills/enki .cursor/skills/enki
 Local MCP server (`enki-mcp`, stdio): `enki_scan`, `enki_plan_fix`,
 `enki_rules`, `enki_sbom`, `enki_explain_rule`, `enki_triage`.
 
+### Self-hosted HTTP endpoint
+
+For a always-on scanner on a home-lab box or CI jump host, `enki-mcp` can also
+serve the same six tools over Streamable HTTP instead of stdio:
+
+```bash
+enki-mcp --http 100.x.y.z:8080 --token "$(openssl rand -hex 24)"
+```
+
+Bind to a localhost or tailnet address only (Tailscale serves the same purpose
+as TLS here and avoids exposing a public port). The endpoint requires a bearer
+token and refuses to start without one. Clients send
+`Authorization: Bearer <token>` to `http://<addr>/mcp`; `/healthz` is an
+unauthenticated liveness probe. All six tools are read-only — `enki_plan_fix`
+returns a plan but never applies changes — but remote callers still see the
+host's config, processes, and findings as the server user, so run it as a
+dedicated user and treat the token as a secret. The hosted MCP service
+remains a separate paid surface (see [premium.md](premium.md)); this flag is
+for self-hosting your own machine, not a public multi-tenant endpoint.
+
+Example systemd unit (with Tailscale already up):
+
+```ini
+[Unit]
+Description=enki MCP server (streamable http)
+After=network-online.target tailscaled.service
+Wants=tailscaled.service
+
+[Service]
+User=enki
+Environment=ENKI_MCP_TOKEN=replace-me
+ExecStart=/usr/local/bin/enki-mcp --http 100.64.0.1:8080
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ## CI in one step
 
 ```yaml
