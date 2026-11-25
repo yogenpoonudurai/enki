@@ -31,7 +31,8 @@ func parseBunLock(data []byte) ([]Pkg, int, error) {
 			continue
 		}
 		name, ver, ok := splitBunSpec(spec)
-		if !ok || !registrySource(entryURL(entry)) {
+		url, hasURL := entryURL(entry)
+		if !ok || !hasURL || !registrySource(url) {
 			skipped++
 			continue
 		}
@@ -41,15 +42,15 @@ func parseBunLock(data []byte) ([]Pkg, int, error) {
 }
 
 // entryURL returns the resolved source URL from a package tuple, if present.
-func entryURL(entry []json.RawMessage) string {
+func entryURL(entry []json.RawMessage) (string, bool) {
 	if len(entry) < 2 {
-		return ""
+		return "", false
 	}
 	var url string
 	if err := json.Unmarshal(entry[1], &url); err != nil {
-		return ""
+		return "", false
 	}
-	return url
+	return url, true
 }
 
 // registrySource reports whether a resolved URL points at a package registry

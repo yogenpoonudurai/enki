@@ -339,6 +339,8 @@ func TestBunLock(t *testing.T) {
 	    "from-git": ["git-dep@1.0.0", "git+https://example.com/x.git#main", {},],
 	    "from-tarball": ["tarball-pkg@1.0.0", "https://example.com/dist/tarball-pkg-1.0.0.tgz", {},],
 	    "broken": [42],
+    "missing-url": ["missing-url@1.0.0"],
+    "invalid-url": ["invalid-url@1.0.0", 42],
 	  },
 	}`)
 	ps, skipped, err := parseBunLock(data)
@@ -364,8 +366,8 @@ func TestBunLock(t *testing.T) {
 	if _, ok := got["tarball-pkg"]; ok {
 		t.Fatal("a tarball outside a registry host has no verifiable package identity")
 	}
-	if skipped != 4 { // workspace, git, non-registry tarball, non-string spec
-		t.Fatalf("skipped = %d, want 4", skipped)
+	if skipped != 6 { // workspace, git, non-registry tarball, malformed tuples
+		t.Fatalf("skipped = %d, want 6", skipped)
 	}
 }
 
