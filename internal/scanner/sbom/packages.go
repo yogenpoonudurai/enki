@@ -145,6 +145,28 @@ func Discover(ctx context.Context, opts Options, defaultRoot string) ([]Pkg, []s
 					}
 					set.addAll(ps, path)
 					dirsWithNpmLock[filepath.Dir(path)] = true
+				case base == "bun.lock":
+					data, err := os.ReadFile(path)
+					if err != nil {
+						return nil
+					}
+					ps, skipped, perr := parseBunLock(data)
+					if perr != nil {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapError, Reason: "cannot parse " + path + ": " + perr.Error()})
+						return nil
+					}
+					if skipped > 0 {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapTruncated, Reason: fmt.Sprintf("%d bun entries without a registry version skipped in %s", skipped, path)})
+					}
+					set.addAll(ps, path)
+					dirsWithNpmLock[filepath.Dir(path)] = true
+				case base == "bun.lockb":
+					// The legacy binary lockfile cannot be read without bun;
+					// only note the blind spot when the text form is absent.
+					dir := filepath.Dir(path)
+					if _, statErr := os.Stat(filepath.Join(dir, "bun.lock")); os.IsNotExist(statErr) {
+						gaps = append(gaps, scanner.CoverageGap{Module: moduleName, Kind: scanner.GapUnsupported, Reason: "binary bun.lockb is not parsed; run `bun install` to regenerate bun.lock: " + path})
+					}
 				case base == "package.json":
 					data, err := os.ReadFile(path)
 					if err != nil {
@@ -262,7 +284,7 @@ func Discover(ctx context.Context, opts Options, defaultRoot string) ([]Pkg, []s
 		gaps = append(gaps, scanner.CoverageGap{
 			Module: moduleName,
 			Kind:   scanner.GapUnsupported,
-			Reason: "package.json without an npm/yarn/pnpm lockfile: version ranges are unresolved, coverage is incomplete in " + dir,
+			Reason: "package.json without an npm/yarn/pnpm/bun lockfile: version ranges are unresolved, coverage is incomplete in " + dir,
 		})
 	}
 
