@@ -254,7 +254,7 @@ findings at/above the threshold. Full examples:
 | "no supported OS package manager" | Distro without dpkg/rpm/apk, or unsupported by OSV; inventory-only |
 | "OSV has no vulnerability data for …" | Unsupported distro (e.g. Fedora/Arch); OS packages are inventory-only |
 | "osv.dev unreachable … unknown" | Network blocked; results are unknown, not clean. Allow `api.osv.dev`, or accept the gap |
-| "package.json without a lockfile" | Version ranges cannot be resolved; add a lockfile |
+| "package.json without an npm/yarn/pnpm/bun lockfile" | Version ranges cannot be resolved; add a supported lockfile |
 | "go.sum without go.mod" | Selected module versions cannot be determined |
 | `triage`: "no AI provider configured" | Set `DEEPSEEK_API_KEY` or `ENKI_AI_BASE_URL`/`ENKI_AI_KEY` |
 | `fix` refuses a path | Symlink or sensitive root (`~/.ssh`, `~/.aws`, …); apply manually |
