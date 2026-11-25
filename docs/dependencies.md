@@ -5,6 +5,21 @@ fallbacks, and the Linux package database, then queries OSV per exact
 version. Unknown status (network failure, unsupported distro, lockfile-less
 ranges) is reported as a coverage gap, never as "clean".
 
+## Parsed lockfiles and manifests
+
+| Ecosystem | Files | Notes |
+|---|---|---|
+| npm | `package-lock.json`, `npm-shrinkwrap.json` | v1 recursive tree and v2/v3 `packages` map |
+| npm | `yarn.lock` | classic v1 and Berry (v2+) |
+| npm | `pnpm-lock.yaml` | v5/v6/v9 key grammars, multi-document (pnpm >= 12) |
+| npm | `bun.lock` | lockfileVersion 1 and 2; registry hosts keep their package identity (including tarball and mirror URLs); workspace links and git, file, or other non-registry sources are gaps. The legacy binary `bun.lockb` is not parsed. |
+| npm | `package.json` | fallback: only exact pins resolve, ranges are a gap |
+| PyPI | `requirements*.txt`, `pyproject.toml`, `poetry.lock`, `pdm.lock`, `uv.lock`, `Pipfile.lock` | editable/git/path sources are gaps |
+| Go | `go.mod` | a lone `go.sum` cannot identify the selected version and is a gap |
+| crates.io | `Cargo.lock` | |
+| NuGet | `packages.lock.json`, `obj/project.assets.json` | |
+| Linux OS | `dpkg-query`, `rpm -qa`, `/lib/apk/db/installed` | with `--os-packages` |
+
 ## Flags
 
 `enki scan` defaults to the AI catalog so a routine configuration scan does
