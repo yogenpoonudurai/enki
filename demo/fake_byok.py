@@ -8,10 +8,11 @@ No external network calls, no real key.
 import http.server
 import json
 import os
-import re
 import sys
 
 LOG_PATH = os.environ.get("ENKI_FAKE_BYOK_LOG", "/tmp/enki-byok-request.json")
+DATA_PREFIX = "<<<ENKI_DATA\n"
+DATA_SUFFIX = "\nENKI_DATA>>>"
 
 
 class Handler(http.server.BaseHTTPRequestHandler):
@@ -39,9 +40,15 @@ class Handler(http.server.BaseHTTPRequestHandler):
         user = next((m["content"] for m in messages if m.get("role") == "user"), "")
 
         payload = {}
-        match = re.search(r"<<<ENKI_DATA\n(.*)\nENKI_DATA>>>", user, re.S)
-        if match:
-            payload = json.loads(match.group(1))
+        # rfind (not a search for the first terminator) keeps the old greedy
+        # (.*) capture, and both scans stay linear on hostile bodies that a
+        # backtracking regex would rescan once per marker occurrence.
+        start = user.find(DATA_PREFIX)
+        if start >= 0:
+            start += len(DATA_PREFIX)
+            end = user.rfind(DATA_SUFFIX, start)
+            if end >= 0:
+                payload = json.loads(user[start:end])
 
         findings = payload.get("findings", [])
         system_ctx = payload.get("system") or {}
