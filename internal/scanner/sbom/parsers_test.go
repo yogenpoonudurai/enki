@@ -337,6 +337,7 @@ func TestBunLock(t *testing.T) {
 	    "mirror": ["mirror-pkg@2.0.0", "https://registry.npmjs.org/mirror-pkg/-/mirror-pkg-2.0.0.tgz", {},],
 	    "local": ["my-workspace@workspace:packages/local",],
 	    "from-git": ["git-dep@1.0.0", "git+https://example.com/x.git#main", {},],
+	    "from-tarball": ["tarball-pkg@1.0.0", "https://example.com/dist/tarball-pkg-1.0.0.tgz", {},],
 	    "broken": [42],
 	  },
 	}`)
@@ -360,8 +361,11 @@ func TestBunLock(t *testing.T) {
 	if _, ok := got["alias"]; ok {
 		t.Fatal("alias should resolve to the real package name")
 	}
-	if skipped != 3 { // workspace, git, non-string spec
-		t.Fatalf("skipped = %d, want 3", skipped)
+	if _, ok := got["tarball-pkg"]; ok {
+		t.Fatal("a tarball outside a registry host has no verifiable package identity")
+	}
+	if skipped != 4 { // workspace, git, non-registry tarball, non-string spec
+		t.Fatalf("skipped = %d, want 4", skipped)
 	}
 }
 

@@ -54,8 +54,10 @@ func entryURL(entry []json.RawMessage) string {
 
 // registrySource reports whether a resolved URL points at a package registry
 // whose name@version identity is meaningful for OSV matching. bun writes an
-// empty string for the default registry; git, tarball, and mirror sources are
-// reported as gaps rather than matched under a public package's identity.
+// empty string for the default registry, so only a custom host is inspected:
+// registry hosts keep that identity even when served as a tarball or by a
+// mirror of the public package, while git, file, and other direct sources
+// become coverage gaps instead of matching under a public package's identity.
 func registrySource(url string) bool {
 	return url == "" ||
 		strings.HasPrefix(url, "https://registry.") ||
