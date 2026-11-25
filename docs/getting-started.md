@@ -236,7 +236,7 @@ WantedBy=multi-user.target
 
 ```yaml
 - uses: actions/checkout@v7
-- uses: yogenpoonudurai/enki@v0.5.2
+- uses: yogenpoonudurai/enki@v0.5.3
   with:
     args: "--scope project --fail-on high --deps ai --modules mcp,secrets,agent-permissions"
 ```
