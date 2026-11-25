@@ -1,8 +1,10 @@
 package sbom
 
 import (
+	"context"
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 )
 
@@ -312,5 +314,138 @@ func TestProjectAssetsFallback(t *testing.T) {
 	}
 	if len(ps) != 1 || ps[0].Name != "Serilog" || ps[0].Version != "2.12.0" {
 		t.Fatalf("packages = %+v", ps)
+	}
+}
+
+func TestBunLock(t *testing.T) {
+	data := []byte(`{
+	  "lockfileVersion": 2,
+	  "configVersion": 1,
+	  "workspaces": {
+	    "": {
+	      "name": "app",
+	      "dependencies": {
+	        "lodash": "^4.17.0",
+	      },
+	    },
+	  },
+	  "packages": {
+	    "lodash": ["lodash@4.17.20", "", {"dependencies": {"left-pad": "1.3.0"},},],
+	    "@scope/pkg": ["@scope/pkg@1.2.3", "", {},],
+	    "alias": ["alias@npm:real-pkg@6.0.0", "", {},],
+	    "left-pad": ["left-pad@1.3.0?runtime=node", "", {},],
+	    "mirror": ["mirror-pkg@2.0.0", "https://registry.npmjs.org/mirror-pkg/-/mirror-pkg-2.0.0.tgz", {},],
+	    "local": ["my-workspace@workspace:packages/local",],
+	    "from-git": ["git-dep@1.0.0", "git+https://example.com/x.git#main", {},],
+	    "from-tarball": ["tarball-pkg@1.0.0", "https://example.com/dist/tarball-pkg-1.0.0.tgz", {},],
+	    "broken": [42],
+    "missing-url": ["missing-url@1.0.0"],
+    "invalid-url": ["invalid-url@1.0.0", 42],
+	  },
+	}`)
+	ps, skipped, err := parseBunLock(data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := pkgMap(ps)
+	want := map[string]string{
+		"lodash": "4.17.20", "@scope/pkg": "1.2.3",
+		"real-pkg": "6.0.0", "left-pad": "1.3.0", "mirror-pkg": "2.0.0",
+	}
+	if len(got) != len(want) {
+		t.Fatalf("packages = %+v, want %d entries", got, len(want))
+	}
+	for name, ver := range want {
+		if got[name] != ver {
+			t.Errorf("%s = %q, want %q", name, got[name], ver)
+		}
+	}
+	if _, ok := got["alias"]; ok {
+		t.Fatal("alias should resolve to the real package name")
+	}
+	if _, ok := got["tarball-pkg"]; ok {
+		t.Fatal("a tarball outside a registry host has no verifiable package identity")
+	}
+	if skipped != 6 { // workspace, git, non-registry tarball, malformed tuples
+		t.Fatalf("skipped = %d, want 6", skipped)
+	}
+}
+
+func TestBunLockV1(t *testing.T) {
+	data := []byte(`{
+	  "lockfileVersion": 1,
+	  "packages": {
+	    "argparse": ["argparse@2.0.1", "", {}, "sha512-8+9WqebbFz="],
+	    "dotenv": ["dotenv@16.6.1", "", {},],
+	  }
+	}`)
+	ps, skipped, err := parseBunLock(data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	got := pkgMap(ps)
+	if got["argparse"] != "2.0.1" || got["dotenv"] != "16.6.1" || skipped != 0 {
+		t.Fatalf("packages = %+v, skipped = %d", got, skipped)
+	}
+}
+
+func TestBunLockRejectsMalformed(t *testing.T) {
+	if _, _, err := parseBunLock([]byte(`{"packages": {"a": [`)); err == nil {
+		t.Fatal("malformed lockfile should return an error")
+	}
+}
+
+func TestSplitBunSpec(t *testing.T) {
+	cases := []struct {
+		spec, name, version string
+		ok                  bool
+	}{
+		{"lodash@4.17.20", "lodash", "4.17.20", true},
+		{"@scope/pkg@1.2.3", "@scope/pkg", "1.2.3", true},
+		{"left-pad@1.3.0?runtime=node", "left-pad", "1.3.0", true},
+		{"alias@npm:real-pkg@6.0.0", "real-pkg", "6.0.0", true},
+		{"pkg@v1.2.3", "pkg", "1.2.3", true},
+		{"pkg@^1.2.0", "", "", false},
+		{"my-workspace@workspace:packages/local", "", "", false},
+		{"git-dep@1.0.0#main", "", "", false},
+	}
+	for _, tc := range cases {
+		name, ver, ok := splitBunSpec(tc.spec)
+		if ok != tc.ok || name != tc.name || ver != tc.version {
+			t.Errorf("splitBunSpec(%q) = (%q,%q,%v), want (%q,%q,%v)",
+				tc.spec, name, ver, ok, tc.name, tc.version, tc.ok)
+		}
+	}
+}
+
+func TestStripTrailingCommas(t *testing.T) {
+	got := string(stripTrailingCommas([]byte(`{"a": [1,2,], "b": {"c": "x,}",},}`)))
+	if got != `{"a": [1,2], "b": {"c": "x,}"}}` {
+		t.Fatalf("stripTrailingCommas = %q", got)
+	}
+}
+
+func TestDiscoverBunLockSatisfiesLockfileCheck(t *testing.T) {
+	root := t.TempDir()
+	write := func(rel, content string) {
+		path := filepath.Join(root, rel)
+		if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+			t.Fatal(err)
+		}
+		if err := os.WriteFile(path, []byte(content), 0o644); err != nil {
+			t.Fatal(err)
+		}
+	}
+	write("package.json", `{"name":"app","dependencies":{"lodash":"^4.17.0"}}`)
+	write("bun.lock", `{"lockfileVersion": 2, "packages": {"lodash": ["lodash@4.17.20", "", {},],},}`)
+
+	ps, gaps := Discover(context.Background(), Options{Deps: "all", Depth: 3, IncludeDev: true}, root)
+	if pkgMap(ps)["lodash"] != "4.17.20" {
+		t.Fatalf("packages = %+v", ps)
+	}
+	for _, g := range gaps {
+		if strings.Contains(g.Reason, "without an npm/yarn/pnpm/bun lockfile") {
+			t.Fatalf("bun.lock should resolve the lockfile gap: %+v", g)
+		}
 	}
 }
